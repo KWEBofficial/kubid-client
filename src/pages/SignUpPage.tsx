@@ -1,9 +1,8 @@
 import HigherLayoutComponent from "../components/common/CustomLayout";
-import { SignUpTag } from "../components/signin_up/SignUpLayout";
+import { SignUpTag } from "../components/signin/SignUpLayout";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
-  console.log(3);
   return (
     <div
       style={{
