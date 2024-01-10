@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { LargeInput, PasswordInput, DepartmentInput, RegisterButton } from "./BrokenDown";
 import { Space } from "antd";
+import { axiosinstance } from "../../utils/axios";
 
 export const SignUpTag: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -38,8 +38,8 @@ export const SignUpTag: React.FC = () => {
       department,
     };
     console.log(dataToSend);
-    axios
-      .post("/sign-up", dataToSend)
+    axiosinstance
+      .post("/users/sign-up", dataToSend)
       .then((response) => {
         // Handle success, if needed
         console.log("Request successful", response.data);
