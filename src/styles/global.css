@@ -1,0 +1,10 @@
+.placeholder-style::placeholder {
+  color: #a5a5a5;
+  font-weight: bold;
+  font-size: medium;
+}
+.input-style ::placeholder {
+  color: #a5a5a5;
+  font-weight: bold;
+  font-size: medium;
+}
