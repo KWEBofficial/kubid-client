@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { Link } from "react-router-dom";
 
 interface ItemListHeaderProps {
@@ -7,9 +9,9 @@ interface ItemListHeaderProps {
 
 const ItemListHeader: React.FC<ItemListHeaderProps> = ({ title, moreUrl }) => {
   return (
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-      <h2 style={{ margin: 0 }}>{title}</h2>
-      <p style={{ margin: 0 }}>
+    <div css={DivStyle}>
+      <h2 css={HeaderStyle}>{title}</h2>
+      <p css={moreLinkStyle}>
         <Link to={moreUrl}>더보기</Link>
       </p>
     </div>
@@ -17,3 +19,17 @@ const ItemListHeader: React.FC<ItemListHeaderProps> = ({ title, moreUrl }) => {
 };
 
 export default ItemListHeader;
+
+const DivStyle = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const HeaderStyle = css`
+  margin: 0;
+`;
+
+const moreLinkStyle = css`
+  margin: 0;
+`;

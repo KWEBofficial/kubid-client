@@ -1,10 +1,12 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import SearchInput from "./SearchSection/SearchInput";
 import DepartmentDropdown from "./SearchSection/DepartmentDropdown";
 import { Space } from "antd";
 
 const SearchSection = () => {
   return (
-    <div style={{ marginTop: "80px", marginBottom: "100px" }}>
+    <div css={SearchSectionStyle}>
       <Space>
         <SearchInput />
         <DepartmentDropdown />
@@ -12,5 +14,10 @@ const SearchSection = () => {
     </div>
   );
 };
+
+const SearchSectionStyle = css`
+  margin-top: 80px;
+  margin-bottom: 100px;
+`;
 
 export default SearchSection;

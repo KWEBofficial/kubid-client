@@ -1,23 +1,25 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { Button, Progress } from "antd";
 import { colors } from "../../../../styles/colors";
 
 const ItemButton = () => {
   return (
-    <Button style={{ width: "265px", height: "290px", padding: 0, position: "relative" }}>
-      <div style={{ height: "50%", margin: 0 }}>
+    <Button css={ItemButtonStyle}>
+      <div css={ImageSectionStyle}>
         {/* Image Section */}
-        <img src="../../../public/cat.png" alt="Image" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+        <img src="cat.png" alt="Image" css={ImageStyle} />
       </div>
-      <div style={{ height: "50%", textAlign: "left", paddingLeft: 10, paddingRight: 10 }}>
+      <div css={TextSectionStyle}>
         {/* Text Section */}
-        <h3 style={{ color: colors.black, fontWeight: 700, fontSize: "16px", marginBottom: 0 }}>[급처] 버찌 팝니다</h3>
-        <p style={{ color: colors.black, textAlign: "right", fontSize: "12px", marginBottom: 0 }}>컴퓨터학과</p>
-        <p style={{ margin: 0 }}>
-          <span style={{ color: colors.black, fontWeight: 700, fontSize: "32px", marginRight: "5px" }}>7000</span>
-          <span style={{ color: colors.primary, fontWeight: 700, fontSize: "24px" }}>10000</span>
+        <h3 css={TitleStyle}>[급처] 엄청 긴 제목을 쓰면 글이 잘립니다</h3>
+        <p css={DepartmentStyle}>컴퓨터학과</p>
+        <p css={PriceStyle}>
+          <span css={CurrentHighestPriceStyle}>7000</span>
+          <span css={UpperBoundStyle}>10000</span>
         </p>
       </div>
-      <div style={{ height: "5%", margin: 0, position: "absolute", bottom: 8, left: -5 }}>
+      <div css={ProgressBarSectionStyle}>
         {/* Progress Bar Section */}
         <Progress percent={70} size={[265, 20]} status="normal" showInfo={false} />
       </div>
@@ -26,3 +28,70 @@ const ItemButton = () => {
 };
 
 export default ItemButton;
+
+const ItemButtonStyle = css`
+  width: 265px;
+  height: 290px;
+  padding: 0;
+  position: relative;
+`;
+
+const ImageSectionStyle = css`
+  height: 50%;
+  margin: 0;
+`;
+
+const ImageStyle = css`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+
+const TextSectionStyle = css`
+  height: 50%;
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 10px;
+`;
+
+const TitleStyle = css`
+  color: ${colors.black};
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 0;
+  max-width: 265px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const DepartmentStyle = css`
+  color: ${colors.black};
+  text-align: right;
+  font-size: 12px;
+  margin-bottom: 0;
+`;
+
+const PriceStyle = css`
+  margin: 0;
+`;
+
+const CurrentHighestPriceStyle = css`
+  color: ${colors.black};
+  font-weight: 700;
+  font-size: 32px;
+  margin-right: 5px;
+`;
+
+const UpperBoundStyle = css`
+  color: ${colors.primary};
+  font-weight: 700;
+  font-size: 24px;
+`;
+
+const ProgressBarSectionStyle = css`
+  height: 5%;
+  margin: 0;
+  position: absolute;
+  bottom: 8px;
+  left: -5px;
+`;
