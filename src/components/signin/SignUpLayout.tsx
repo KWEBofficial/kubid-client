@@ -1,18 +1,20 @@
 import React, { useState } from "react";
-import { LargeInput, PasswordInput, DepartmentInput, RegisterButton } from "./BrokenDown";
+import LargeInput from "./LargeInput";
+import PasswordInput from "./PasswordInput";
+import DepartmentInput from "./DepartmentInput";
+import RegisterButton from "./RegisterButton";
 import { SignUpInfo } from "../../models/auth";
 import { postSignIn } from "../../api/auth";
 import { message, Space } from "antd";
 import { AxiosError } from "axios";
 import { COMMON_MESSAGE } from "../../contants/message";
-import { DEPARTMENT } from "../../data/department";
 
 export const SignUpTag: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
   const [nickname, setNickname] = useState<string>("");
-  const [department, setDepartment] = useState<string>("");
+  const [departmentId, setDepartmentId] = useState<number>();
 
   const [messageApi] = message.useMessage();
 
@@ -32,8 +34,8 @@ export const SignUpTag: React.FC = () => {
     setNickname(value);
   };
 
-  const handleDepartmentChange = (value: string) => {
-    setDepartment(value);
+  const handleDepartmentChange = (value: number) => {
+    setDepartmentId(value);
   };
 
   const handleSubmit = async () => {
@@ -41,8 +43,7 @@ export const SignUpTag: React.FC = () => {
       email,
       nickname,
       password,
-      // TODO: departemnet를 name 말고 id로 관리하고 보낼 것
-      departmentId: 1
+      departmentId,
     };
     console.log(dataToSend);
     try {
@@ -72,7 +73,7 @@ export const SignUpTag: React.FC = () => {
       <LargeInput placeholder="이메일" value={email} onChange={(e) => handleEmailChange(e)} />
       <PasswordInput onPasswordChange={handlePasswordChange} onPasswordMatchChange={handlePasswordMatchChange} />
       <LargeInput placeholder="닉네임" value={nickname} onChange={(e) => handleNicknameChange(e)} />
-      <DepartmentInput value={department} onChange={(e) => handleDepartmentChange(e)} />
+      <DepartmentInput value={departmentId} onChange={(e) => handleDepartmentChange(e)} />
       <RegisterButton disabled={!passwordsMatch} onClick={handleSubmit} />
     </Space>
   );
