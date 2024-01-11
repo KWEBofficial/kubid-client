@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { LargeInput, PasswordInput, DepartmentInput, RegisterButton } from "./BrokenDown";
-import { Space } from "antd";
-import { axiosinstance } from "../../utils/axios";
+import { SignUpInfo } from "../../models/auth";
+import { postSignIn } from "../../api/auth";
+import { message, Space } from "antd";
+import { AxiosError } from "axios";
+import { COMMON_MESSAGE } from "../../contants/message";
+import { DEPARTMENT } from "../../data/department";
 
 export const SignUpTag: React.FC = () => {
   const [email, setEmail] = useState<string>("");
@@ -9,6 +13,8 @@ export const SignUpTag: React.FC = () => {
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
   const [nickname, setNickname] = useState<string>("");
   const [department, setDepartment] = useState<string>("");
+
+  const [messageApi] = message.useMessage();
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
@@ -30,24 +36,35 @@ export const SignUpTag: React.FC = () => {
     setDepartment(value);
   };
 
-  const handleSubmit = () => {
-    const dataToSend = {
+  const handleSubmit = async () => {
+    const dataToSend: SignUpInfo = {
       email,
       nickname,
       password,
-      department,
+      // TODO: departemnet를 name 말고 id로 관리하고 보낼 것
+      departmentId: 1
     };
     console.log(dataToSend);
-    axiosinstance
-      .post("/users/sign-up", dataToSend)
-      .then((response) => {
-        // Handle success, if needed
-        console.log("Request successful", response.data);
-      })
-      .catch((error) => {
-        // Handle error, if needed
-        console.error("Error sending request", error);
+    try {
+      await postSignIn(dataToSend);
+      messageApi.open({
+        type: "success",
+        content: "Welcome Back!",
       });
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        messageApi.open({
+          type: "error",
+          content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
+        });
+        return;
+      } else {
+        messageApi.open({
+          type: "error",
+          content: COMMON_MESSAGE.UNKNOWN_ERROR,
+        });
+      }
+    }
   };
 
   return (
