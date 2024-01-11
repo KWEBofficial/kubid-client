@@ -1,28 +1,24 @@
 import React, { useState, useEffect } from "react";
-import LargeInput from "./LargeInput";
+import LargeInput from "../common/LargeInput";
 import PasswordInput from "./PasswordInput";
-import DepartmentInput from "./DepartmentInput";
-import RegisterButton from "./RegisterButton";
-import { SignUpInfo } from "../../models/auth";
+import RegisterButton from "../common/RegisterButton";
+import { SignInInfo } from "../../models/auth";
 import { postSignIn } from "../../api/auth";
 import { message, Space } from "antd";
 import { AxiosError } from "axios";
 import { COMMON_MESSAGE } from "../../contants/message";
 
-export const SignUpTag: React.FC = () => {
-  const [signUpForm, setSignUpForm] = useState({
+export const SignInTag: React.FC = () => {
+  const [signInForm, setSignInForm] = useState({
     email: "",
     password: "",
-    passwordsMatch: true,
-    nickname: "",
-    departmentId: 0,
   });
 
   const [messageApi] = message.useMessage();
   const [isSignInSuccessful, setIsSignInSuccessful] = useState(false);
 
   const handleInputChange = (fieldName: string, value: string | boolean | number) => {
-    setSignUpForm((prevForm) => ({
+    setSignInForm((prevForm) => ({
       ...prevForm,
       [fieldName]: value,
     }));
@@ -41,11 +37,9 @@ export const SignUpTag: React.FC = () => {
   }, [isSignInSuccessful, messageApi]);
 
   const handleSubmit = async () => {
-    const dataToSend: SignUpInfo = {
-      email: signUpForm.email,
-      nickname: signUpForm.nickname,
-      password: signUpForm.password,
-      departmentId: signUpForm.departmentId,
+    const dataToSend: SignInInfo = {
+      email: signInForm.email,
+      password: signInForm.password,
     };
     console.log(dataToSend);
     try {
@@ -71,18 +65,11 @@ export const SignUpTag: React.FC = () => {
   return (
     <Space direction="vertical">
       {/* LargeInput for Email */}
-      <LargeInput placeholder="이메일" value={signUpForm.email} onChange={(e) => handleInputChange("email", e)} />
+      <LargeInput placeholder="로그인" value={signInForm.email} onChange={(e) => handleInputChange("email", e)} />
       {/* PasswordInput */}
-      <PasswordInput
-        onPasswordChange={(value) => handleInputChange("password", value)}
-        onPasswordMatchChange={(match) => handleInputChange("passwordsMatch", match)}
-      />
-      {/* LargeInput for Nickname */}
-      <LargeInput placeholder="닉네임" value={signUpForm.nickname} onChange={(e) => handleInputChange("nickname", e)} />
-      {/* DepartmentInput */}
-      <DepartmentInput value={signUpForm.departmentId} onChange={(e) => handleInputChange("departmentId", e)} />
+      <PasswordInput onPasswordChange={(value) => handleInputChange("password", value)} />
       {/* RegisterButton */}
-      <RegisterButton disabled={!signUpForm.passwordsMatch} onClick={handleSubmit} />
+      <RegisterButton disabled={!signInForm.password} onClick={handleSubmit} />
     </Space>
   );
 };
