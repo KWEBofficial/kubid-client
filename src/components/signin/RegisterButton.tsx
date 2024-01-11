@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "antd";
-import "../../styles/global.css";
 
 interface RegisterButtonProps {
   disabled: boolean;

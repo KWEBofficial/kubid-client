@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 import { Input, Space } from "antd";
-import "../../styles/global.css";
 
 interface PasswordInputProps {
   onPasswordChange: (value: string) => void;
