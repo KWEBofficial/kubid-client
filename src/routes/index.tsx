@@ -11,7 +11,7 @@ const RouteComponent = () => {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
-      <Route path="/users/sign-up" element={<SignUpPage />} />
+      <Route path="/sign-up" element={<SignUpPage />} />
     </Routes>
   );
 };
