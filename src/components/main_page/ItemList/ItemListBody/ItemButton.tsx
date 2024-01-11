@@ -1,5 +1,5 @@
 import { Button, Progress } from "antd";
-import { colors } from "../../../styles/colors";
+import { colors } from "../../../../styles/colors";
 
 const ItemButton = () => {
   return (

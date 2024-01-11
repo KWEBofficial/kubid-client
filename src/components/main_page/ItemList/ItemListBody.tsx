@@ -1,7 +1,7 @@
 import { Col, Row } from "antd";
-import ItemButton from "./ItemList/ItemButton";
+import ItemButton from "./ItemListBody/ItemButton";
 
-const ItemList = () => {
+const ItemListBody = () => {
   return (
     <p style={{ textAlign: "center", marginBottom: "50px" }}>
       <Row>
@@ -19,4 +19,4 @@ const ItemList = () => {
   );
 };
 
-export default ItemList;
+export default ItemListBody;
