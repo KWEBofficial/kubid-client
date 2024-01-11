@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import LargeInput from "./LargeInput";
 import PasswordInput from "./PasswordInput";
 import DepartmentInput from "./DepartmentInput";
@@ -10,48 +10,48 @@ import { AxiosError } from "axios";
 import { COMMON_MESSAGE } from "../../contants/message";
 
 export const SignUpTag: React.FC = () => {
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
-  const [nickname, setNickname] = useState<string>("");
-  const [departmentId, setDepartmentId] = useState<number>();
+  const [signUpForm, setSignUpForm] = useState({
+    email: "",
+    password: "",
+    passwordsMatch: true,
+    nickname: "",
+    departmentId: 0,
+  });
 
   const [messageApi] = message.useMessage();
+  const [isSignInSuccessful, setIsSignInSuccessful] = useState(false);
 
-  const handleEmailChange = (value: string) => {
-    setEmail(value);
+  const handleInputChange = (fieldName: string, value: string | boolean | number) => {
+    setSignUpForm((prevForm) => ({
+      ...prevForm,
+      [fieldName]: value,
+    }));
   };
 
-  const handlePasswordChange = (value: string) => {
-    setPassword(value);
-  };
-
-  const handlePasswordMatchChange = (match: boolean) => {
-    setPasswordsMatch(match);
-  };
-
-  const handleNicknameChange = (value: string) => {
-    setNickname(value);
-  };
-
-  const handleDepartmentChange = (value: number) => {
-    setDepartmentId(value);
-  };
-
-  const handleSubmit = async () => {
-    const dataToSend: SignUpInfo = {
-      email,
-      nickname,
-      password,
-      departmentId,
-    };
-    console.log(dataToSend);
-    try {
-      await postSignIn(dataToSend);
+  useEffect(() => {
+    // Effect to handle the message after component renders
+    if (isSignInSuccessful) {
       messageApi.open({
         type: "success",
         content: "Welcome Back!",
       });
+      // Reset the success state after showing the message
+      setIsSignInSuccessful(false);
+    }
+  }, [isSignInSuccessful, messageApi]);
+
+  const handleSubmit = async () => {
+    const dataToSend: SignUpInfo = {
+      email: signUpForm.email,
+      nickname: signUpForm.nickname,
+      password: signUpForm.password,
+      departmentId: signUpForm.departmentId,
+    };
+    console.log(dataToSend);
+    try {
+      await postSignIn(dataToSend);
+      // If postSignIn is successful, set the success state to trigger the message
+      setIsSignInSuccessful(true);
     } catch (error) {
       if (error instanceof AxiosError) {
         messageApi.open({
@@ -70,11 +70,19 @@ export const SignUpTag: React.FC = () => {
 
   return (
     <Space direction="vertical">
-      <LargeInput placeholder="이메일" value={email} onChange={(e) => handleEmailChange(e)} />
-      <PasswordInput onPasswordChange={handlePasswordChange} onPasswordMatchChange={handlePasswordMatchChange} />
-      <LargeInput placeholder="닉네임" value={nickname} onChange={(e) => handleNicknameChange(e)} />
-      <DepartmentInput value={departmentId} onChange={(e) => handleDepartmentChange(e)} />
-      <RegisterButton disabled={!passwordsMatch} onClick={handleSubmit} />
+      {/* LargeInput for Email */}
+      <LargeInput placeholder="이메일" value={signUpForm.email} onChange={(e) => handleInputChange("email", e)} />
+      {/* PasswordInput */}
+      <PasswordInput
+        onPasswordChange={(value) => handleInputChange("password", value)}
+        onPasswordMatchChange={(match) => handleInputChange("passwordsMatch", match)}
+      />
+      {/* LargeInput for Nickname */}
+      <LargeInput placeholder="닉네임" value={signUpForm.nickname} onChange={(e) => handleInputChange("nickname", e)} />
+      {/* DepartmentInput */}
+      <DepartmentInput value={signUpForm.departmentId} onChange={(e) => handleInputChange("departmentId", e)} />
+      {/* RegisterButton */}
+      <RegisterButton disabled={!signUpForm.passwordsMatch} onClick={handleSubmit} />
     </Space>
   );
 };

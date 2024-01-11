@@ -1,5 +1,5 @@
 export const DEPARTMENTS = [
-  { value: "", label: "학과를 선택해주세요", disabled: true }, // Set an option for the default label
+  { value: 0, label: "학과를 선택해주세요", disabled: true }, // Set an option for the default label
   { value: 1, label: "경영학과" },
   { value: 2, label: "국어국문학과" },
   { value: 3, label: "철학과" },
