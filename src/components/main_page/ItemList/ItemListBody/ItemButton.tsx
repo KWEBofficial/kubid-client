@@ -7,12 +7,10 @@ const ItemButton = () => {
   return (
     <Button css={ItemButtonStyle}>
       <div css={ImageSectionStyle}>
-        {/* Image Section */}
-        <img src="cat.png" alt="Image" css={ImageStyle} />
+        <img src="color.png" alt="Image" css={ImageStyle} />
       </div>
       <div css={TextSectionStyle}>
-        {/* Text Section */}
-        <h3 css={TitleStyle}>[급처] 엄청 긴 제목을 쓰면 글이 잘립니다</h3>
+        <h3 css={TitleStyle}>제목이 너무 길어지면 잘리도록 하자</h3>
         <p css={DepartmentStyle}>컴퓨터학과</p>
         <p css={PriceStyle}>
           <span css={CurrentHighestPriceStyle}>7000</span>
@@ -20,8 +18,14 @@ const ItemButton = () => {
         </p>
       </div>
       <div css={ProgressBarSectionStyle}>
-        {/* Progress Bar Section */}
-        <Progress percent={70} size={[265, 20]} status="normal" showInfo={false} />
+        <Progress
+          percent={70}
+          size={[264, 20]}
+          status="normal"
+          strokeLinecap="square"
+          trailColor="#D9D9D9"
+          showInfo={false}
+        />
       </div>
     </Button>
   );
@@ -34,6 +38,8 @@ const ItemButtonStyle = css`
   height: 290px;
   padding: 0;
   position: relative;
+  overflow: hidden;
+  border-radius: 7.5%;
 `;
 
 const ImageSectionStyle = css`
@@ -93,5 +99,5 @@ const ProgressBarSectionStyle = css`
   margin: 0;
   position: absolute;
   bottom: 8px;
-  left: -5px;
+  left: -4px;
 `;
