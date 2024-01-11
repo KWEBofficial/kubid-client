@@ -2,19 +2,24 @@
 import { css } from "@emotion/react";
 import { Col, Row } from "antd";
 import ItemButton from "./ItemListBody/ItemButton";
+import { ProductThumbnailInfo } from "../../../models/product";
 
-const ItemListBody = () => {
+interface ItemListBodyProps {
+  products: ProductThumbnailInfo[];
+}
+
+const ItemListBody: React.FC<ItemListBodyProps> = ({ products }) => {
   return (
     <p css={BodyStyle}>
       <Row>
         <Col span={8}>
-          <ItemButton />
+          <ItemButton product={products[0]} />
         </Col>
         <Col span={8}>
-          <ItemButton />
+          <ItemButton product={products[1]} />
         </Col>
         <Col span={8}>
-          <ItemButton />
+          <ItemButton product={products[2]} />
         </Col>
       </Row>
     </p>

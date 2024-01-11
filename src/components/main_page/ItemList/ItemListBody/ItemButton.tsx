@@ -2,24 +2,32 @@
 import { css } from "@emotion/react";
 import { Button, Progress } from "antd";
 import { colors } from "../../../../styles/colors";
+import { ProductThumbnailInfo } from "../../../../models/product";
 
-const ItemButton = () => {
+interface ItemButtonProps {
+  product: ProductThumbnailInfo;
+}
+
+const ItemButton: React.FC<ItemButtonProps> = ({ product }) => {
+  const { productName, departmentName, lowerBound, currentHighestPrice, upperBound, imageId } = product;
+  const progressPercent = ((currentHighestPrice - lowerBound) / (upperBound - lowerBound)) * 100;
+
   return (
     <Button css={ItemButtonStyle}>
       <div css={ImageSectionStyle}>
         <img src="color.png" alt="Image" css={ImageStyle} />
       </div>
       <div css={TextSectionStyle}>
-        <h3 css={TitleStyle}>제목이 너무 길어지면 잘리도록 하자</h3>
-        <p css={DepartmentStyle}>컴퓨터학과</p>
+        <h3 css={TitleStyle}>{productName}</h3>
+        <p css={DepartmentStyle}>{departmentName}</p>
         <p css={PriceStyle}>
-          <span css={CurrentHighestPriceStyle}>7000</span>
-          <span css={UpperBoundStyle}>10000</span>
+          <span css={CurrentHighestPriceStyle}>{currentHighestPrice}</span>
+          <span css={UpperBoundStyle}>{upperBound}</span>
         </p>
       </div>
       <div css={ProgressBarSectionStyle}>
         <Progress
-          percent={70}
+          percent={progressPercent}
           size={[264, 20]}
           status="normal"
           strokeLinecap="square"
