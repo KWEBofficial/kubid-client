@@ -8,7 +8,7 @@ interface LargeInputProps {
   onChange?: (value: string) => void; // Make the onChange prop optional
 }
 
-export const LargeInput: React.FC<LargeInputProps> = ({ placeholder, value, onChange }) => (
+const LargeInput: React.FC<LargeInputProps> = ({ placeholder, value, onChange }) => (
   <div className="button-container">
     <Input
       size="large"
@@ -24,3 +24,5 @@ export const LargeInput: React.FC<LargeInputProps> = ({ placeholder, value, onCh
     />
   </div>
 );
+
+export default LargeInput;
