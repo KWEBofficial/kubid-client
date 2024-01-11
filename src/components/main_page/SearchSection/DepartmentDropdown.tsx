@@ -10,10 +10,11 @@ const DepartmentDropdown: React.FC = () => (
     theme={{
       token: {
         fontSize: "20px",
+        fontSizeIcon: 12,
       },
       components: {
         Select: {
-          optionFontSize: "20px",
+          // optionFontSize: "20px",
         },
       },
     }}
@@ -21,7 +22,7 @@ const DepartmentDropdown: React.FC = () => (
     <Select
       defaultValue="학과 선택"
       dropdownStyle={{ padding: 10 }}
-      style={{ width: "233px", height: "60px" }}
+      style={{ width: "233px", height: "60px", textAlign: "center" }}
       onChange={handleChange}
       options={[
         { value: "경영학과", label: "경영학과" },
