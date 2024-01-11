@@ -5,7 +5,7 @@ import ItemButton from "./ItemListBody/ItemButton";
 
 const ItemListBody = () => {
   return (
-    <p style={BodyStyle}>
+    <p css={BodyStyle}>
       <Row>
         <Col span={8}>
           <ItemButton />
