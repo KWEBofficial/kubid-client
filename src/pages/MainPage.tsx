@@ -33,8 +33,9 @@ const fetchRecentProducts = async (onFetchSuccess: React.Dispatch<React.SetState
   try {
     const rawProducts = await getRecentProducts();
     const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
-      const { productName, departmentId, currentHighestPrice, upperBound } = rawProduct;
+      const { id, productName, departmentId, currentHighestPrice, upperBound } = rawProduct;
       const product: ProductThumbnailInfo = {
+        id,
         productName,
         departmentName: tempDepartments[departmentId].value,
         lowerBound: 0, // TODO: GET /products 변경 필요
@@ -45,7 +46,6 @@ const fetchRecentProducts = async (onFetchSuccess: React.Dispatch<React.SetState
       return product;
     });
     if (products) {
-      console.log(products);
       onFetchSuccess(() => [...products]);
     }
   } catch (error) {

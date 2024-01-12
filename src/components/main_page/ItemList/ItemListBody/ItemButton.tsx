@@ -9,11 +9,11 @@ interface ItemButtonProps {
 }
 
 const ItemButton: React.FC<ItemButtonProps> = ({ product }) => {
-  const { productName, departmentName, lowerBound, currentHighestPrice, upperBound, imageUrl } = product;
+  const { id, productName, departmentName, lowerBound, currentHighestPrice, upperBound, imageUrl } = product;
   const progressPercent = ((currentHighestPrice - lowerBound) / (upperBound - lowerBound)) * 100;
 
   return (
-    <Button css={ItemButtonStyle}>
+    <Button href={`products/${id}`} css={ItemButtonStyle}>
       <div css={ImageSectionStyle}>
         <img src={imageUrl} alt="Image" css={ImageStyle} />
       </div>

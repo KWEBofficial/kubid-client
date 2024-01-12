@@ -17,7 +17,7 @@ const ItemListBody: React.FC<ItemListBodyProps> = ({ products, maxItemCount }) =
   const itemCount = products.length < maxItemCount ? products.length : maxItemCount;
   for (let i = 0; i < itemCount; i++) {
     items.push(
-      <Col span={8}>
+      <Col span={8} key={i}>
         <ItemButton product={products[i]} />
       </Col>,
     );
