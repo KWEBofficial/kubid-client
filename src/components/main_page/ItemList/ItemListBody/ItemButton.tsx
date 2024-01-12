@@ -15,7 +15,7 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product }) => {
   return (
     <Button css={ItemButtonStyle}>
       <div css={ImageSectionStyle}>
-        <img src="color.png" alt="Image" css={ImageStyle} />
+        <img src="cat.png" alt="Image" css={ImageStyle} />
       </div>
       <div css={TextSectionStyle}>
         <h3 css={TitleStyle}>{productName}</h3>

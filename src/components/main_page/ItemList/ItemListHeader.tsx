@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Link } from "react-router-dom";
+import { colors } from "../../../styles/colors";
 
 interface ItemListHeaderProps {
   title: string;
@@ -11,8 +12,10 @@ const ItemListHeader: React.FC<ItemListHeaderProps> = ({ title, moreUrl }) => {
   return (
     <div css={DivStyle}>
       <h2 css={HeaderStyle}>{title}</h2>
-      <p css={moreLinkStyle}>
-        <Link to={moreUrl}>더보기</Link>
+      <p css={morePStyle}>
+        <Link to={moreUrl} css={moreLinkStyle}>
+          더보기
+        </Link>
       </p>
     </div>
   );
@@ -23,13 +26,19 @@ export default ItemListHeader;
 const DivStyle = css`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
 `;
 
 const HeaderStyle = css`
   margin: 0;
 `;
 
-const moreLinkStyle = css`
+const morePStyle = css`
   margin: 0;
+  margin-right: 5px;
+  font-weight: bold;
+`;
+
+const moreLinkStyle = css`
+  color: ${colors.primary};
 `;

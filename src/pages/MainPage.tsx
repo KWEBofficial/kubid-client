@@ -34,7 +34,9 @@ const Main = () => {
   return (
     <div style={{ width: "900px", margin: "auto" }}>
       <SearchSection />
+      {/* <ItemList title="지금 핫한 🔥" moreUrl="" products={dummyProducts} /> */}
       <ItemList title="최근에 올라온 거예요" moreUrl="" products={dummyProducts} />
+      {/* <ItemList title="컴퓨터학과에서 자주 봤어요" moreUrl="" products={dummyProducts} /> */}
     </div>
   );
 };
