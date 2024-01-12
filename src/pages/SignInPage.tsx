@@ -1,6 +1,9 @@
 import HigherLayoutComponent from "../components/common/CustomLayout";
 import { SignInTag } from "../components/signin/SignInLayout";
 import { Link } from "react-router-dom";
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 const SignIn = () => {
   return (
@@ -15,7 +18,7 @@ const SignIn = () => {
         marginTop: "-100px",
       }}
     >
-      <h2 style={{ margin: 24, textAlign: "center" }}>로그인</h2>
+      <Title level={2}>로그인</Title>
       <div style={{ width: "100%", maxWidth: "400px" }}>
         {/* Adjust the width and maxWidth values based on your design */}
         <SignInTag />

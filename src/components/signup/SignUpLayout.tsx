@@ -70,19 +70,19 @@ export const SignUpTag: React.FC = () => {
 
   return (
     <Space direction="vertical">
-      {/* LargeInput for Email */}
       <LargeInput placeholder="이메일" value={signUpForm.email} onChange={(e) => handleInputChange("email", e)} />
-      {/* PasswordInput */}
       <MatchingPasswordInput
         onPasswordChange={(value) => handleInputChange("password", value)}
         onPasswordMatchChange={(match) => handleInputChange("passwordsMatch", match)}
       />
-      {/* LargeInput for Nickname */}
       <LargeInput placeholder="닉네임" value={signUpForm.nickname} onChange={(e) => handleInputChange("nickname", e)} />
-      {/* DepartmentInput */}
       <DepartmentInput value={signUpForm.departmentId} onChange={(e) => handleInputChange("departmentId", e)} />
-      {/* RegisterButton */}
-      <RegisterButton disabled={!signUpForm.passwordsMatch || signUpForm.departmentId === 0} onClick={handleSubmit} />
+      <RegisterButton
+        disabled={
+          !signUpForm.email || !signUpForm.nickname || !signUpForm.passwordsMatch || signUpForm.departmentId === 0
+        }
+        onClick={handleSubmit}
+      />
     </Space>
   );
 };

@@ -1,6 +1,9 @@
 import HigherLayoutComponent from "../components/common/CustomLayout";
 import { SignUpTag } from "../components/signup/SignUpLayout";
 import { Link } from "react-router-dom";
+import { Typography } from "antd";
+
+const { Title } = Typography;
 
 const SignUp = () => {
   return (
@@ -15,7 +18,7 @@ const SignUp = () => {
         marginTop: "-100px",
       }}
     >
-      <h2 style={{ margin: 24, textAlign: "center" }}>회원가입</h2>
+      <Title level={2}>회원가입</Title>
       <div style={{ width: "100%", maxWidth: "400px" }}>
         {/* Adjust the width and maxWidth values based on your design */}
         <SignUpTag />

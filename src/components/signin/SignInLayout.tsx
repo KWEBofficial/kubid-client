@@ -64,12 +64,9 @@ export const SignInTag: React.FC = () => {
 
   return (
     <Space direction="vertical">
-      {/* LargeInput for Email */}
-      <LargeInput placeholder="로그인" value={signInForm.email} onChange={(e) => handleInputChange("email", e)} />
-      {/* PasswordInput */}
+      <LargeInput placeholder="이메일" value={signInForm.email} onChange={(e) => handleInputChange("email", e)} />
       <PasswordInput onPasswordChange={(value) => handleInputChange("password", value)} />
-      {/* RegisterButton */}
-      <RegisterButton disabled={!signInForm.password} onClick={handleSubmit} />
+      <RegisterButton disabled={!signInForm.email || !signInForm.password} onClick={handleSubmit} />
     </Space>
   );
 };
