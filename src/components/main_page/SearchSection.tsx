@@ -17,7 +17,7 @@ const SearchSection = () => {
 
 const SearchSectionStyle = css`
   margin-top: 80px;
-  margin-bottom: 100px;
+  margin-bottom: 50px;
 `;
 
 export default SearchSection;

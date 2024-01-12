@@ -2,6 +2,9 @@
 import { css } from "@emotion/react";
 import { Link } from "react-router-dom";
 import { colors } from "../../../styles/colors";
+import { Typography, Space } from "antd";
+
+const { Title, Text } = Typography;
 
 interface ItemListHeaderProps {
   title: string;
@@ -10,31 +13,35 @@ interface ItemListHeaderProps {
 
 const ItemListHeader: React.FC<ItemListHeaderProps> = ({ title, moreUrl }) => {
   return (
-    <div css={DivStyle}>
-      <h2 css={HeaderStyle}>{title}</h2>
-      <p css={morePStyle}>
+    <Space css={SpaceStyle}>
+      <Title level={2} css={HeaderStyle}>
+        {title}
+      </Title>
+      <Text css={moreTextStyle}>
         <Link to={moreUrl} css={moreLinkStyle}>
           더보기
         </Link>
-      </p>
-    </div>
+      </Text>
+    </Space>
   );
 };
 
 export default ItemListHeader;
 
-const DivStyle = css`
+const SpaceStyle = css`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-bottom: 20px;
 `;
 
 const HeaderStyle = css`
-  margin: 0;
+  margin-bottom: 0;
 `;
 
-const morePStyle = css`
+const moreTextStyle = css`
   margin: 0;
+  margin-bottom: 60px;
   margin-right: 5px;
   font-weight: bold;
 `;
