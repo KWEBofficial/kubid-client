@@ -9,13 +9,13 @@ interface ItemButtonProps {
 }
 
 const ItemButton: React.FC<ItemButtonProps> = ({ product }) => {
-  const { productName, departmentName, lowerBound, currentHighestPrice, upperBound, imageId } = product;
+  const { productName, departmentName, lowerBound, currentHighestPrice, upperBound, imageUrl } = product;
   const progressPercent = ((currentHighestPrice - lowerBound) / (upperBound - lowerBound)) * 100;
 
   return (
     <Button css={ItemButtonStyle}>
       <div css={ImageSectionStyle}>
-        <img src="cat.png" alt="Image" css={ImageStyle} />
+        <img src={imageUrl} alt="Image" css={ImageStyle} />
       </div>
       <div css={TextSectionStyle}>
         <h3 css={TitleStyle}>{productName}</h3>
@@ -48,6 +48,7 @@ const ItemButtonStyle = css`
   position: relative;
   overflow: hidden;
   border-radius: 7.5%;
+  margin-bottom: 40px;
 `;
 
 const ImageSectionStyle = css`

@@ -6,23 +6,24 @@ import { ProductThumbnailInfo } from "../../../models/product";
 
 interface ItemListBodyProps {
   products: ProductThumbnailInfo[];
+  maxItemCount: number;
 }
 
-const ItemListBody: React.FC<ItemListBodyProps> = ({ products }) => {
+const ItemListBody: React.FC<ItemListBodyProps> = ({ products, maxItemCount }) => {
+  const items = [];
+  const itemCount = products.length < maxItemCount ? products.length : maxItemCount;
+  for (let i = 0; i < itemCount; i++) {
+    items.push(
+      <Col span={8}>
+        <ItemButton product={products[i]} />
+      </Col>,
+    );
+  }
+
   return (
-    <p css={BodyStyle}>
-      <Row>
-        <Col span={8}>
-          <ItemButton product={products[0]} />
-        </Col>
-        <Col span={8}>
-          <ItemButton product={products[1]} />
-        </Col>
-        <Col span={8}>
-          <ItemButton product={products[2]} />
-        </Col>
-      </Row>
-    </p>
+    <div css={BodyStyle}>
+      <Row>{items}</Row>
+    </div>
   );
 };
 
@@ -30,5 +31,5 @@ export default ItemListBody;
 
 const BodyStyle = css`
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 0;
 `;

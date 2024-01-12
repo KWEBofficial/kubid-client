@@ -4,5 +4,5 @@ export interface ProductThumbnailInfo {
   lowerBound: number;
   currentHighestPrice: number;
   upperBound: number;
-  imageId: number;
+  imageUrl: string;
 }

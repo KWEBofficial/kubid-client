@@ -6,13 +6,14 @@ interface ItemListProps {
   title: string;
   moreUrl: string;
   products: ProductThumbnailInfo[];
+  maxItemCount: number;
 }
 
-const ItemList: React.FC<ItemListProps> = ({ title, moreUrl, products }) => {
+const ItemList: React.FC<ItemListProps> = ({ title, moreUrl, products, maxItemCount }) => {
   return (
     <>
       <ItemListHeader title={title} moreUrl={moreUrl} />
-      <ItemListBody products={products} />
+      <ItemListBody products={products} maxItemCount={maxItemCount} />
     </>
   );
 };
