@@ -9,10 +9,12 @@ const HigherLayoutComponent = (WrappedComponent: React.ComponentType<any>) => {
   return (props: any) => (
     <Layout>
       <StyledHeader>
-        <div>Logo Position</div>
+        <div>
+          <Link to="/">Logo Position</Link>
+        </div>
         <nav>
-          <Link to="/sign-in">로그인</Link>
-          <Link to="/sign-up">회원가입</Link>
+          <Link to="/auth/sign-in">로그인</Link>
+          <Link to="/auth/sign-up">회원가입</Link>
         </nav>
       </StyledHeader>
       <StyledContent>
@@ -29,6 +31,12 @@ const StyledHeader = styled(Header)`
   justify-content: space-between;
 
   background-color: ${colors.primary};
+
+  div {
+    a {
+      color: ${colors.black};
+    }
+  }
 
   nav {
     display: flex;
@@ -49,4 +57,3 @@ const StyledContent = styled(Content)`
     margin: 0 auto;
   }
 `;
-

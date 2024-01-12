@@ -19,8 +19,8 @@ const Main = () => {
     <div style={{ width: "900px", margin: "auto" }}>
       <SearchSection />
       <ItemList title="지금 핫한 🔥" moreUrl="" products={recentProducts} maxItemCount={2} />
-      <ItemList title="최근에 올라온 거예요" moreUrl="" products={recentProducts} maxItemCount={3} />
-      <ItemList title="컴퓨터학과에서 자주 봤어요" moreUrl="" products={recentProducts} maxItemCount={4} />
+      <ItemList title="최근에 올라온 거예요" moreUrl="" products={recentProducts} maxItemCount={4} />
+      <ItemList title="컴퓨터학과에서 자주 봤어요" moreUrl="" products={recentProducts} maxItemCount={0} />
     </div>
   );
 };
