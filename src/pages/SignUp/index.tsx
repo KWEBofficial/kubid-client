@@ -1,11 +1,11 @@
-import HigherLayoutComponent from "../components/common/CustomLayout";
-import { SignInTag } from "../components/signin/SignInLayout";
+import HigherLayoutComponent from "../../components/common/CustomLayout";
+import { SignUpTag } from "./SignUpLayout";
 import { Link } from "react-router-dom";
 import { Typography } from "antd";
 
 const { Title } = Typography;
 
-const SignIn = () => {
+const SignUp = () => {
   return (
     <div
       style={{
@@ -18,17 +18,17 @@ const SignIn = () => {
         marginTop: "-100px",
       }}
     >
-      <Title level={2}>로그인</Title>
+      <Title level={2}>회원가입</Title>
       <div style={{ width: "100%", maxWidth: "400px" }}>
         {/* Adjust the width and maxWidth values based on your design */}
-        <SignInTag />
+        <SignUpTag />
       </div>
-      <Link to="/auth/sign-up">아직 계정이 없으신가요?</Link>
+      <Link to="/auth/sign-in">이미 계정이 있으신가요?</Link>
       {/* Add other content for the SignUpPage as needed */}
     </div>
   );
 };
 
-const SignInPage = HigherLayoutComponent(SignIn);
+const SignUpPage = HigherLayoutComponent(SignUp);
 
-export default SignInPage;
+export default SignUpPage;

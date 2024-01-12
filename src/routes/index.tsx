@@ -1,8 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 
 import MainPage from "../pages/MainPage";
-import SignUpPage from "../pages/SignUpPage";
-import SignInPage from "../pages/SignInPage";
+import SignUpPage from "../pages/SignUp";
+import SignInPage from "../pages/SignIn";
 
 /**
  * 어느 url에 어떤 페이지를 보여줄지 정해주는 컴포넌트입니다.

@@ -49,4 +49,3 @@ const StyledContent = styled(Content)`
     margin: 0 auto;
   }
 `;
-

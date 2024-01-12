@@ -16,7 +16,7 @@ const LargeInput: React.FC<LargeInputProps> = ({ placeholder, value, onChange })
       style={{
         width: "328px",
         height: "50px",
-        marginBottom: "20px",
+        marginBottom: "30px",
       }}
       className="placeholder-style"
       value={value} // Use the value prop

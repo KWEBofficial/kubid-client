@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import LargeInput from "../common/LargeInput";
-import PasswordInput from "./PasswordInput";
-import RegisterButton from "../common/RegisterButton";
+import React, { useState } from "react";
+import LargeInput from "../../components/signup/LargeInput";
+import PasswordInput from "../../components/signup/PasswordInput";
+import BlueButton from "../../components/signup/BlueButton";
 import { SignInInfo } from "../../models/auth";
 import { postSignIn } from "../../api/auth";
 import { message, Space } from "antd";
@@ -15,7 +15,6 @@ export const SignInTag: React.FC = () => {
   });
 
   const [messageApi] = message.useMessage();
-  const [isSignInSuccessful, setIsSignInSuccessful] = useState(false);
 
   const handleInputChange = (fieldName: string, value: string | boolean | number) => {
     setSignInForm((prevForm) => ({
@@ -23,18 +22,6 @@ export const SignInTag: React.FC = () => {
       [fieldName]: value,
     }));
   };
-
-  useEffect(() => {
-    // Effect to handle the message after component renders
-    if (isSignInSuccessful) {
-      messageApi.open({
-        type: "success",
-        content: "Welcome Back!",
-      });
-      // Reset the success state after showing the message
-      setIsSignInSuccessful(false);
-    }
-  }, [isSignInSuccessful, messageApi]);
 
   const handleSubmit = async () => {
     const dataToSend: SignInInfo = {
@@ -44,8 +31,6 @@ export const SignInTag: React.FC = () => {
     console.log(dataToSend);
     try {
       await postSignIn(dataToSend);
-      // If postSignIn is successful, set the success state to trigger the message
-      setIsSignInSuccessful(true);
     } catch (error) {
       if (error instanceof AxiosError) {
         messageApi.open({
@@ -66,7 +51,7 @@ export const SignInTag: React.FC = () => {
     <Space direction="vertical">
       <LargeInput placeholder="이메일" value={signInForm.email} onChange={(e) => handleInputChange("email", e)} />
       <PasswordInput onPasswordChange={(value) => handleInputChange("password", value)} />
-      <RegisterButton disabled={!signInForm.email || !signInForm.password} onClick={handleSubmit} />
+      <BlueButton placeholder="로그인" disabled={!signInForm.email || !signInForm.password} onClick={handleSubmit} />
     </Space>
   );
 };

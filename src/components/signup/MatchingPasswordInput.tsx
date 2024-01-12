@@ -1,16 +1,19 @@
 import React, { useState } from "react";
-import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
-import { Input, Space } from "antd";
+import { EyeInvisibleOutlined, EyeTwoTone, ExclamationCircleOutlined } from "@ant-design/icons";
+import { Input, Space, Typography } from "antd";
+
+const { Text } = Typography;
 
 interface MatchingPasswordInputProps {
   onPasswordChange: (value: string) => void;
-  onPasswordMatchChange: (match: boolean) => void;
+  placeholders: string[];
 }
 
-const MatchingPasswordInput: React.FC<MatchingPasswordInputProps> = ({ onPasswordChange, onPasswordMatchChange }) => {
+let isPasswordMatch = true;
+
+const MatchingPasswordInput: React.FC<MatchingPasswordInputProps> = ({ onPasswordChange, placeholders }) => {
   const [password1, setPassword1] = useState<string>("");
   const [password2, setPassword2] = useState<string>("");
-  const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
 
   const handlePasswordChange = (value: string, field: "password1" | "password2") => {
     const newPassword = value;
@@ -23,15 +26,13 @@ const MatchingPasswordInput: React.FC<MatchingPasswordInputProps> = ({ onPasswor
     }
 
     // 입력한 두 개의 비밀번호가 같은지 확인합니다.
-    const match = field === "password1" ? value === password2 : value === password1;
-    setPasswordsMatch(match);
-    onPasswordMatchChange(match);
+    isPasswordMatch = field === "password1" ? value === password2 : value === password1;
   };
 
   return (
-    <Space direction="vertical">
+    <Space direction="vertical" style={{ height: "150px" }}>
       <Input.Password
-        placeholder="비밀번호"
+        placeholder={placeholders[0]}
         iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
         value={password1}
         onChange={(e) => handlePasswordChange(e.target.value, "password1")}
@@ -43,24 +44,18 @@ const MatchingPasswordInput: React.FC<MatchingPasswordInputProps> = ({ onPasswor
         className="input-style"
       />
       <Input.Password
-        placeholder="비밀번호 재입력"
+        placeholder={placeholders[1]}
         iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
         value={password2}
         onChange={(e) => handlePasswordChange(e.target.value, "password2")}
         style={{ width: "328px", height: "50px" }}
         className="input-style"
       />
-      <p
-        style={{
-          color: !passwordsMatch ? "red" : "#F5F5F5",
-          height: "10px",
-          userSelect: "none", // 드래그 안되게 설정했습니다.
-          marginTop: "0px",
-          marginBottom: "10px",
-        }}
-      >
-        Passwords do not match.
-      </p>
+      {!isPasswordMatch && (
+        <Text type="danger">
+          <ExclamationCircleOutlined /> 비밀번호가 일치하지 않습니다.
+        </Text>
+      )}
     </Space>
   );
 };
