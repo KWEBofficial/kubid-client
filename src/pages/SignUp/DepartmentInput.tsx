@@ -14,7 +14,7 @@ const DepartmentInput: React.FC<DepartmentInputProps> = ({ value, onChange }) =>
     style={{
       width: "328px",
       height: "50px",
-      marginBottom: "20px",
+      marginBottom: "30px",
     }}
     onChange={onChange}
   >

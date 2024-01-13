@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
-import LargeInput from "./LargeInput";
-import PasswordInput from "./PasswordInput";
+import React, { useState } from "react";
+import LargeInput from "../../components/signup/LargeInput";
+import MatchingPasswordInput from "../../components/signup/MatchingPasswordInput";
 import DepartmentInput from "./DepartmentInput";
-import RegisterButton from "./RegisterButton";
+import RegisterButton from "../../components/signup/BlueButton";
 import { SignUpInfo } from "../../models/auth";
-import { postSignIn } from "../../api/auth";
+import { postSignUp } from "../../api/auth";
 import { message, Space } from "antd";
 import { AxiosError } from "axios";
 import { COMMON_MESSAGE } from "../../contants/message";
@@ -19,7 +19,6 @@ export const SignUpTag: React.FC = () => {
   });
 
   const [messageApi] = message.useMessage();
-  const [isSignInSuccessful, setIsSignInSuccessful] = useState(false);
 
   const handleInputChange = (fieldName: string, value: string | boolean | number) => {
     setSignUpForm((prevForm) => ({
@@ -27,18 +26,6 @@ export const SignUpTag: React.FC = () => {
       [fieldName]: value,
     }));
   };
-
-  useEffect(() => {
-    // Effect to handle the message after component renders
-    if (isSignInSuccessful) {
-      messageApi.open({
-        type: "success",
-        content: "Welcome Back!",
-      });
-      // Reset the success state after showing the message
-      setIsSignInSuccessful(false);
-    }
-  }, [isSignInSuccessful, messageApi]);
 
   const handleSubmit = async () => {
     const dataToSend: SignUpInfo = {
@@ -49,9 +36,7 @@ export const SignUpTag: React.FC = () => {
     };
     console.log(dataToSend);
     try {
-      await postSignIn(dataToSend);
-      // If postSignIn is successful, set the success state to trigger the message
-      setIsSignInSuccessful(true);
+      await postSignUp(dataToSend);
     } catch (error) {
       if (error instanceof AxiosError) {
         messageApi.open({
@@ -70,19 +55,24 @@ export const SignUpTag: React.FC = () => {
 
   return (
     <Space direction="vertical">
-      {/* LargeInput for Email */}
       <LargeInput placeholder="이메일" value={signUpForm.email} onChange={(e) => handleInputChange("email", e)} />
-      {/* PasswordInput */}
-      <PasswordInput
+      <MatchingPasswordInput
         onPasswordChange={(value) => handleInputChange("password", value)}
-        onPasswordMatchChange={(match) => handleInputChange("passwordsMatch", match)}
+        placeholders={["비밀번호", "비밀번호 재입력"]}
       />
-      {/* LargeInput for Nickname */}
       <LargeInput placeholder="닉네임" value={signUpForm.nickname} onChange={(e) => handleInputChange("nickname", e)} />
-      {/* DepartmentInput */}
       <DepartmentInput value={signUpForm.departmentId} onChange={(e) => handleInputChange("departmentId", e)} />
-      {/* RegisterButton */}
-      <RegisterButton disabled={!signUpForm.passwordsMatch} onClick={handleSubmit} />
+      <RegisterButton
+        placeholder="회원가입"
+        disabled={
+          !signUpForm.email ||
+          !signUpForm.nickname ||
+          !signUpForm.password ||
+          !signUpForm.passwordsMatch ||
+          signUpForm.departmentId === 0
+        }
+        onClick={handleSubmit}
+      />
     </Space>
   );
 };
