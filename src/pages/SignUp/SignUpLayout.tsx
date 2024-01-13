@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import LargeInput from "../../components/signup/LargeInput";
 import MatchingPasswordInput from "../../components/signup/MatchingPasswordInput";
 import DepartmentInput from "./DepartmentInput";
-import RegisterButton from "../../components/signup/BlueButton";
+import BlueButton from "../../components/signup/BlueButton";
 import { SignUpInfo } from "../../models/auth";
 import { postSignUp } from "../../api/auth";
 import { message, Space } from "antd";
@@ -62,7 +62,7 @@ export const SignUpTag: React.FC = () => {
       />
       <LargeInput placeholder="닉네임" value={signUpForm.nickname} onChange={(e) => handleInputChange("nickname", e)} />
       <DepartmentInput value={signUpForm.departmentId} onChange={(e) => handleInputChange("departmentId", e)} />
-      <RegisterButton
+      <BlueButton
         placeholder="회원가입"
         disabled={
           !signUpForm.email ||

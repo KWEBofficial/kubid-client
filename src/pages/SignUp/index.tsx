@@ -20,11 +20,9 @@ const SignUp = () => {
     >
       <Title level={2}>회원가입</Title>
       <div style={{ width: "100%", maxWidth: "400px" }}>
-        {/* Adjust the width and maxWidth values based on your design */}
         <SignUpTag />
       </div>
       <Link to="/auth/sign-in">이미 계정이 있으신가요?</Link>
-      {/* Add other content for the SignUpPage as needed */}
     </div>
   );
 };
