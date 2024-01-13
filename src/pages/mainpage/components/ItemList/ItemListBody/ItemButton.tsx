@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import { Button, Progress } from "antd";
 import { colors } from "../../../../../styles/colors";
 import { ProductThumbnailInfo } from "../../../../../models/product";
+import { sm_lower_bound } from "../../../../../styles/responsive";
 
 interface ItemButtonProps {
   product: ProductThumbnailInfo;
@@ -25,16 +26,15 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product }) => {
           <span css={UpperBoundStyle}>{upperBound}</span>
         </p>
       </div>
-      <div css={ProgressBarSectionStyle}>
-        <Progress
-          percent={progressPercent}
-          size={[264, 20]}
-          status="normal"
-          strokeLinecap="square"
-          trailColor="#D9D9D9"
-          showInfo={false}
-        />
-      </div>
+      <Progress
+        percent={progressPercent}
+        size={["", 20]}
+        status="normal"
+        strokeLinecap="square"
+        trailColor="#D9D9D9"
+        showInfo={false}
+        css={ProgressBarSectionStyle}
+      />
     </Button>
   );
 };
@@ -42,13 +42,17 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product }) => {
 export default ItemButton;
 
 const ItemButtonStyle = css`
-  width: 265px;
-  height: 290px;
+  width: 100%;
+  height: 280px;
   padding: 0;
   position: relative;
   overflow: hidden;
   border-radius: 7.5%;
   margin-bottom: 40px;
+
+  @media (max-width: ${sm_lower_bound}px) {
+    width: 80%;
+  }
 `;
 
 const ImageSectionStyle = css`
@@ -104,9 +108,8 @@ const UpperBoundStyle = css`
 `;
 
 const ProgressBarSectionStyle = css`
-  height: 5%;
   margin: 0;
   position: absolute;
-  bottom: 8px;
-  left: -4px;
+  bottom: 0px;
+  left: 0px;
 `;

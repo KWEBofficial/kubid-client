@@ -16,11 +16,11 @@ const SearchInput = () => {
 
 const SpaceStyle = css`
   margin-right: 20px;
+  width: 100%;
 `;
 
 const SearchInputStyle = css`
   font-size: 20px;
-  width: 570px;
   height: 60px;
 `;
 

@@ -5,7 +5,7 @@ import ItemButton from "./ItemListBody/ItemButton";
 import { ProductThumbnailInfo } from "../../../../models/product";
 import { Typography } from "antd";
 
-const { Text, Title } = Typography;
+const { Text } = Typography;
 
 interface ItemListBodyProps {
   products: ProductThumbnailInfo[];
@@ -17,7 +17,7 @@ const ItemListBody: React.FC<ItemListBodyProps> = ({ products, maxItemCount }) =
   const itemCount = products.length < maxItemCount ? products.length : maxItemCount;
   for (let i = 0; i < itemCount; i++) {
     items.push(
-      <Col span={8} key={i}>
+      <Col xs={24} sm={12} md={8} lg={8} xl={6} key={i}>
         <ItemButton product={products[i]} />
       </Col>,
     );
@@ -25,9 +25,9 @@ const ItemListBody: React.FC<ItemListBodyProps> = ({ products, maxItemCount }) =
 
   if (itemCount) {
     return (
-      <div css={BodyStyle}>
-        <Row>{items}</Row>
-      </div>
+      <Row gutter={{ xs: 8, sm: 16, md: 16, lg: 24 }} css={BodyStyle}>
+        {items}
+      </Row>
     );
   } else {
     return (
@@ -43,7 +43,6 @@ export default ItemListBody;
 
 const BodyStyle = css`
   text-align: center;
-  margin-bottom: 0;
 `;
 
 const NoItemStyle = css`

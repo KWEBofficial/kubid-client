@@ -1,3 +1,5 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import { AxiosError } from "axios";
 import { getRecentProducts } from "../../api/product";
 import HigherLayoutComponent from "../../components/common/CustomLayout";
@@ -5,29 +7,61 @@ import ItemList from "./components/ItemList";
 import SearchSection from "./components/SearchSection";
 import { ProductThumbnailInfo } from "../../models/product";
 import { useEffect, useState } from "react";
-import { message } from "antd";
+import { message, Flex } from "antd";
 import { COMMON_MESSAGE } from "../../contants/message";
+import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../../styles/responsive";
 
 const Main = () => {
   const [recentProducts, setRecentProducts] = useState<ProductThumbnailInfo[]>(dummyProducts);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [maxItemCount, setMaxItemCount] = useState<number>(0);
+
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
+  useEffect(() => {
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    setMaxItemCountByWindowWidth(windowWidth, setMaxItemCount);
+  }, [windowWidth]);
 
   useEffect(() => {
     fetchRecentProducts(setRecentProducts);
   }, []);
 
   return (
-    <div style={{ width: "900px", margin: "auto" }}>
+    <Flex vertical css={SpaceStyle}>
       <SearchSection />
-      <ItemList title="지금 핫한 🔥" moreUrl="" products={recentProducts} maxItemCount={2} />
-      <ItemList title="최근에 올라온 거예요" moreUrl="" products={recentProducts} maxItemCount={4} />
-      <ItemList title="컴퓨터학과에서 자주 봤어요" moreUrl="" products={recentProducts} maxItemCount={0} />
-    </div>
+      <ItemList title="지금 핫한 🔥" moreUrl="" products={recentProducts} maxItemCount={maxItemCount} />
+      <ItemList title="최근에 올라온" moreUrl="" products={recentProducts} maxItemCount={maxItemCount} />
+      <ItemList title="컴퓨터학과에서 많이 찾는" moreUrl="" products={recentProducts} maxItemCount={maxItemCount} />
+    </Flex>
   );
 };
 
 const MainPage = HigherLayoutComponent(Main);
 
 export default MainPage;
+
+const SpaceStyle = css`
+  display: flex;
+  width: 1100px !important;
+
+  @media (max-width: ${xl_lower_bound}px) {
+    width: 90% !important;
+  }
+
+  @media (max-width: ${sm_lower_bound}px) {
+    width: 85% !important;
+  }
+`;
 
 const fetchRecentProducts = async (onFetchSuccess: React.Dispatch<React.SetStateAction<ProductThumbnailInfo[]>>) => {
   try {
@@ -63,6 +97,20 @@ const fetchRecentProducts = async (onFetchSuccess: React.Dispatch<React.SetState
       });
     }
   }
+};
+
+const setMaxItemCountByWindowWidth = (
+  windowWidth: number,
+  setMaxItemCount: React.Dispatch<React.SetStateAction<number>>,
+) => {
+  setMaxItemCount(
+    getResponsiveValueByWindowWidth(windowWidth, {
+      xl: 4,
+      md: 3,
+      sm: 2,
+      xs: 1,
+    }),
+  );
 };
 
 const dummyProducts: ProductThumbnailInfo[] = [];
