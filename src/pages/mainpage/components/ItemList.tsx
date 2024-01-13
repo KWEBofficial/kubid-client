@@ -1,4 +1,4 @@
-import { ProductThumbnailInfo } from "../../models/product";
+import { ProductThumbnailInfo } from "../../../models/product";
 import ItemListBody from "./ItemList/ItemListBody";
 import ItemListHeader from "./ItemList/ItemListHeader";
 

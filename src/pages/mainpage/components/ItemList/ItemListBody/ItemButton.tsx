@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Button, Progress } from "antd";
-import { colors } from "../../../../styles/colors";
-import { ProductThumbnailInfo } from "../../../../models/product";
+import { colors } from "../../../../../styles/colors";
+import { ProductThumbnailInfo } from "../../../../../models/product";
 
 interface ItemButtonProps {
   product: ProductThumbnailInfo;

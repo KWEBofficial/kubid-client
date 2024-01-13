@@ -1,12 +1,12 @@
 import { AxiosError } from "axios";
-import { getRecentProducts } from "../api/product";
-import HigherLayoutComponent from "../components/common/CustomLayout";
-import ItemList from "../components/main_page/ItemList";
-import SearchSection from "../components/main_page/SearchSection";
-import { ProductThumbnailInfo } from "../models/product";
+import { getRecentProducts } from "../../api/product";
+import HigherLayoutComponent from "../../components/common/CustomLayout";
+import ItemList from "./components/ItemList";
+import SearchSection from "./components/SearchSection";
+import { ProductThumbnailInfo } from "../../models/product";
 import { useEffect, useState } from "react";
 import { message } from "antd";
-import { COMMON_MESSAGE } from "../contants/message";
+import { COMMON_MESSAGE } from "../../contants/message";
 
 const Main = () => {
   const [recentProducts, setRecentProducts] = useState<ProductThumbnailInfo[]>(dummyProducts);
