@@ -8,5 +8,5 @@ export const postSignUp = async (signUpInfo: SignUpInfo) => {
 
 export const postSignIn = async (signInInfo: SignInInfo) => {
   const response = await ApiManager.post("/auth/sign-in", signInInfo);
-  return response.data;
+  return response;
 };

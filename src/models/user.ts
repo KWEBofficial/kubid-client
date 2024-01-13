@@ -15,3 +15,9 @@ export interface User {
   lastName: string;
   age: number;
 }
+
+export interface PasswordChangeInfo {
+  curPassword: string;
+  newPassword: string;
+  passwordsMatch: boolean;
+}
