@@ -34,7 +34,6 @@ export const SignUpTag: React.FC = () => {
       password: signUpForm.password,
       departmentId: signUpForm.departmentId,
     };
-    console.log(dataToSend);
     try {
       await postSignUp(dataToSend);
     } catch (error) {

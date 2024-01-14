@@ -49,7 +49,6 @@ export const PasswordChangeTag: React.FC = () => {
       [fieldName]: value,
     }));
   };
-  console.log(decodedToken);
 
   const handlePasswordChange = async () => {
     const dataToSendLogin: SignInInfo = {
