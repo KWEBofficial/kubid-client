@@ -17,7 +17,5 @@ export interface User {
 }
 
 export interface PasswordChangeInfo {
-  curPassword: string;
-  newPassword: string;
-  passwordsMatch: boolean;
+  password: string;
 }

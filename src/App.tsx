@@ -1,7 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import RouteComponent from "./routes";
-import AuthProvider from "react-auth-kit/AuthProvider";
+import AuthProvider from "react-auth-kit";
 import createStore from "react-auth-kit/createStore";
 
 interface UserDataInterface {
@@ -11,9 +11,9 @@ interface UserDataInterface {
 
 const store = createStore<UserDataInterface>({
   authName: "_auth",
-  authType: "cookie",
-  cookieDomain: window.location.hostname,
-  cookieSecure: window.location.protocol === "https:",
+  authType: "localstorage",
+  // cookieDomain: window.location.hostname,
+  // cookieSecure: window.location.protocol === "https:",
 });
 
 function App() {

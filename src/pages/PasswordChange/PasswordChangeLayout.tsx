@@ -9,13 +9,37 @@ import { message, Space } from "antd";
 import { AxiosError } from "axios";
 import { COMMON_MESSAGE } from "../../contants/message";
 import { useNavigate } from "react-router-dom";
+import { postSignIn } from "../../api/auth";
+import { SignInInfo } from "../../models/auth";
 
 export const PasswordChangeTag: React.FC = () => {
+  const navigate = useNavigate();
+
   const [changePasswordForm, setChangePasswordForm] = useState({
     curPassword: "",
     newPassword: "",
-    passwordsMatch: true,
   });
+
+  const parseJwt = (token: string) => {
+    const base64Url = token.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split("")
+        .map((c) => `%${`00${c.charCodeAt(0).toString(16)}`.slice(-2)}`)
+        .join(""),
+    );
+
+    return JSON.parse(jsonPayload);
+  };
+
+  const token = localStorage.getItem("_auth");
+  if (token === null) {
+    navigate("/");
+    return null;
+  }
+  const decodedToken = parseJwt(token);
+  const decodedEmail = decodedToken.email;
 
   const [messageApi] = message.useMessage();
 
@@ -25,18 +49,25 @@ export const PasswordChangeTag: React.FC = () => {
       [fieldName]: value,
     }));
   };
+  console.log(decodedToken);
 
-  const navigate = useNavigate();
-
-  const handleSubmit = async () => {
-    const dataToSend: PasswordChangeInfo = {
-      curPassword: changePasswordForm.curPassword,
-      newPassword: changePasswordForm.newPassword,
-      passwordsMatch: changePasswordForm.passwordsMatch,
+  const handlePasswordChange = async () => {
+    const dataToSendLogin: SignInInfo = {
+      email: decodedEmail,
+      password: changePasswordForm.curPassword,
     };
-    console.log(dataToSend);
+    const dataToSendPasswordChange: PasswordChangeInfo = {
+      password: changePasswordForm.newPassword,
+    };
     try {
-      await patchPasswordChange(dataToSend);
+      await postSignIn(dataToSendLogin).then((res) => {
+        if (res.status === 200) {
+          patchPasswordChange(dataToSendPasswordChange);
+          navigate("/");
+        } else {
+          throw Error;
+        }
+      });
     } catch (error) {
       if (error instanceof AxiosError) {
         messageApi.open({
@@ -62,8 +93,8 @@ export const PasswordChangeTag: React.FC = () => {
       />
       <BlueButton
         placeholder="수정하기"
-        disabled={!changePasswordForm.curPassword || !changePasswordForm.passwordsMatch}
-        onClick={handleSubmit}
+        disabled={!changePasswordForm.curPassword || !changePasswordForm.newPassword}
+        onClick={handlePasswordChange}
       />
       <GrayButton placeholder="취소하기" onClick={() => navigate("/")} />
     </Space>

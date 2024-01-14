@@ -1,19 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Layout } from "antd";
+import React from "react";
+import { Layout, Typography } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import { colors } from "../../styles/colors";
-import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import LinksInNav from "./LinksInNav";
+
+const { Title } = Typography;
 
 const HigherLayoutComponent = (WrappedComponent: React.ComponentType<any>) => {
   return (props: any) => (
     <Layout>
       <StyledHeader>
-        <div>Logo Position</div>
-        <nav>
-          <Link to="/auth/sign-in">로그인</Link>
-          <Link to="/auth/sign-up">회원가입</Link>
-        </nav>
+        <Link to="/">
+          <Title level={5}>Logo Position</Title>
+        </Link>
+        <LinksInNav />
       </StyledHeader>
       <StyledContent>
         <WrappedComponent {...props} />

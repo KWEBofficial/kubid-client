@@ -49,7 +49,6 @@ export const SignInTag: React.FC = () => {
           throw Error;
         }
       });
-      console.log("Success");
     } catch (error) {
       if (error instanceof AxiosError) {
         messageApi.open({
