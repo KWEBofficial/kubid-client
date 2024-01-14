@@ -1,16 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Button, Progress } from "antd";
+import { Button, Flex, Progress, Space } from "antd";
 import { colors } from "../../../../../styles/colors";
 import { ProductThumbnailInfo } from "../../../../../models/product";
 import { sm_lower_bound } from "../../../../../styles/responsive";
+import { FireTwoTone } from "@ant-design/icons";
 
 interface ItemButtonProps {
   product: ProductThumbnailInfo;
+  showBidderCount?: boolean;
 }
 
-const ItemButton: React.FC<ItemButtonProps> = ({ product }) => {
-  const { id, productName, departmentName, lowerBound, currentHighestPrice, upperBound, imageUrl } = product;
+const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => {
+  const { id, productName, departmentName, lowerBound, currentHighestPrice, upperBound, imageUrl, bidderCount } =
+    product;
   const progressPercent = ((currentHighestPrice - lowerBound) / (upperBound - lowerBound)) * 100;
 
   return (
@@ -20,11 +23,25 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product }) => {
       </div>
       <div css={TextSectionStyle}>
         <h3 css={TitleStyle}>{productName}</h3>
-        <p css={DepartmentStyle}>{departmentName}</p>
-        <p css={PriceStyle}>
-          <span css={CurrentHighestPriceStyle}>{currentHighestPrice || lowerBound}</span>
-          <span css={UpperBoundStyle}>{upperBound}</span>
-        </p>
+        <Flex vertical>
+          {showBidderCount ? (
+            <Flex justify="space-between" align="center" css={DeptStyle}>
+              <span css={BidderCountStyle}>
+                <FireTwoTone twoToneColor="#F00" /> {bidderCount}
+              </span>
+              <span>{departmentName}</span>
+            </Flex>
+          ) : (
+            <Flex justify="right" align="flex-end" css={DeptStyle}>
+              <span css={OnlyDeptStyle}>{departmentName}</span>
+            </Flex>
+          )}
+
+          <Flex css={PriceStyle} align="center">
+            <span css={CurrentHighestPriceStyle}>{currentHighestPrice || lowerBound}</span>
+            <span css={UpperBoundStyle}>{upperBound}</span>
+          </Flex>
+        </Flex>
       </div>
       <Progress
         percent={progressPercent}
@@ -83,28 +100,31 @@ const TitleStyle = css`
   text-overflow: ellipsis;
 `;
 
-const DepartmentStyle = css`
+const DeptStyle = css`
   color: ${colors.black};
   text-align: right;
   font-size: 12px;
+  margin-top: 5px;
   margin-bottom: 0;
 `;
 
 const PriceStyle = css`
   margin: 0;
+  margin-top: -5px;
 `;
 
 const CurrentHighestPriceStyle = css`
   color: ${colors.black};
   font-weight: 700;
   font-size: 32px;
-  margin-right: 5px;
+  margin-right: 6px;
 `;
 
 const UpperBoundStyle = css`
   color: ${colors.primary};
   font-weight: 700;
   font-size: 24px;
+  margin-top: 5px;
 `;
 
 const ProgressBarSectionStyle = css`
@@ -112,4 +132,14 @@ const ProgressBarSectionStyle = css`
   position: absolute;
   bottom: 0px;
   left: 0px;
+`;
+
+const BidderCountStyle = css`
+  font-size: 18px;
+  font-weight: bold;
+  color: red;
+`;
+
+const OnlyDeptStyle = css`
+  margin-bottom: 9px;
 `;

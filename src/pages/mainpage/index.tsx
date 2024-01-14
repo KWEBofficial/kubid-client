@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { AxiosError } from "axios";
-import { getRecentProducts } from "../../api/product";
+import { getDeptPopularProducts, getPopularProducts, getRecentProducts } from "../../api/product";
 import HigherLayoutComponent from "../../components/common/CustomLayout";
 import ItemList from "./components/ItemList";
 import SearchSection from "./components/SearchSection";
@@ -14,6 +14,9 @@ import { DEPARTMENTS } from "../../data/department";
 
 const Main = () => {
   const [recentProducts, setRecentProducts] = useState<ProductThumbnailInfo[]>(dummyProducts);
+  const [popularProducts, setPopularProducts] = useState<ProductThumbnailInfo[]>(dummyProducts);
+  const [deptPopularProducts, setDeptPopularProducts] = useState<ProductThumbnailInfo[]>(dummyProducts);
+
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [maxItemCount, setMaxItemCount] = useState<number>(0);
 
@@ -53,12 +56,12 @@ const Main = () => {
             lowerBound,
             currentHighestPrice,
             upperBound,
-            imageUrl: "color.png", // TODO: GET /products 변경 필요
+            imageUrl: "cat.png", // TODO: GET /products 변경 필요
           };
           return product;
         });
         if (products) {
-          setRecentProducts(() => [...products]);
+          setRecentProducts(() => products);
         }
       } catch (error) {
         const [messageApi] = message.useMessage();
@@ -76,15 +79,113 @@ const Main = () => {
         }
       }
     };
+
+    const fetchPopularProducts = async () => {
+      try {
+        const rawProducts = await getPopularProducts();
+        const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
+          const { id, productName, departmentId, currentHighestPrice, upperBound, lowerBound, bidderCount } =
+            rawProduct;
+          const product: ProductThumbnailInfo = {
+            id,
+            productName,
+            departmentName: DEPARTMENTS[departmentId].label,
+            lowerBound,
+            currentHighestPrice,
+            upperBound,
+            bidderCount,
+            imageUrl: "cat.png", // TODO: GET /products 변경 필요
+          };
+          return product;
+        });
+        if (products) {
+          setPopularProducts(() => products);
+        }
+      } catch (error) {
+        const [messageApi] = message.useMessage();
+        if (error instanceof AxiosError) {
+          messageApi.open({
+            type: "error",
+            content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
+          });
+          return;
+        } else {
+          messageApi.open({
+            type: "error",
+            content: COMMON_MESSAGE.UNKNOWN_ERROR,
+          });
+        }
+      }
+    };
+
+    const fetchDeptPopularProducts = async (departmentId: number) => {
+      try {
+        const rawProducts = await getDeptPopularProducts(departmentId);
+        const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
+          const {
+            id,
+            productName,
+            departmentId,
+            currentHighestPrice,
+            upperBound,
+            lowerBound,
+            departmentBidderCount: bidderCount,
+          } = rawProduct;
+          const product: ProductThumbnailInfo = {
+            id,
+            productName,
+            departmentName: DEPARTMENTS[departmentId].label,
+            lowerBound,
+            currentHighestPrice,
+            upperBound,
+            bidderCount,
+            imageUrl: "cat.png", // TODO: GET /products 변경 필요
+          };
+          return product;
+        });
+        if (products) {
+          setDeptPopularProducts(() => products);
+        }
+      } catch (error) {
+        const [messageApi] = message.useMessage();
+        if (error instanceof AxiosError) {
+          messageApi.open({
+            type: "error",
+            content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
+          });
+          return;
+        } else {
+          messageApi.open({
+            type: "error",
+            content: COMMON_MESSAGE.UNKNOWN_ERROR,
+          });
+        }
+      }
+    };
+
     fetchRecentProducts();
+    fetchPopularProducts();
+    fetchDeptPopularProducts(2); // TODO: 로그인 유저 학과 id로 대체
   }, []);
 
   return (
     <Flex vertical css={SpaceStyle}>
       <SearchSection />
-      <ItemList title="지금 핫한 🔥" moreUrl="" products={recentProducts} maxItemCount={maxItemCount} />
+      <ItemList
+        title="지금 핫한 🔥"
+        moreUrl=""
+        products={popularProducts}
+        maxItemCount={maxItemCount}
+        showBidderCount
+      />
       <ItemList title="최근에 올라온" moreUrl="" products={recentProducts} maxItemCount={maxItemCount} />
-      <ItemList title="컴퓨터학과에서 많이 찾는" moreUrl="" products={recentProducts} maxItemCount={maxItemCount} />
+      <ItemList
+        title="경영학과에서 많이 찾는" // TODO: 로그인 유저 학과로 대체
+        moreUrl=""
+        products={deptPopularProducts}
+        maxItemCount={maxItemCount}
+        showBidderCount
+      />
     </Flex>
   );
 };

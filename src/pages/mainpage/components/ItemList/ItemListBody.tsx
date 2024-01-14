@@ -10,16 +10,17 @@ const { Text } = Typography;
 interface ItemListBodyProps {
   products: ProductThumbnailInfo[];
   maxItemCount: number;
+  showBidderCount?: boolean;
 }
 
-const ItemListBody: React.FC<ItemListBodyProps> = ({ products, maxItemCount }) => {
+const ItemListBody: React.FC<ItemListBodyProps> = ({ products, maxItemCount, showBidderCount }) => {
   const itemCount = products.length < maxItemCount ? products.length : maxItemCount;
 
   return itemCount ? (
     <Row gutter={{ xs: 8, sm: 16, md: 16, lg: 24 }} css={BodyStyle}>
       {products.slice(0, itemCount).map((product, idx) => (
         <Col xs={24} sm={12} md={8} lg={8} xl={6} key={idx}>
-          <ItemButton product={product} />
+          <ItemButton product={product} showBidderCount={showBidderCount} />
         </Col>
       ))}
     </Row>

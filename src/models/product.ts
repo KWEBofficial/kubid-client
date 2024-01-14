@@ -6,4 +6,5 @@ export interface ProductThumbnailInfo {
   currentHighestPrice: number;
   upperBound: number;
   imageUrl: string;
+  bidderCount?: number;
 }
