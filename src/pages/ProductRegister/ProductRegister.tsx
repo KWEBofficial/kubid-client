@@ -1,40 +1,11 @@
 import React, { useState } from "react";
 import HigherLayoutComponent from "../../components/common/CustomLayout";
-import { Button, Flex } from "antd";
-import { css } from "@emotion/react";
-import Tags from "../../components/PrductRegister/Tags";
-import ImagePreview from "../../components/PrductRegister/ImagePreview";
-import { FormContainer } from "../../components/PrductRegister/FormContainer";
-import { ImagePreviewContainer } from "../../styles/ImagePreviewContainer";
+import { Button, Flex, Card } from "antd";
+import Tags from "../../components/ProductRegister/Tags";
+import { FormContainer } from "../../components/ProductRegister/FormContainer";
+import ImageUpload from "../../components/ProductRegister/ImagePreview";
+import PriceInput from "../../components/ProductRegister/PriceInputContainer";
 
-
-const style = css`
-  
-  form {
-    display: flex;
-    flex-direction: column;
-  }
-  label {
-    margin-top: 10px;
-  }
-  input,
-  textarea,
-  button {
-    margin-top: 5px;
-  }
-  button {
-    margin-top: 20px;
-  }
-
-  .image-preview {
-    max-width: 50px; // Adjust the max-width as needed for your layout
-    height: 300px; // This will maintain the aspect ratio of the image
-    margin-top: 10px;
-    border: 1px solid #ddd; // Optional: adds a border around the image
-    border-radius: 4px; // Optional: rounds the corners of the border
-    padding: 5px; // Optional: adds some space inside the border
-  }
-`;
 const ProductRegister = () => {
   const [productName, setProductName] = useState("");
   const [image, setImage] = useState("");
@@ -62,33 +33,39 @@ const ProductRegister = () => {
           style={{ height: "50px", fontSize: "16px" }}
         />
 
-        <ImagePreviewContainer>
-          <ImagePreview/>
-        </ImagePreviewContainer>
+        <ImageUpload/>
 
-        <label htmlFor="price">경매 가격대</label>
-        <input type="text" id="price" name="price" value={price} onChange={(e) => setPrice(e.target.value)} />
+        <Card>
+          <label htmlFor="price">경매 가격대</label>
+          <PriceInput/>
+        </Card>
+        <Card>
+          <label htmlFor="location">거래 장소/일시</label>
+          <input
+            type="text"
+            id="location"
+            name="location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
 
-        <label htmlFor="location">거래 장소/일시</label>
-        <input
-          type="text"
-          id="location"
-          name="location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
+          <input type="datetime-local" id ="date" name="date" value={date} onChange={(e) => setDate(e.target.value)} />
+        </Card>
+        <Card>
+          <textarea
+            id="desc"
+            name="desc"
+            placeholder="상품 설명을 입력해 주세요."
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          />
 
-        <input type="datetime-local" id="date" name="date" value={date} onChange={(e) => setDate(e.target.value)} />
+          <label htmlFor="tag">#태그를 입력해 주세요.(최대3개)</label>
 
-        <label htmlFor="desc">상품 설명을 입력해 주세요.</label>
-        <textarea id="desc" name="desc" value={desc} onChange={(e) => setDesc(e.target.value)} />
-
-        <label htmlFor="tag">#태그를 입력해 주세요.(최대3개)</label>
-
-        <Flex>
-          <Tags></Tags>
-        </Flex>
-
+          <Flex>
+            <Tags></Tags>
+          </Flex>
+        </Card>
         <Flex gap="small" wrap="wrap">
           <Button type="primary">상품 등록</Button>
         </Flex>
