@@ -22,7 +22,7 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product }) => {
         <h3 css={TitleStyle}>{productName}</h3>
         <p css={DepartmentStyle}>{departmentName}</p>
         <p css={PriceStyle}>
-          <span css={CurrentHighestPriceStyle}>{currentHighestPrice}</span>
+          <span css={CurrentHighestPriceStyle}>{currentHighestPrice || lowerBound}</span>
           <span css={UpperBoundStyle}>{upperBound}</span>
         </p>
       </div>

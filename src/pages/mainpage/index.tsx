@@ -45,12 +45,12 @@ const Main = () => {
       try {
         const rawProducts = await getRecentProducts();
         const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
-          const { id, productName, departmentId, currentHighestPrice, upperBound } = rawProduct;
+          const { id, productName, departmentId, currentHighestPrice, upperBound, lowerBound } = rawProduct;
           const product: ProductThumbnailInfo = {
             id,
             productName,
             departmentName: DEPARTMENTS[departmentId].label,
-            lowerBound: 0, // TODO: GET /products 변경 필요
+            lowerBound,
             currentHighestPrice,
             upperBound,
             imageUrl: "color.png", // TODO: GET /products 변경 필요
