@@ -8,8 +8,10 @@ import { postSignUp } from "../../api/auth";
 import { message, Space } from "antd";
 import { AxiosError } from "axios";
 import { COMMON_MESSAGE } from "../../contants/message";
+import { useNavigate } from "react-router-dom";
 
 export const SignUpTag: React.FC = () => {
+  const navigate = useNavigate();
   const [signUpForm, setSignUpForm] = useState({
     email: "",
     password: "",
@@ -36,6 +38,7 @@ export const SignUpTag: React.FC = () => {
     };
     try {
       await postSignUp(dataToSend);
+      navigate("/auth/sign-in");
     } catch (error) {
       if (error instanceof AxiosError) {
         messageApi.open({
