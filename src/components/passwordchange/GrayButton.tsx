@@ -1,5 +1,8 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 import { Button, Typography } from "antd";
+import { css } from "@emotion/react";
+import { sizeOfInput } from "../../styles/sizes";
 
 const { Text } = Typography;
 
@@ -9,18 +12,14 @@ interface GrayButtonProps {
 }
 
 const GrayButton: React.FC<GrayButtonProps> = ({ onClick, placeholder }) => (
-  <Button
-    type="primary"
-    style={{
-      width: "328px",
-      height: "50px",
-      marginBottom: "10px",
-      backgroundColor: "#D9D9D9",
-    }}
-    onClick={onClick}
-  >
+  <Button type="primary" css={grayButtonStyle} onClick={onClick}>
     <Text strong>{placeholder}</Text>
   </Button>
 );
 
 export default GrayButton;
+
+const grayButtonStyle = css`
+  ${sizeOfInput}
+  background-color: #d9d9d9;
+`;
