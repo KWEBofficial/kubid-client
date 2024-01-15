@@ -7,6 +7,8 @@ import { postSignIn } from "../../api/auth";
 import { message, Space } from "antd";
 import { AxiosError } from "axios";
 import { COMMON_MESSAGE } from "../../contants/message";
+import useSignIn from "react-auth-kit/hooks/useSignIn";
+import { useNavigate } from "react-router-dom";
 
 export const SignInTag: React.FC = () => {
   const [signInForm, setSignInForm] = useState({
@@ -22,15 +24,31 @@ export const SignInTag: React.FC = () => {
       [fieldName]: value,
     }));
   };
+  const signIn = useSignIn();
+  const navigate = useNavigate();
 
   const handleSubmit = async () => {
     const dataToSend: SignInInfo = {
       email: signInForm.email,
       password: signInForm.password,
     };
-    console.log(dataToSend);
     try {
-      await postSignIn(dataToSend);
+      await postSignIn(dataToSend).then((res) => {
+        if (res.status === 200) {
+          if (
+            signIn({
+              auth: {
+                token: res.data.token,
+                type: "Bearer",
+              },
+            })
+          ) {
+            navigate("/");
+          }
+        } else {
+          throw Error;
+        }
+      });
     } catch (error) {
       if (error instanceof AxiosError) {
         messageApi.open({

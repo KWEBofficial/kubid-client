@@ -11,8 +11,8 @@ const ApiManager = axios.create({
 });
 
 ApiManager.interceptors.request.use(async (config) => {
-  // TODO: 토근 있으면 같이 보내기~
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("_auth");
+
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
