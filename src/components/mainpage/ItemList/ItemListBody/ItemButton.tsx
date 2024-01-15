@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Button, Flex, Progress, Space } from "antd";
-import { colors } from "../../../../../styles/colors";
-import { ProductThumbnailInfo } from "../../../../../models/product";
-import { sm_lower_bound } from "../../../../../styles/responsive";
+import { Button, Flex, Progress } from "antd";
+import { colors } from "../../../../styles/colors";
+import { ProductThumbnailInfo } from "../../../../models/product";
+import { sm_lower_bound } from "../../../../styles/responsive";
 import { FireTwoTone } from "@ant-design/icons";
 
 interface ItemButtonProps {

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Link } from "react-router-dom";
-import { colors } from "../../../../styles/colors";
+import { colors } from "../../../styles/colors";
 import { Typography, Flex } from "antd";
 
 const { Title, Text } = Typography;

@@ -1,5 +1,5 @@
 import { Select, ConfigProvider } from "antd";
-import { DEPARTMENTS } from "../../../../data/department";
+import { DEPARTMENTS } from "../../../data/department";
 
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);
@@ -11,7 +11,7 @@ const DepartmentDropdown: React.FC = () => {
       theme={{
         token: {
           // NOTE: ts error가 뜨지만 잘 작동함. 똑같은 값이라도 그냥 number를 주는 거랑 px를 붙여서 주는 것이 시각적으로 다른 결과를 가져옴.
-          fontSize: "18px",
+          fontSize: 18,
           fontSizeIcon: 12,
         },
         components: {
