@@ -170,6 +170,20 @@ const Main = () => {
     fetchDeptPopularProducts(2); // TODO: 로그인 유저 학과 id로 대체
   }, []);
 
+  useEffect(() => {
+    const deptPopularProductsWithoutOverlap = deptPopularProducts.filter((product) => {
+      for (let i = 0; i < popularProducts.length; i++) {
+        if (popularProducts[i].id === product.id) {
+          return false;
+        }
+      }
+      return true;
+    });
+    if (JSON.stringify(deptPopularProducts) !== JSON.stringify(deptPopularProductsWithoutOverlap)) {
+      setDeptPopularProducts(() => deptPopularProductsWithoutOverlap);
+    }
+  }, [deptPopularProducts, popularProducts]);
+
   return (
     <Flex vertical css={SpaceStyle}>
       <SearchSection />
