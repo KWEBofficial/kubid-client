@@ -6,11 +6,11 @@ export const getRecentProducts = async () => {
 };
 
 export const getPopularProducts = async () => {
-  const response = await ApiManager.get("/products/popular?page=1&pageSize=4");
+  const response = await ApiManager.get("/products?sort=popular&page=1&pageSize=4");
   return response.data;
 };
 
 export const getDeptPopularProducts = async (departmentId: number) => {
-  const response = await ApiManager.get(`/products/popular?page=1&pageSize=4&departmentId=${departmentId}`);
+  const response = await ApiManager.get(`/products?sort=popular&page=1&pageSize=4&departmentId=${departmentId}`);
   return response.data;
 };
