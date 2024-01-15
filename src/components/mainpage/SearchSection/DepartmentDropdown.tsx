@@ -1,11 +1,30 @@
 import { Select, ConfigProvider } from "antd";
-import { DEPARTMENTS } from "../../../data/department";
+import { getDepartments } from "../../../api/department";
+import { useEffect, useState } from "react";
+import { DepartmentDropdownInfo, DepartmentResDTO } from "../../../models/department";
 
 const handleChange = (value: string) => {
   console.log(`selected ${value}`);
 };
 
 const DepartmentDropdown: React.FC = () => {
+  const [departments, setDepartments] = useState<DepartmentDropdownInfo[]>(dummyDepartments);
+
+  useEffect(() => {
+    const fetchDepartments = async () => {
+      const rawDepartments: DepartmentResDTO[] = await getDepartments();
+      const fetchedDepartments = rawDepartments.map((rawDepartment) => {
+        return {
+          value: rawDepartment.id,
+          label: rawDepartment.departmentName,
+        };
+      });
+      setDepartments(() => fetchedDepartments);
+    };
+
+    fetchDepartments();
+  }, []);
+
   return (
     <ConfigProvider
       theme={{
@@ -31,10 +50,12 @@ const DepartmentDropdown: React.FC = () => {
           textAlign: "center",
         }}
         onChange={handleChange}
-        options={DEPARTMENTS}
+        options={departments}
       />
     </ConfigProvider>
   );
 };
 
 export default DepartmentDropdown;
+
+const dummyDepartments: DepartmentDropdownInfo[] = [];
