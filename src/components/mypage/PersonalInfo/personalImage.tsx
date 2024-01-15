@@ -1,5 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
+import { useState } from "react";
+import { Button, Modal } from "antd";
+
+import { ImageDTO } from "../../..//types/image/dto";
+import ImageUploadButton from "../../../components/common/ImageUploadButton";
 
 interface PersonalImageProps {
   imageId: number;
@@ -7,12 +12,36 @@ interface PersonalImageProps {
 
 const PersonalImage: React.FC<PersonalImageProps> = ({ imageId }) => {
   // Construct the path to the image file based on the imageId
-  const imagePath = `../../public/${imageId}.png`; // Adjust the file extension if necessary
+  const [image, setImage] = useState<ImageDTO | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
 
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const handleImageChange = (image: ImageDTO) => {
+    setImage(image);
+  };
+  const imagePath = `../../../public/1.png`; // Adjust the file extension if necessary
+  console.log(image?.id);
   return (
-    <div css={imageContainerStyle}>
-      <img src={imagePath} alt={`Personal Image ${imageId}`} css={imageStyle} />
-    </div>
+    <>
+      <div css={imageContainerStyle}>
+        <img src={imagePath} alt={`Personal Image ${imageId}`} css={imageStyle} />
+      </div>
+      <Button type="primary" onClick={showModal}>
+        사진 등록
+      </Button>
+      <Modal title="사진을 첨부해주세요" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <ImageUploadButton name="image" handleChange={handleImageChange} />
+        {image && <img src={image.url} alt="image" />}
+      </Modal>
+    </>
   );
 };
 

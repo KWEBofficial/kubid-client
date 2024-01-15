@@ -1,6 +1,15 @@
-import MypageLayoutComponent from "../components/mypage/MyPageLayout";
+// settings
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
+import { Flex } from "antd";
+import { sm_lower_bound, xl_lower_bound } from "../styles/responsive";
+
+//components
+import MypageLayoutComponent from "../components/common/CustomLayout";
 import ItemList from "../components/mypage/ItemList";
-import MyBox from "../components/mypage/MyBox";
+import PersonalInformation from "../components/mypage/PersonalInformation";
+
 //import SearchSection from "../components/main_page/SearchSection";
 import { ProductThumbnailInfo } from "../models/product";
 const Main = () => {
@@ -32,30 +41,44 @@ const Main = () => {
   ];
 
   return (
-    <div>
-      <div style={{ width: "900px", margin: "auto" }}>
-        <MyBox nickName="Rino Kang" password="" buyCount="3" sellCount="10" />
-      </div>
-      <div style={{ width: "900px", margin: "auto" }}>
-        <ItemList
-          title="판매중인 상품"
-          moreUrl="/current/sell"
-          products={dummyProducts}
-          moreTitle="판매중인 상품 더보기"
-        />
-      </div>
-      <div style={{ width: "900px", margin: "auto" }}>
-        <ItemList
-          title="구매중인 상품"
-          moreUrl="/current/buy"
-          products={dummyProducts}
-          moreTitle="구매중인 상품 더보기"
-        />
-      </div>
-    </div>
+    <Flex vertical css={SpaceStyle}>
+      <div css={TitleSection}>마이페이지</div>
+      <PersonalInformation
+        nickname="Rino Kang"
+        password="test1234"
+        email="rinothehero@korea.ac.kr"
+        department="컴퓨터학과"
+        sellCount={12}
+        buyCount={3}
+        imageId={1}
+      />
+      <ItemList title="최근구매중인" moreUrl="" products={dummyProducts} moreTitle="최근구매중인" />
+      <ItemList title="경영학과에서 많이 찾는" moreUrl="" products={dummyProducts} moreTitle="최근구매중인" />
+    </Flex>
   );
 };
 
 const MyPage = MypageLayoutComponent(Main);
 
 export default MyPage;
+
+const SpaceStyle = css`
+  display: flex;
+  width: 1100px !important;
+
+  @media (max-width: ${xl_lower_bound}px) {
+    width: 90% !important;
+  }
+
+  @media (max-width: ${sm_lower_bound}px) {
+    width: 85% !important;
+  }
+`;
+
+const TitleSection = css`
+  margin-top: 80px;
+  display: flex;
+  padding: auto;
+  margin-bottom: 50px;
+  font-size: 20px;
+`;
