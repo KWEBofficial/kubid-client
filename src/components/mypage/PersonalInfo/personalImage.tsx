@@ -7,10 +7,10 @@ import { ImageDTO } from "../../..//types/image/dto";
 import ImageUploadButton from "../../../components/common/ImageUploadButton";
 
 interface PersonalImageProps {
-  imageId: number;
+  imageURL: string;
 }
 
-const PersonalImage: React.FC<PersonalImageProps> = ({ imageId }) => {
+const PersonalImage: React.FC<PersonalImageProps> = ({ imageURL }) => {
   // Construct the path to the image file based on the imageId
   const [image, setImage] = useState<ImageDTO | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,12 +27,12 @@ const PersonalImage: React.FC<PersonalImageProps> = ({ imageId }) => {
   const handleImageChange = (image: ImageDTO) => {
     setImage(image);
   };
-  const imagePath = `../../../public/1.png`; // Adjust the file extension if necessary
+  const imagePath = imageURL; // Adjust the file extension if necessary
   console.log(image?.id);
   return (
     <>
       <div css={imageContainerStyle}>
-        <img src={imagePath} alt={`Personal Image ${imageId}`} css={imageStyle} />
+        <img src={imagePath} alt={`Personal Image`} css={imageStyle} />
       </div>
       <Button type="primary" onClick={showModal}>
         사진 등록

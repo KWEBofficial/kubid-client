@@ -2,20 +2,10 @@
 import { css } from "@emotion/react";
 interface PersonalInformationProbs {
   nickname: string;
-  password: string;
   email: string;
-  department: string;
-  sellCount: number;
-  buyCount: number;
+  departmentId: number;
 }
-const PersonalInformationBody: React.FC<PersonalInformationProbs> = ({
-  nickname,
-  password,
-  email,
-  department,
-  sellCount,
-  buyCount,
-}) => {
+const PersonalInformationBody: React.FC<PersonalInformationProbs> = ({ nickname, email, departmentId }) => {
   return (
     <div>
       <div css={ProfileSection}>
@@ -25,19 +15,10 @@ const PersonalInformationBody: React.FC<PersonalInformationProbs> = ({
             <span css={TextLabel}>닉네임:</span> {nickname}
           </p>
           <p>
-            <span css={TextLabel}>비밀번호:</span> {password}
-          </p>
-          <p>
             <span css={TextLabel}>이메일:</span> {email}
           </p>
           <p>
-            <span css={TextLabel}>학과:</span> {department}
-          </p>
-          <p>
-            <span css={TextLabel}>판매수:</span> {sellCount}
-          </p>
-          <p>
-            <span css={TextLabel}>구매수:</span> {buyCount}
+            <span css={TextLabel}>학과:</span> {departmentId}
           </p>
         </div>
       </div>

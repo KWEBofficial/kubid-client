@@ -3,33 +3,22 @@ import { css } from "@emotion/react";
 import PersonalImage from "./PersonalInfo/personalImage";
 import PersonalInformationBody from "./PersonalInfo/personalinfoBody";
 interface PersonalInformationProbs {
-  nickname: string;
-  password: string;
-  email: string;
-  department: string;
-  sellCount: number;
-  buyCount: number;
-  imageId: number;
+  userInfo: {
+    nickname: string;
+    email: string;
+    departmentId: number;
+    imageURL: string;
+  };
 }
-const PersonalInformation: React.FC<PersonalInformationProbs> = ({
-  nickname,
-  password,
-  email,
-  department,
-  sellCount,
-  buyCount,
-  imageId,
-}) => {
+const PersonalInformation: React.FC<PersonalInformationProbs> = ({ userInfo }) => {
   return (
     <div css={infoContainerStyle}>
-      <PersonalImage imageId={imageId} />
+      <PersonalImage imageURL={userInfo.imageURL} />
+
       <PersonalInformationBody
-        nickname={nickname}
-        password={password}
-        email={email}
-        buyCount={buyCount}
-        sellCount={sellCount}
-        department={department}
+        nickname={userInfo.nickname}
+        email={userInfo.email}
+        departmentId={userInfo.departmentId}
       />
     </div>
   );

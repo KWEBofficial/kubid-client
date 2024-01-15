@@ -15,3 +15,7 @@ export interface User {
   lastName: string;
   age: number;
 }
+
+export interface PasswordChangeInfo {
+  password: string;
+}

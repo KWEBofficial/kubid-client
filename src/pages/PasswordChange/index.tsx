@@ -1,11 +1,10 @@
 import HigherLayoutComponent from "../../components/common/CustomLayout";
-import { SignInTag } from "./SignInLayout";
-import { Link } from "react-router-dom";
 import { Typography } from "antd";
+import { PasswordChangeTag } from "./PasswordChangeLayout";
 
 const { Title } = Typography;
 
-const SignIn = () => {
+const PasswordChange = () => {
   return (
     <div
       style={{
@@ -18,15 +17,14 @@ const SignIn = () => {
         marginTop: "-100px",
       }}
     >
-      <Title level={2}>로그인</Title>
+      <Title level={2}>비밀번호 수정</Title>
       <div style={{ width: "100%", maxWidth: "400px" }}>
-        <SignInTag />
+        <PasswordChangeTag />
       </div>
-      <Link to="/auth/sign-up">아직 계정이 없으신가요?</Link>
     </div>
   );
 };
 
-const SignInPage = HigherLayoutComponent(SignIn);
+const PasswordChangePage = HigherLayoutComponent(PasswordChange);
 
-export default SignInPage;
+export default PasswordChangePage;
