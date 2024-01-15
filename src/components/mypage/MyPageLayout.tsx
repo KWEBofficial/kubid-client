@@ -5,15 +5,16 @@ import { colors } from "../../styles/colors";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
-const HigherLayoutComponent = (WrappedComponent: React.ComponentType<any>) => {
+const MypageLayoutComponent = (WrappedComponent: React.ComponentType<any>) => {
   return (props: any) => (
     <Layout>
       <StyledHeader>
-        <div>Logo Position</div>
+        <Link to="/">
+          {" "}
+          <div>Logo Position</div>
+        </Link>
         <nav>
-          <Link to="/sign-in">로그인</Link>
-          <Link to="/sign-up">회원가입</Link>
-          <Link to="/mypage">My Page</Link>
+          <Link to="/mypage">RINO</Link>
         </nav>
       </StyledHeader>
       <StyledContent>
@@ -23,7 +24,7 @@ const HigherLayoutComponent = (WrappedComponent: React.ComponentType<any>) => {
   );
 };
 
-export default HigherLayoutComponent;
+export default MypageLayoutComponent;
 
 const StyledHeader = styled(Header)`
   display: flex;
