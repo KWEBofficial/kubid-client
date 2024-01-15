@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Button, Flex, Progress, Image } from "antd";
+import { Button, Flex, Progress } from "antd";
 import { colors } from "../../../../styles/colors";
 import { ProductThumbnailInfo } from "../../../../models/product";
 import { sm_lower_bound } from "../../../../styles/responsive";
@@ -25,6 +25,7 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => 
           alt={imageUrl}
           css={ImageStyle}
           onError={(e) => {
+            // NOTE: ts error가 뜨지만 잘 됨
             e.target.src = altImageUrl;
           }}
         />
