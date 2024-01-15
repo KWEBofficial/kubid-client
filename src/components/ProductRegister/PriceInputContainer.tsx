@@ -26,32 +26,33 @@ const CurrencyLabel = styled.span`
 
 // 가격 입력
 const PriceInput = () => {
-  const [lowerbound, setLowerbound] = useState("");
-  const [upperbound, setUpperbound] = useState("");
+  const [lowerBound, setLowerbound] = useState("");
+  const [upperBound, setUpperbound] = useState("");
 
   return (
-    
+    <div>
     <PriceInputContainer>
-      <label htmlFor="lowerbound">얼마에 시작하시겠어요?</label>
+      <label htmlFor="lowerBound">얼마에 시작하시겠어요?</label>
       <input
         type="text"
-        id="lowerbound"
+        id="lowerBound"
         placeholder="하한가"
-        value={lowerbound}
+        value={lowerBound}
         onChange={(e) => setLowerbound(e.target.value)}
       />
       <CurrencyLabel>원</CurrencyLabel>
-      
-      <label htmlFor="upperbound">얼마에 바로 낙찰하셨어요?</label>
+     
+      <label htmlFor="upperBound">얼마에 바로 낙찰하셨어요?</label>
       <input
         type="text"
-        id="upperbound"
+        id="upperBound"
         placeholder="상한가"
-        value={upperbound}
+        value={upperBound}
         onChange={(e) => setUpperbound(e.target.value)}
       />
       <CurrencyLabel>원</CurrencyLabel>
     </PriceInputContainer>
+    </div>
   );
 };
 

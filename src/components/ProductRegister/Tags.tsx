@@ -1,15 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react';
-import './index.css';
-import { PlusOutlined } from '@ant-design/icons';
-import { TweenOneGroup } from 'rc-tween-one';
-import type { InputRef } from 'antd';
-import { Input, Tag, theme } from 'antd';
+import React, { useEffect, useRef, useState } from "react";
+import "./index.css";
+import { PlusOutlined } from "@ant-design/icons";
+import { TweenOneGroup } from "rc-tween-one";
+import type { InputRef } from "antd";
+import { Input, Tag, theme } from "antd";
 
-const Tags: React.FC = () => {
+const Tags: React.FC<{ tags: string[]; setTags: React.Dispatch<React.SetStateAction<string[]>> }> = ({
+  tags,
+  setTags,
+}) => {
   const { token } = theme.useToken();
-  const [tags, setTags] = useState(['Tag 1', 'Tag 2', 'Tag 3']);
   const [inputVisible, setInputVisible] = useState(false);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const inputRef = useRef<InputRef>(null);
 
   useEffect(() => {
@@ -33,7 +35,7 @@ const Tags: React.FC = () => {
   };
 
   const handleInputConfirm = () => {
-    if (inputValue && tags.indexOf(inputValue) === -1) {
+    if (inputValue && tags.indexOf(inputValue) === -1 && tags.length < 3) {
       setTags([...tags, inputValue]);
     }
     setInputVisible(false);
@@ -53,7 +55,7 @@ const Tags: React.FC = () => {
       </Tag>
     );
     return (
-      <span key={tag} style={{ display: 'inline-block' }}>
+      <span key={tag} style={{ display: "inline-block" }}>
         {tagElem}
       </span>
     );
@@ -63,7 +65,7 @@ const Tags: React.FC = () => {
 
   const tagPlusStyle: React.CSSProperties = {
     background: token.colorBgContainer,
-    borderStyle: 'dashed',
+    borderStyle: "dashed",
   };
 
   return (
@@ -73,12 +75,12 @@ const Tags: React.FC = () => {
           enter={{
             scale: 0.8,
             opacity: 0,
-            type: 'from',
+            type: "from",
             duration: 100,
           }}
           onEnd={(e) => {
-            if (e.type === 'appear' || e.type === 'enter') {
-              (e.target as any).style = 'display: inline-block';
+            if (e.type === "appear" || e.type === "enter") {
+              (e.target as any).style = "display: inline-block";
             }
           }}
           leave={{ opacity: 0, width: 0, scale: 0, duration: 200 }}
@@ -100,7 +102,7 @@ const Tags: React.FC = () => {
         />
       ) : (
         <Tag onClick={showInput} style={tagPlusStyle}>
-          <PlusOutlined /> New Tag
+          <PlusOutlined /> 태그를 추가하세요
         </Tag>
       )}
     </>

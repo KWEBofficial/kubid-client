@@ -11,8 +11,8 @@ const HigherLayoutComponent = (WrappedComponent: React.ComponentType<any>) => {
       <StyledHeader>
         <div>Logo Position</div>
         <nav>
-          <Link to="/sign-in">로그인</Link>
-          <Link to="/sign-up">회원가입</Link>
+          <Link to="/auth/sign-in">로그인</Link>
+          <Link to="/auth/sign-up">회원가입</Link>
         </nav>
       </StyledHeader>
       <StyledContent>
