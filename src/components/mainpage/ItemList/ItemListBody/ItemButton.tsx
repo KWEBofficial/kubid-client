@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Button, Flex, Progress } from "antd";
+import { Button, Flex, Progress, Image } from "antd";
 import { colors } from "../../../../styles/colors";
 import { ProductThumbnailInfo } from "../../../../models/product";
 import { sm_lower_bound } from "../../../../styles/responsive";
@@ -15,11 +15,19 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => 
   const { id, productName, departmentName, lowerBound, currentHighestPrice, upperBound, imageUrl, bidderCount } =
     product;
   const progressPercent = ((currentHighestPrice - lowerBound) / (upperBound - lowerBound)) * 100;
+  const altImageUrl: string = "noimage.png";
 
   return (
     <Button href={`products/${id}`} css={ItemButtonStyle}>
       <div css={ImageSectionStyle}>
-        <img src={imageUrl} alt="Image" css={ImageStyle} />
+        <img
+          src={imageUrl}
+          alt={imageUrl}
+          css={ImageStyle}
+          onError={(e) => {
+            e.target.src = altImageUrl;
+          }}
+        />
       </div>
       <div css={TextSectionStyle}>
         <h3 css={TitleStyle}>{productName}</h3>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { AxiosError } from "axios";
@@ -48,7 +49,7 @@ const Main = () => {
       try {
         const rawProducts = await getRecentProducts();
         const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
-          const { id, productName, departmentId, currentHighestPrice, upperBound, lowerBound } = rawProduct;
+          const { id, productName, departmentId, currentHighestPrice, upperBound, lowerBound, image } = rawProduct;
           const product: ProductThumbnailInfo = {
             id,
             productName,
@@ -56,7 +57,7 @@ const Main = () => {
             lowerBound,
             currentHighestPrice,
             upperBound,
-            imageUrl: "cat.png", // TODO: GET /products 변경 필요
+            imageUrl: image.url,
           };
           return product;
         });
@@ -84,7 +85,7 @@ const Main = () => {
       try {
         const rawProducts = await getPopularProducts();
         const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
-          const { id, productName, departmentId, currentHighestPrice, upperBound, lowerBound, bidderCount } =
+          const { id, productName, departmentId, currentHighestPrice, upperBound, lowerBound, bidderCount, image } =
             rawProduct;
           const product: ProductThumbnailInfo = {
             id,
@@ -94,7 +95,7 @@ const Main = () => {
             currentHighestPrice,
             upperBound,
             bidderCount,
-            imageUrl: "cat.png", // TODO: GET /products 변경 필요
+            imageUrl: image.url,
           };
           return product;
         });
@@ -130,6 +131,7 @@ const Main = () => {
             upperBound,
             lowerBound,
             departmentBidderCount: bidderCount,
+            image,
           } = rawProduct;
           const product: ProductThumbnailInfo = {
             id,
@@ -139,7 +141,7 @@ const Main = () => {
             currentHighestPrice,
             upperBound,
             bidderCount,
-            imageUrl: "cat.png", // TODO: GET /products 변경 필요
+            imageUrl: image.url,
           };
           return product;
         });
