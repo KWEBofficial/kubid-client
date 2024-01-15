@@ -1,16 +1,16 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { AxiosError } from "axios";
-import { getDeptPopularProducts, getPopularProducts, getRecentProducts } from "../../api/product";
-import HigherLayoutComponent from "../../components/common/CustomLayout";
-import ItemList from "./components/ItemList";
-import SearchSection from "./components/SearchSection";
-import { ProductThumbnailInfo } from "../../models/product";
+import { getDeptPopularProducts, getPopularProducts, getRecentProducts } from "../api/product";
+import HigherLayoutComponent from "../components/common/CustomLayout";
+import ItemList from "../components/mainpage/components/ItemList";
+import SearchSection from "../components/mainpage/components/SearchSection";
+import { ProductThumbnailInfo } from "../models/product";
 import { useEffect, useState } from "react";
 import { message, Flex } from "antd";
-import { COMMON_MESSAGE } from "../../contants/message";
-import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../../styles/responsive";
-import { DEPARTMENTS } from "../../data/department";
+import { COMMON_MESSAGE } from "../contants/message";
+import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../styles/responsive";
+import { DEPARTMENTS } from "../data/department";
 
 const Main = () => {
   const [recentProducts, setRecentProducts] = useState<ProductThumbnailInfo[]>(dummyProducts);
