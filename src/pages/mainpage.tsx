@@ -4,8 +4,8 @@ import { css } from "@emotion/react";
 import { AxiosError } from "axios";
 import { getDeptPopularProducts, getPopularProducts, getRecentProducts } from "../api/product";
 import HigherLayoutComponent from "../components/common/CustomLayout";
-import ItemList from "../components/mainpage/ItemList";
-import SearchSection from "../components/mainpage/SearchSection";
+import ItemList from "../components/common/ItemList";
+import SearchSection from "../components/common/SearchSection";
 import { ProductThumbnailInfo } from "../models/product";
 import { useEffect, useState } from "react";
 import { message, Flex } from "antd";
@@ -192,7 +192,6 @@ const Main = () => {
         products={popularProducts}
         maxItemCount={maxItemCount}
         moreUrl=""
-        showMore
         showBidderCount
       />
       <ItemList title="최근에 올라온" products={recentProducts} maxItemCount={maxItemCount} moreUrl="" showMore />
