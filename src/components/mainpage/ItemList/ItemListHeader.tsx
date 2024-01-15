@@ -8,20 +8,26 @@ const { Title, Text } = Typography;
 
 interface ItemListHeaderProps {
   title: string;
-  moreUrl: string;
+  moreUrl?: string;
+  moreText?: string;
+  showMore?: boolean;
 }
 
-const ItemListHeader: React.FC<ItemListHeaderProps> = ({ title, moreUrl }) => {
+const ItemListHeader: React.FC<ItemListHeaderProps> = ({ title, moreUrl, moreText, showMore }) => {
   return (
     <Flex justify="space-between" align="flex-end">
       <Title level={3} css={HeaderStyle}>
         {title}
       </Title>
-      <Text css={moreTextStyle}>
-        <Link to={moreUrl} css={moreLinkStyle}>
-          더보기
-        </Link>
-      </Text>
+      {showMore ? (
+        <Text css={moreTextStyle}>
+          <Link to={moreUrl || ""} css={moreLinkStyle}>
+            {moreText ? `${moreText}` : "더보기"}
+          </Link>
+        </Text>
+      ) : (
+        <></>
+      )}
     </Flex>
   );
 };
@@ -37,7 +43,7 @@ const moreTextStyle = css`
   margin-bottom: 10px;
   margin-right: 5px;
   font-weight: bold;
-  flex: 0 0 50px;
+  // flex: 0 0 50px;
 `;
 
 const moreLinkStyle = css`

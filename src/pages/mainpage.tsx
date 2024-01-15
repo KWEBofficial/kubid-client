@@ -175,17 +175,19 @@ const Main = () => {
       <SearchSection />
       <ItemList
         title="지금 핫한 🔥"
-        moreUrl=""
         products={popularProducts}
         maxItemCount={maxItemCount}
+        moreUrl=""
+        showMore
         showBidderCount
       />
-      <ItemList title="최근에 올라온" moreUrl="" products={recentProducts} maxItemCount={maxItemCount} />
+      <ItemList title="최근에 올라온" products={recentProducts} maxItemCount={maxItemCount} moreUrl="" showMore />
       <ItemList
         title="경영학과에서 많이 찾는" // TODO: 로그인 유저 학과로 대체
-        moreUrl=""
         products={deptPopularProducts}
         maxItemCount={maxItemCount}
+        moreUrl=""
+        showMore
         showBidderCount
       />
     </Flex>
