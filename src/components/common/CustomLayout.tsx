@@ -33,6 +33,12 @@ const StyledHeader = styled(Header)`
 
   background-color: ${colors.primary};
 
+  div {
+    a {
+      color: ${colors.black};
+    }
+  }
+
   nav {
     display: flex;
     justify-content: space-between;
