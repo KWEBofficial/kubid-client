@@ -42,19 +42,23 @@ const DepartmentDropdown: React.FC = () => {
     <ConfigProvider
       theme={{
         token: {
-          // NOTE: ts error가 뜨지만 잘 작동함. 똑같은 값이라도 그냥 number를 주는 거랑 px를 붙여서 주는 것이 시각적으로 다른 결과를 가져옴.
           fontSize: 18,
           fontSizeIcon: 12,
         },
         components: {
           Select: {
             optionHeight: 40,
-            optionPadding: 5,
+            optionPadding: 10,
           },
         },
       }}
     >
-      <Tooltip title="원하는 학과의 상품만 찾아 보세요!" trigger="hover" overlayInnerStyle={{ fontSize: "14px" }}>
+      <Tooltip
+        title="원하는 학과의 상품만 찾아 보세요!"
+        trigger="hover"
+        overlayInnerStyle={{ fontSize: "14px" }}
+        placement="top"
+      >
         <Select
           value={selectedValue}
           dropdownStyle={{ padding: 10 }}
