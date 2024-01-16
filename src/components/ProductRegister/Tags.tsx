@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./index.css";
 import { PlusOutlined } from "@ant-design/icons";
 import { TweenOneGroup } from "rc-tween-one";
 import type { InputRef } from "antd";

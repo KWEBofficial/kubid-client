@@ -21,7 +21,9 @@ const PriceInputContainer = styled.div`
 
 const CurrencyLabel = styled.span`
   width: 30px;
-  display: inline-block; // "원"을 인라인 블록으로 만들어 입력 필드와 같은 줄에 표시
+  display: block; // "원"을 인라인 블록으로 만들어 입력 필드와 같은 줄에 표시
+  font-weight: bold;
+  font-size: large;
 `;
 
 // 가격 입력
@@ -41,7 +43,8 @@ const PriceInput = () => {
         onChange={(e) => setLowerbound(e.target.value)}
       />
       <CurrencyLabel>원</CurrencyLabel>
-     
+      </PriceInputContainer>
+      <PriceInputContainer>
       <label htmlFor="upperBound">얼마에 바로 낙찰하셨어요?</label>
       <input
         type="text"
@@ -51,7 +54,7 @@ const PriceInput = () => {
         onChange={(e) => setUpperbound(e.target.value)}
       />
       <CurrencyLabel>원</CurrencyLabel>
-    </PriceInputContainer>
+      </PriceInputContainer>
     </div>
   );
 };

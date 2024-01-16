@@ -24,7 +24,8 @@ const ProductRegister = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
+    //id 자동 증가
+    setId((prevId) => prevId + 1);
     // 상품 정보 객체 생성
     const productInfo: ProductInfo = {
       id,
@@ -76,6 +77,7 @@ const ProductRegister = () => {
         </Card>
         <Card>
           <label htmlFor="location">거래 장소/일시</label>
+
           <div className="input-group">
             <label htmlFor="location">거래 장소</label>
             <input
@@ -86,6 +88,7 @@ const ProductRegister = () => {
               onChange={(e) => setTradeLocation(e.target.value)}
             />
           </div>
+          <div></div>
           <div className="input-group">
             <label htmlFor="date">거래 일시</label>
 
@@ -103,7 +106,7 @@ const ProductRegister = () => {
             <textarea
               id="desc"
               name="desc"
-              style={{  width: '100%', height: '150px', padding: '10px', resize: 'none'  }}
+              style={{ width: "100%", height: "150px", padding: "10px", resize: "none" }}
               placeholder="상품 설명을 입력해 주세요."
               value={desc}
               onChange={(e) => setDesc(e.target.value)}
