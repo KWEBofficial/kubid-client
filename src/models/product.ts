@@ -3,7 +3,6 @@ export interface ProductInfo {
   desc: string;
   upperBound: number;
   lowerBound: number;
-  department: string;
   imageId: number;
   tags: string[];
   tradeLocation: string;

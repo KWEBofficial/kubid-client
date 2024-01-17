@@ -15,7 +15,7 @@ const RouteComponent = () => {
       <Route path="/" element={<MainPage />} />
       <Route path="/auth/sign-up" element={<SignUpPage />} />
       <Route path="/auth/sign-in" element={<SignInPage />} />
-      <Route path="/products" element={<ProductRegister />} />
+      <Route path="/products/register" element={<ProductRegister />} />
       <Route path="/users/current-user" element={<PasswordChangePage />} />
     </Routes>
   );

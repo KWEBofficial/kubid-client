@@ -2,7 +2,7 @@ import { ProductInfo } from "../../models/product";
 import ApiManager from "..";
 
 export const postProduct = async (productInfo: ProductInfo) => {
-  const response = await ApiManager.post("/products", productInfo);
+  const response = await ApiManager.post("/products/register", productInfo);
   return response.data;
 };
 

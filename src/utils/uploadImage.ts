@@ -6,7 +6,7 @@ export const uploadImage = async (file: File): Promise<ImageDTO | null> => {
     const imageId = await prepareImageUpload();
 
     const formData = new FormData();
-    
+
     formData.append("image", file);
 
     const uploadedImage = await imageUpload(imageId, formData);

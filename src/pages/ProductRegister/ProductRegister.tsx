@@ -51,14 +51,12 @@ const ProductRegister = () => {
         imageId: image.id,
         upperBound: Number(form.upperBound),
         lowerBound: Number(form.lowerBound),
-        department: "컴퓨터학과",
         tradeLocation: form.tradeLocation,
         tradeDate: form.tradeDate,
         tags,
       };
 
-      const response = await postProduct(body);
-      console.log(response);
+      await postProduct(body);
     } catch (error) {
       console.error(error);
     }
@@ -92,24 +90,24 @@ const ProductRegister = () => {
           <div></div>
           <div className="input-group">
             <label>거래 일시</label>
-            <input type="datetime-local" name="tradeDate" value={form.tradeDate} onChange={handleFormChange} />
+            <input type="date" name="tradeDate" value={form.tradeDate} onChange={handleFormChange} />
           </div>
         </Card>
         <Card>
           <div className="desc">
             <textarea
               name="description"
-              style={{ width: "100%", height: "150px", padding: "10px", resize: "none" }}
+              style={{ width: "100%", height: "130px", padding: "10px", resize: "none", fontSize: "15px" }}
               placeholder="상품 설명을 입력해 주세요."
               value={form.description}
               onChange={handleFormChange}
             />
           </div>
 
-          <label>#태그를 입력해 주세요.(최대3개)</label>
           <Tags tags={tags} addTag={handleAddTag} deleteTag={handleDeleteTag} />
         </Card>
-        <Flex gap="small" wrap="wrap">
+
+        <Flex gap="large" wrap="wrap" justify="center">
           <Button type="primary" onClick={handleSubmit}>
             상품 등록
           </Button>
