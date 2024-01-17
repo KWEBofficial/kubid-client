@@ -1,3 +1,4 @@
+/** @jsxImportSource @emotion/react */
 import React, { useState } from "react";
 import { EyeInvisibleOutlined, EyeTwoTone, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Input, Space, Typography } from "antd";
@@ -39,7 +40,6 @@ const MatchingPasswordInput: React.FC<MatchingPasswordInputProps> = ({ onPasswor
         style={{
           width: "328px",
           height: "50px",
-          marginBottom: "10px",
         }}
         className="input-style"
       />
@@ -48,7 +48,7 @@ const MatchingPasswordInput: React.FC<MatchingPasswordInputProps> = ({ onPasswor
         iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
         value={password2}
         onChange={(e) => handlePasswordChange(e.target.value, "password2")}
-        style={{ width: "328px", height: "50px" }}
+        style={{ width: "328px", height: "50px", }}
         className="input-style"
       />
       {!isPasswordMatch && (

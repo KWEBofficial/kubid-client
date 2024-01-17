@@ -1,6 +1,8 @@
+/** @jsxImportSource @emotion/react */
 import React from "react";
 import { Input } from "antd";
 import "../../styles/global.css";
+import { sizeOfInput } from "../../styles/sizes";
 
 interface LargeInputProps {
   placeholder: string;
@@ -13,11 +15,7 @@ const LargeInput: React.FC<LargeInputProps> = ({ placeholder, value, onChange })
     <Input
       size="large"
       placeholder={placeholder}
-      style={{
-        width: "328px",
-        height: "50px",
-        marginBottom: "30px",
-      }}
+      css={sizeOfInput}
       className="placeholder-style"
       value={value} // Use the value prop
       onChange={(e) => onChange && onChange(e.target.value)} // Use the onChange prop if provided

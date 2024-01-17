@@ -31,19 +31,20 @@ const ImageUploadContainer = styled.div`
     object-fit: cover;
   }
   .image-note {
-    display: block; 
+    display: block;
     margin-top: 8px;
   }
 `;
 
-const ImageUpload = () => {
+const ImageUpload = ({ imageIdReceived }) => {
   const [imagePreview, setImagePreview] = useState("");
+  const [imageId, setImageId] = useState(-1);
 
-  const handleImageChange = (event) => {
+  const handleImageChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => setImagePreview(e.target.result);
+      reader.onload = (e: any) => setImagePreview(e.target.result);
       reader.readAsDataURL(file);
     }
   };

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "@emotion/styled";
 
 const PriceInputContainer = styled.div`
@@ -16,7 +15,6 @@ const PriceInputContainer = styled.div`
     padding: 8px;
     border: 1px solid #ccc;
   }
-
 `;
 
 const CurrencyLabel = styled.span`
@@ -26,34 +24,25 @@ const CurrencyLabel = styled.span`
   font-size: large;
 `;
 
-// 가격 입력
-const PriceInput = () => {
-  const [lowerBound, setLowerbound] = useState("");
-  const [upperBound, setUpperbound] = useState("");
+interface Props {
+  lowerBound: string;
+  upperBound: string;
+  handleFormChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
 
+// 가격 입력
+const PriceInput: React.FC<Props> = ({ lowerBound, upperBound, handleFormChange }) => {
   return (
     <div>
-    <PriceInputContainer>
-      <label htmlFor="lowerBound">얼마에 시작하시겠어요?</label>
-      <input
-        type="text"
-        id="lowerBound"
-        placeholder="하한가"
-        value={lowerBound}
-        onChange={(e) => setLowerbound(e.target.value)}
-      />
-      <CurrencyLabel>원</CurrencyLabel>
+      <PriceInputContainer>
+        <label htmlFor="lowerBound">얼마에 시작하시겠어요?</label>
+        <input type="text" name="lowerBound" placeholder="하한가" value={lowerBound} onChange={handleFormChange} />
+        <CurrencyLabel>원</CurrencyLabel>
       </PriceInputContainer>
       <PriceInputContainer>
-      <label htmlFor="upperBound">얼마에 바로 낙찰하셨어요?</label>
-      <input
-        type="text"
-        id="upperBound"
-        placeholder="상한가"
-        value={upperBound}
-        onChange={(e) => setUpperbound(e.target.value)}
-      />
-      <CurrencyLabel>원</CurrencyLabel>
+        <label htmlFor="upperBound">얼마에 바로 낙찰하셨어요?</label>
+        <input type="text" name="upperBound" placeholder="상한가" value={upperBound} onChange={handleFormChange} />
+        <CurrencyLabel>원</CurrencyLabel>
       </PriceInputContainer>
     </div>
   );
