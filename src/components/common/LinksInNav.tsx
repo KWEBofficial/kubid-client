@@ -13,6 +13,7 @@ const LinksInNav = () => {
   const handleSignOut = () => {
     signOut();
     navigate("/");
+    window.location.reload();
   };
 
   if (isAuthenticated()) {
@@ -21,6 +22,7 @@ const LinksInNav = () => {
         <Button type="text" onClick={handleSignOut}>
           로그아웃
         </Button>
+        <Link to="/mypage">My Page</Link>
       </nav>
     );
   } else {
