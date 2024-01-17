@@ -1,4 +1,10 @@
-import ApiManager from "../index";
+import { ProductInfo } from "../../models/product";
+import ApiManager from "..";
+
+export const postProduct = async (productInfo: ProductInfo) => {
+  const response = await ApiManager.post("/products/register", productInfo);
+  return response.data;
+};
 
 export const getRecentProducts = async () => {
   const response = await ApiManager.get("/products?sort=recent&page=1&pageSize=4");
