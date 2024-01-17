@@ -21,9 +21,11 @@ const Search = () => {
 
   const params = new URLSearchParams(window.location.search);
   const search = params.get("search") || "";
-  const page = Number(params.get("page")) || 1;
-  const pageSize = Number(params.get("pageSize")) || 4;
-  const departmentId = Number(params.get("departmentId")) || undefined;
+  const page = Number(params.get("page")) > 0 ? Number(params.get("page")) : 1;
+  const pageSize = Number(params.get("pageSize")) > 0 ? Number(params.get("pageSize")) : 4;
+  const departmentId = Number(params.get("departmentId")) > 0 ? Number(params.get("departmentId")) : undefined;
+
+  const [messageApi] = message.useMessage();
 
   const navigate = useNavigate();
 
@@ -66,7 +68,6 @@ const Search = () => {
 
         if (products) return products;
       } catch (error) {
-        const [messageApi] = message.useMessage();
         if (error instanceof AxiosError) {
           messageApi.open({
             type: "error",
@@ -87,7 +88,6 @@ const Search = () => {
         const result = await getSearchResultsCount(search, departmentId);
         return result.count;
       } catch (error) {
-        const [messageApi] = message.useMessage();
         if (error instanceof AxiosError) {
           messageApi.open({
             type: "error",
@@ -110,7 +110,7 @@ const Search = () => {
     fetchSearchResultsCount(search, departmentId).then((result) => {
       setSearchResultsCount(result);
     });
-  }, [departmentId, page, pageSize, search, departments]);
+  }, [departmentId, page, pageSize, search, departments, messageApi]);
 
   return (
     <Flex vertical css={SpaceStyle}>
@@ -122,7 +122,7 @@ const Search = () => {
       />
       {searchResultsCount > 0 ? (
         <Pagination
-          defaultCurrent={1}
+          defaultCurrent={page}
           pageSize={pageSize}
           total={searchResultsCount}
           css={PaginationStyle}

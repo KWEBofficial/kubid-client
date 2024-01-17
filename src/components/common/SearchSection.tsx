@@ -15,14 +15,12 @@ interface SearchSectionProps {
 
 const SearchSection: React.FC<SearchSectionProps> = ({ defaultValue, defaultDepartmentId }) => {
   const [departments, setDepartments] = useState<DepartmentDropdownInfo[]>(dummyDepartments);
-  const [selectedDepartmentId, setSelectedDepartmentId] = useState<number | undefined>(
-    defaultDepartmentId || undefined,
-  );
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState<number>(defaultDepartmentId ?? 0);
   const [tooltipPlacement, setTooltipPlacement] = useState<TooltipPlacement>("top");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const handleChange = (value: number) => {
-    setSelectedDepartmentId(value);
+  const handleChange = (value: number | undefined) => {
+    setSelectedDepartmentId(value ?? 0);
   };
 
   const handleResize = () => {
@@ -68,15 +66,11 @@ const SearchSection: React.FC<SearchSectionProps> = ({ defaultValue, defaultDepa
     });
   }, []);
 
-  useEffect(() => {
-    if (selectedDepartmentId === undefined) setSelectedDepartmentId(0);
-  }, [selectedDepartmentId]);
-
   return (
     <div css={SearchSectionStyle}>
       <Row gutter={16}>
         <Col xs={24} md={16} lg={18}>
-          <SearchInput departmentId={selectedDepartmentId} defaultValue={defaultValue} />
+          <SearchInput departmentId={selectedDepartmentId ?? undefined} defaultValue={defaultValue} />
         </Col>
         <Col xs={24} md={8} lg={6}>
           <ConfigProvider
@@ -100,7 +94,6 @@ const SearchSection: React.FC<SearchSectionProps> = ({ defaultValue, defaultDepa
               placement={tooltipPlacement}
             >
               <Select
-                defaultValue={defaultDepartmentId ? defaultDepartmentId : null}
                 value={selectedDepartmentId}
                 dropdownStyle={{ padding: 10 }}
                 style={{
