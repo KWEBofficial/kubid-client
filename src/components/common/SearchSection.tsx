@@ -8,14 +8,19 @@ import { getDepartments } from "../../api/department";
 import { getResponsiveValueByWindowWidth } from "../../styles/responsive";
 import { TooltipPlacement } from "antd/es/tooltip";
 
-const SearchSection = () => {
+interface SearchSectionProps {
+  defaultValue?: string;
+  defaultDepartmentId?: number;
+}
+
+const SearchSection: React.FC<SearchSectionProps> = ({ defaultValue, defaultDepartmentId }) => {
   const [departments, setDepartments] = useState<DepartmentDropdownInfo[]>(dummyDepartments);
-  const [selectedValue, setSelectedValue] = useState<number>(0);
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState<number>(defaultDepartmentId ?? 0);
   const [tooltipPlacement, setTooltipPlacement] = useState<TooltipPlacement>("top");
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  const handleChange = (value: number) => {
-    setSelectedValue(value);
+  const handleChange = (value: number | undefined) => {
+    setSelectedDepartmentId(value ?? 0);
   };
 
   const handleResize = () => {
@@ -61,16 +66,11 @@ const SearchSection = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (selectedValue === undefined) setSelectedValue(0);
-    console.log(selectedValue);
-  }, [selectedValue]);
-
   return (
     <div css={SearchSectionStyle}>
       <Row gutter={16}>
         <Col xs={24} md={16} lg={18}>
-          <SearchInput departmentId={selectedValue} />
+          <SearchInput departmentId={selectedDepartmentId ?? undefined} defaultValue={defaultValue} />
         </Col>
         <Col xs={24} md={8} lg={6}>
           <ConfigProvider
@@ -94,7 +94,7 @@ const SearchSection = () => {
               placement={tooltipPlacement}
             >
               <Select
-                value={selectedValue}
+                value={selectedDepartmentId}
                 dropdownStyle={{ padding: 10 }}
                 style={{
                   width: "100%",
