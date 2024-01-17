@@ -175,16 +175,8 @@ const Main = () => {
       try {
         const rawProducts = await getDeptPopularProducts(departmentId, page);
         const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
-          const {
-            id,
-            productName,
-            departmentId,
-            currentHighestPrice,
-            upperBound,
-            lowerBound,
-            departmentBidderCount: bidderCount,
-            image,
-          } = rawProduct;
+          const { id, productName, departmentId, currentHighestPrice, upperBound, lowerBound, bidderCount, image } =
+            rawProduct;
           const product: ProductThumbnailInfo = {
             id,
             productName,
