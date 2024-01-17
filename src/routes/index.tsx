@@ -3,6 +3,7 @@ import MainPage from "../pages/mainpage";
 import SignUpPage from "../pages/SignUp";
 import SignInPage from "../pages/SignIn";
 import PasswordChangePage from "../pages/PasswordChange";
+import SearchPage from "../pages/searchpage";
 
 /**
  * 어느 url에 어떤 페이지를 보여줄지 정해주는 컴포넌트입니다.
@@ -15,6 +16,7 @@ const RouteComponent = () => {
       <Route path="/auth/sign-up" element={<SignUpPage />} />
       <Route path="/auth/sign-in" element={<SignInPage />} />
       <Route path="/users/current-user" element={<PasswordChangePage />} />
+      <Route path="/products" element={<SearchPage />} />
     </Routes>
   );
 };
