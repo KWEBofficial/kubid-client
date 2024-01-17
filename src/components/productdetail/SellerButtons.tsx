@@ -1,15 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
-import { Button, Space, Modal, Typography } from "antd";
+import { Button, message, Space, Modal, Typography } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
-import { deleteProduct } from "../../api/product";
+import { deleteProduct, sellProduct } from "../../api/product";
 
 const { Text } = Typography;
 
 const SellerButtons: React.FC = () => {
   const [isDeleteProductModalOpen, setIsDeleteProductModalOpen] = useState(false);
+  const [sellSuccess, setSellSuccess] = useState(false);
   const { productId } = useParams();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (sellSuccess) {
+      message.success({
+        content: "낙찰이 완료되었어요!",
+        style: {
+          fontSize: "24px",
+          fontWeight: "bold",
+        },
+      });
+      setSellSuccess(false);
+    }
+  }, [sellSuccess]);
+
   if (productId === undefined) {
     return null;
   }
@@ -45,6 +60,17 @@ const SellerButtons: React.FC = () => {
   const handleDeleteProductCancel = () => {
     setIsDeleteProductModalOpen(false);
   };
+
+  // 바로 낙찰 관련 핸들링
+  const handleSellNow = async () => {
+    try {
+      await sellProduct(productId);
+      setSellSuccess(true);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Space style={{ marginBottom: "50px" }}>
       <BiddingButton type="primary" danger onClick={showDeleteProductModal}>
@@ -60,8 +86,10 @@ const SellerButtons: React.FC = () => {
           정말 제품 글을 삭제하시겠어요? <br />
         </Text>
       </Modal>
-      <BiddingButton>글 수정하기</BiddingButton>
-      <BiddingButton type="primary">바로낙찰</BiddingButton>
+      <BiddingButton onClick={() => navigate("/products")}>글 수정하기</BiddingButton>
+      <BiddingButton type="primary" onClick={handleSellNow}>
+        바로낙찰
+      </BiddingButton>
     </Space>
   );
 };

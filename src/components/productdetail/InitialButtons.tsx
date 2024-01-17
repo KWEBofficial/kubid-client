@@ -17,7 +17,11 @@ interface InitialButtonsProps {
 const InitialButtons: React.FC<InitialButtonsProps> = ({ values }) => {
   const [isBidModalOpen, setIsBidModalOpen] = useState(false);
   const [isBuyNowModalOpen, setIsBuyNowModalOpen] = useState(false);
-  const [biddingPrice, setBiddingPrice] = useState(values.currentHighestPrice);
+  const initialBiddingPrice =
+    values.currentHighestPrice !== undefined || values.currentHighestPrice !== null
+      ? values.currentHighestPrice
+      : values.lowerBound;
+  const [biddingPrice, setBiddingPrice] = useState(initialBiddingPrice);
   const { productId } = useParams();
   const navigate = useNavigate();
   if (productId === undefined) {

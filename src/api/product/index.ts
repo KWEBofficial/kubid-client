@@ -20,7 +20,12 @@ export const getProductDetail = async (productId: string) => {
   return response.data;
 };
 
-export const deleteProduct = async(productId: string) => {
+export const deleteProduct = async (productId: string) => {
   const response = await ApiManager.delete(`/products/${productId}`);
   return response;
-}
+};
+
+export const sellProduct = async (productId: string) => {
+  const response = await ApiManager.post(`/products/sell/${productId}`);
+  return response;
+};

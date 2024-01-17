@@ -106,17 +106,33 @@ const ProductInfo: React.FC = () => {
           </TextDesc>
         </CenteredCol>
       </StyledRow>
-      <StyledRow>
-        <CenteredCol span={3} offset={2}>
-          <TextDesc>현재 최고가 </TextDesc>
-        </CenteredCol>
-        <CenteredCol span={14}>
-          <Text style={{ fontSize: "36px", fontWeight: "bolder", color: colors.secondary }}>{currentHighestPrice}</Text>
-        </CenteredCol>
-        <CenteredCol span={3}>
-          <TextDesc>{department}</TextDesc>
-        </CenteredCol>
-      </StyledRow>
+      {bidders.size === 0 ? (
+        <StyledRow>
+          <CenteredCol span={3} offset={2}>
+            <TextDesc>하한가 </TextDesc>
+          </CenteredCol>
+          <CenteredCol span={14}>
+            <Text style={{ fontSize: "36px", fontWeight: "bolder", color: colors.secondary }}>{lowerBound}</Text>
+          </CenteredCol>
+          <CenteredCol span={3}>
+            <TextDesc>{department}</TextDesc>
+          </CenteredCol>
+        </StyledRow>
+      ) : (
+        <StyledRow>
+          <CenteredCol span={3} offset={2}>
+            <TextDesc>현재 최고가 </TextDesc>
+          </CenteredCol>
+          <CenteredCol span={14}>
+            <Text style={{ fontSize: "36px", fontWeight: "bolder", color: colors.secondary }}>
+              {currentHighestPrice}
+            </Text>
+          </CenteredCol>
+          <CenteredCol span={3}>
+            <TextDesc>{department}</TextDesc>
+          </CenteredCol>
+        </StyledRow>
+      )}
       <StyledRow>
         <CenteredCol span={3} offset={2}>
           <TextDesc>상한가 </TextDesc>
