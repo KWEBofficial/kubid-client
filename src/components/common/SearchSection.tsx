@@ -8,16 +8,11 @@ import DepartmentDropdown from "./SearchSection/DepartmentDropdown";
 const SearchSection = () => {
   const [selectedValue, setSelectedValue] = useState<number>(0);
 
-  useEffect(() => {
-    if (selectedValue === undefined) setSelectedValue(0);
-    console.log(selectedValue);
-  }, [selectedValue]);
-
   return (
     <div css={SearchSectionStyle}>
       <Row gutter={16}>
         <Col xs={24} md={16} lg={18}>
-          <SearchInput departmentId={selectedValue} />
+          <SearchInput departmentId={selectedDepartmentId ?? undefined} defaultValue={defaultValue} />
         </Col>
         <Col xs={24} md={8} lg={6}>
           <DepartmentDropdown />
