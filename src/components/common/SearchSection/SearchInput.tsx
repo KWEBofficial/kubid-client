@@ -15,7 +15,6 @@ const SearchInput: React.FC<SearchInputProps> = ({ departmentId, defaultValue })
   const defaultPageSize = 4;
 
   const params = new URLSearchParams(window.location.search);
-  const page = Number(params.get("page")) || 1;
   const pageSize = Number(params.get("pageSize")) || 4;
 
   const inputRef = useRef<InputRef>(null);
@@ -30,7 +29,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ departmentId, defaultValue })
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handlePressEnter = (e: any) => {
     navigate(
-      `/products?search=${e.target.value}&sort=recent&page=${page}&pageSize=${pageSize}${
+      `/products?search=${e.target.value}&sort=recent&page=1&pageSize=${pageSize}${
         departmentId && departmentId > 0 ? `&departmentId=${departmentId}` : ""
       }`,
     );
