@@ -3,13 +3,13 @@ import { getDepartments } from "../../../api/department";
 import { useEffect, useState } from "react";
 import { DepartmentDropdownInfo, DepartmentResDTO } from "../../../models/department";
 
-const DepartmentDropdown: React.FC = () => {
-  const [departments, setDepartments] = useState<DepartmentDropdownInfo[]>([]);
-  const [selectedValue, setSelectedValue] = useState<number | null>(null);
+interface DepartmentDropdownProps {
+  selectedValue?: number | null;
+  changeSelectedValue: (value: number | null) => void;
+}
 
-  const handleChange = (value: number) => {
-    setSelectedValue(value);
-  };
+const DepartmentDropdown: React.FC<DepartmentDropdownProps> = ({ selectedValue, changeSelectedValue }) => {
+  const [departments, setDepartments] = useState<DepartmentDropdownInfo[]>([]);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -33,10 +33,6 @@ const DepartmentDropdown: React.FC = () => {
     });
   }, []);
 
-  useEffect(() => {
-    if (selectedValue === undefined) setSelectedValue(null);
-  }, [selectedValue]);
-
   return (
     <Tooltip
       title="원하는 학과의 상품만 찾아 보세요!"
@@ -46,7 +42,7 @@ const DepartmentDropdown: React.FC = () => {
     >
       <Select
         value={selectedValue}
-        onChange={handleChange}
+        onChange={changeSelectedValue}
         options={departments}
         placeholder={"학과를 선택해주세요"}
         allowClear

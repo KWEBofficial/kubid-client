@@ -72,7 +72,7 @@ const SpaceStyle = css`
 `;
 
 const SearchInputStyle = css`
-  fontSize: 20px;
+  fontsize: 20px;
   height: 50px;
 `;
 
