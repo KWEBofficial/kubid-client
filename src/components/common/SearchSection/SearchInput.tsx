@@ -1,26 +1,65 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { Input, Button, Space } from "antd";
+import { Input, Button, Space, InputRef } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const SearchInput = () => {
-  const [search, setSearch] = useState<string>("");
+interface SearchInputProps {
+  departmentId?: number;
+  defaultValue?: string;
+}
+
+const SearchInput: React.FC<SearchInputProps> = ({ departmentId, defaultValue }) => {
+  const [search, setSearch] = useState<string>(defaultValue || "");
+  const defaultPageSize = 4;
+
+  const params = new URLSearchParams(window.location.search);
+  const pageSize = Number(params.get("pageSize")) || 4;
+
+  const inputRef = useRef<InputRef>(null);
+
+  const navigate = useNavigate();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleInputChange = (e: any) => {
     setSearch(e.target.value);
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handlePressEnter = (e: any) => {
+    navigate(
+      `/products?search=${e.target.value}&sort=recent&page=1&pageSize=${pageSize}${
+        departmentId && departmentId > 0 ? `&departmentId=${departmentId}` : ""
+      }`,
+    );
+  };
+
+  useEffect(() => {
+    inputRef.current!.focus({
+      cursor: "end",
+    });
+  }, []);
+
   return (
     <>
       <Space.Compact css={SpaceStyle}>
-        <Input placeholder="상품을 검색해 보세요" allowClear css={SearchInputStyle} onChange={handleInputChange} />
+        <Input
+          placeholder="상품을 검색해 보세요"
+          defaultValue={defaultValue}
+          allowClear
+          css={SearchInputStyle}
+          onChange={handleInputChange}
+          onPressEnter={handlePressEnter}
+          ref={inputRef}
+        />
         <Button
           type="primary"
           icon={<SearchOutlined css={SearchIconStyle} />}
           css={SearchButtonStyle}
-          href={`/product?search=${search}`} // TODO: 검색 페이지 url 변동 가능성 있음
+          href={`/products?search=${search}&sort=recent${
+            departmentId && departmentId > 0 ? `&departmentId=${departmentId}` : ""
+          }&page=1&pageSize=${defaultPageSize}`}
         ></Button>
       </Space.Compact>
     </>
