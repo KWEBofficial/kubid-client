@@ -8,10 +8,12 @@ import ItemList from "../components/common/ItemList";
 import SearchSection from "../components/common/SearchSection";
 import { ProductThumbnailInfo } from "../models/product";
 import { useEffect, useState } from "react";
-import { message, Flex } from "antd";
+import { message, Flex, FloatButton } from "antd";
 import { COMMON_MESSAGE } from "../contants/message";
 import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../styles/responsive";
 import { DEPARTMENTS } from "../data/department";
+import { useNavigate } from "react-router";
+import { PlusOutlined } from "@ant-design/icons";
 
 const Main = () => {
   const [recentProducts, setRecentProducts] = useState<ProductThumbnailInfo[]>(dummyProducts);
@@ -20,6 +22,10 @@ const Main = () => {
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [maxItemCount, setMaxItemCount] = useState<number>(0);
+  const navigate = useNavigate();
+  const handleFloatButton = () => {
+    navigate("/products");
+  };
 
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
@@ -202,6 +208,12 @@ const Main = () => {
         moreUrl=""
         showMore
         showBidderCount
+      />
+      <FloatButton
+        icon={<PlusOutlined />}
+        type="primary"
+        tooltip={<div>상품 등록하기</div>}
+        onClick={handleFloatButton}
       />
     </Flex>
   );
