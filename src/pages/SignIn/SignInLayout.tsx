@@ -65,10 +65,20 @@ export const SignInTag: React.FC = () => {
     }
   };
 
+  const handleEnterPress = () => {
+    if (!signInForm.email || !signInForm.password) {
+      return;
+    }
+    handleSubmit();
+  };
+
   return (
     <Space direction="vertical">
       <LargeInput placeholder="이메일" value={signInForm.email} onChange={(e) => handleInputChange("email", e)} />
-      <PasswordInput onPasswordChange={(value) => handleInputChange("password", value)} />
+      <PasswordInput
+        onPasswordChange={(value) => handleInputChange("password", value)}
+        onEnterPress={handleEnterPress}
+      />
       <BlueButton placeholder="로그인" disabled={!signInForm.email || !signInForm.password} onClick={handleSubmit} />
     </Space>
   );

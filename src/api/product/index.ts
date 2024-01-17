@@ -14,3 +14,13 @@ export const getDeptPopularProducts = async (departmentId: number) => {
   const response = await ApiManager.get(`/products?sort=popular&page=1&pageSize=4&departmentId=${departmentId}`);
   return response.data;
 };
+
+export const getProductDetail = async (productId: string) => {
+  const response = await ApiManager.get(`/products/${productId}`);
+  return response.data;
+};
+
+export const deleteProduct = async(productId: string) => {
+  const response = await ApiManager.delete(`/products/${productId}`);
+  return response;
+}
