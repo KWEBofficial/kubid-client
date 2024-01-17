@@ -11,8 +11,7 @@ interface SearchInputProps {
 const SearchInput: React.FC<SearchInputProps> = ({ departmentId }) => {
   const [search, setSearch] = useState<string>("");
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleInputChange = (e: any) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
@@ -37,17 +36,17 @@ const SpaceStyle = css`
 `;
 
 const SearchInputStyle = css`
-  font-size: 20px;
-  height: 60px;
+  fontSize: 20px;
+  height: 50px;
 `;
 
 const SearchButtonStyle = css`
-  width: 60px !important;
-  height: 60px;
+  width: 50px !important;
+  height: 50px;
 `;
 
 const SearchIconStyle = css`
-  font-size: 38px !important;
+  font-size: 30px !important;
   margin-top: 5px;
 `;
 

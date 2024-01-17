@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "antd";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useSignOut from "react-auth-kit/hooks/useSignOut";
@@ -9,12 +9,15 @@ const LinksInNav = () => {
   const isAuthenticated = useIsAuthenticated();
   const signOut = useSignOut();
   const navigate = useNavigate();
+  const isAuthPage = useLocation().pathname.includes("auth");
 
   const handleSignOut = () => {
     signOut();
     navigate("/");
     window.location.reload();
   };
+
+  if (isAuthPage) return <></>;
 
   if (isAuthenticated()) {
     return (
