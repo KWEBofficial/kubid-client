@@ -1,21 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import { Layout, Typography } from "antd";
+import { Layout, Typography, Avatar } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import { colors } from "../../styles/colors";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import LinksInNav from "./LinksInNav";
 
-const { Title } = Typography;
+const { Text } = Typography;
 
 const HigherLayoutComponent = (WrappedComponent: React.ComponentType<any>) => {
   return (props: any) => (
     <Layout>
       <StyledHeader>
-        <Link to="/">
-          <Title level={5}>Logo Position</Title>
-        </Link>
+        <LogoSection to="/">
+          <Avatar src="/logo.svg" alt="logo" />
+          <Text strong> KUBID</Text>
+        </LogoSection>
         <LinksInNav />
       </StyledHeader>
       <StyledContent>
@@ -27,17 +28,18 @@ const HigherLayoutComponent = (WrappedComponent: React.ComponentType<any>) => {
 
 export default HigherLayoutComponent;
 
+const LogoSection = styled(Link)`
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+`;
+
 const StyledHeader = styled(Header)`
   display: flex;
   justify-content: space-between;
 
-  background-color: ${colors.primary};
-
-  div {
-    a {
-      color: ${colors.black};
-    }
-  }
+  background-color: ${colors.white};
 
   nav {
     display: flex;
@@ -50,6 +52,8 @@ const StyledHeader = styled(Header)`
       color: ${colors.black};
     }
   }
+
+  border-bottom: 1px solid ${colors.gray.default};
 `;
 
 const StyledContent = styled(Content)`

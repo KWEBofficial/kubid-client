@@ -18,7 +18,7 @@ const LinksInNav = () => {
   if (isAuthenticated()) {
     return (
       <nav>
-        <Button type="text" onClick={() => handleSignOut()}>
+        <Button type="text" onClick={handleSignOut}>
           로그아웃
         </Button>
       </nav>
@@ -26,8 +26,12 @@ const LinksInNav = () => {
   } else {
     return (
       <nav>
-        <Link to="/auth/sign-in">로그인</Link>
-        <Link to="/auth/sign-up">회원가입</Link>
+        <Link to="/auth/sign-in">
+          <Button type="primary">로그인</Button>
+        </Link>
+        <Link to="/auth/sign-up">
+          <Button>회원가입</Button>
+        </Link>
       </nav>
     );
   }
