@@ -21,6 +21,7 @@ const LinksInNav = () => {
         <Button type="text" onClick={() => handleSignOut()}>
           로그아웃
         </Button>
+        <Link to="/mypage">My Page</Link>
       </nav>
     );
   } else {

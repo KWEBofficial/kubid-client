@@ -3,9 +3,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { Flex } from "antd";
-import { getUserInfo } from "../api/user";
-import { sm_lower_bound, xl_lower_bound } from "../styles/responsive";
-import React, { useEffect, useState } from "react";
+import { getCurrentUser } from "../api/user";
+import { getSellingProduct } from "../api/user";
+import { getBuyingProduct } from "../api/user";
+import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../styles/responsive";
+import { useEffect, useState } from "react";
 
 //components
 import MypageLayoutComponent from "../components/common/CustomLayout";
@@ -13,37 +15,92 @@ import ItemList from "../components/mypage/ItemList";
 import PersonalInformation from "../components/mypage/PersonalInformation";
 
 //import SearchSection from "../components/main_page/SearchSection";
-import { ProductThumbnailInfo } from "../models/product";
+import { CurrentUserBuy, CurrentUserSell } from "../models/product";
+import { UserInfo } from "../models/user";
 
 const Main = () => {
-  const [userInfo, setUserInfo] = useState({
-    nickname: "",
-    email: "",
-    departmentId: 0,
-    imageURL: "",
-  });
+  const [userInfo, setUserInfo] = useState<UserInfo>();
+  const [buyingProducts, setBuyingProducts] = useState<CurrentUserBuy[]>();
+  const [sellingProducts, setSellingProducts] = useState<CurrentUserSell[]>();
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [maxItemCount, setMaxItemCount] = useState<number>(0);
+
+  const handleResize = () => {
+    setWindowWidth(window.innerWidth);
+  };
+
   useEffect(() => {
-    getUserInfo()
-      .then((data) => {
-        // API에서 받은 데이터를 userInfo 상태에 저장
-        setUserInfo({
-          nickname: data.nickname,
-          email: data.email,
-          departmentId: data.departmentId,
-          imageURL: data.image.url,
-        });
-      })
-      .catch((error) => {
-        console.error("API 호출 중 에러 발생:", error);
-        // 에러 처리 로직
-      });
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
+
+  useEffect(() => {
+    setMaxItemCount(
+      getResponsiveValueByWindowWidth(windowWidth, {
+        xl: 4,
+        md: 3,
+        sm: 2,
+        xs: 1,
+      }),
+    );
+  }, [windowWidth]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const CurrentUser: UserInfo = await getCurrentUser();
+        setUserInfo(CurrentUser);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+
+    (async () => {
+      try {
+        const products: CurrentUserSell[] = await getSellingProduct(1, 5);
+        setSellingProducts(products ?? []);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+
+    (async () => {
+      try {
+        const products: CurrentUserBuy[] = await getBuyingProduct(1, 5);
+        setBuyingProducts(products ?? []);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, []);
+
   return (
     <Flex vertical css={SpaceStyle}>
       <div css={TitleSection}>마이페이지</div>
-      <PersonalInformation userInfo={userInfo} />
-      <ItemList title="최근구매중인" moreUrl="" products={dummyProducts} moreTitle="최근구매중인" />
-      <ItemList title="경영학과에서 많이 찾는" moreUrl="" products={dummyProducts} moreTitle="최근구매중인" />
+      {userInfo && <PersonalInformation userInfo={userInfo} />}
+      {buyingProducts && (
+        <ItemList
+          title="지금 구매중인"
+          products={buyingProducts}
+          maxItemCount={maxItemCount}
+          moreUrl=""
+          moreText="구매 중인 상품 더보기"
+          showBidderCount
+        />
+      )}
+      {sellingProducts && (
+        <ItemList
+          title="지금 판매중인"
+          products={sellingProducts}
+          maxItemCount={maxItemCount}
+          moreUrl=""
+          moreText="구매 중인 상품 더보기"
+          showBidderCount
+        />
+      )}
     </Flex>
   );
 };
@@ -68,33 +125,11 @@ const SpaceStyle = css`
 const TitleSection = css`
   margin-top: 80px;
   display: flex;
+  justify-content: center; // 중앙 정렬
+  align-items: center; // 세로축 중앙 정렬
   padding: auto;
   margin-bottom: 50px;
-  font-size: 20px;
+  font-size: 45px; // 텍스트 크기 증가
+  font-weight: bold; // 텍스트를 굵게
+  width: 100%; // 전체 너비 사용
 `;
-const dummyProducts: ProductThumbnailInfo[] = [
-  {
-    productName: "Product 1",
-    departmentName: "Department A",
-    lowerBound: 140,
-    currentHighestPrice: 150,
-    upperBound: 200,
-    imageId: 1,
-  },
-  {
-    productName: "Product 2",
-    departmentName: "Department B",
-    lowerBound: 80,
-    currentHighestPrice: 120,
-    upperBound: 150,
-    imageId: 2,
-  },
-  {
-    productName: "Product 3",
-    departmentName: "Department C",
-    lowerBound: 120,
-    currentHighestPrice: 210,
-    upperBound: 220,
-    imageId: 3,
-  },
-];

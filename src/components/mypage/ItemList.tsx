@@ -1,19 +1,30 @@
-import { ProductThumbnailInfo } from "../../models/product";
+import { CurrentUserBuy, CurrentUserSell } from "../../models/product";
 import ItemListBody from "./ItemList/ItemListBody";
 import ItemListHeader from "./ItemList/ItemListHeader";
 
 interface ItemListProps {
   title: string;
-  moreUrl: string;
-  products: ProductThumbnailInfo[];
-  moreTitle: string;
+  moreUrl?: string;
+  moreText?: string;
+  products: CurrentUserBuy[] | CurrentUserSell[];
+  maxItemCount: number;
+  showBidderCount?: boolean;
+  showMore?: boolean;
 }
 
-const ItemList: React.FC<ItemListProps> = ({ title, moreUrl, products, moreTitle }) => {
+const ItemList: React.FC<ItemListProps> = ({
+  title,
+  moreUrl,
+  moreText,
+  products,
+  maxItemCount,
+  showBidderCount,
+  showMore,
+}) => {
   return (
     <>
-      <ItemListHeader title={title} moreUrl={moreUrl} moreTitle={moreTitle} />
-      <ItemListBody products={products} />
+      <ItemListHeader title={title} moreUrl={moreUrl} moreText={moreText} showMore={showMore} />
+      <ItemListBody products={products} maxItemCount={maxItemCount} showBidderCount={showBidderCount} />
     </>
   );
 };

@@ -2,6 +2,7 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
 import { Button, Modal } from "antd";
+import { getCurrentUser } from "../../../api/user/index";
 
 import { ImageDTO } from "../../..//types/image/dto";
 import ImageUploadButton from "../../../components/common/ImageUploadButton";
@@ -17,8 +18,11 @@ const PersonalImage: React.FC<PersonalImageProps> = ({ imageURL }) => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const handleOk = () => {
+  const handleOk = async () => {
     setIsModalOpen(false);
+    if (image) {
+      await updateProfile(image);
+    }
   };
 
   const handleCancel = () => {

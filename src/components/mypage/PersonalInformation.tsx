@@ -2,18 +2,14 @@
 import { css } from "@emotion/react";
 import PersonalImage from "./PersonalInfo/personalImage";
 import PersonalInformationBody from "./PersonalInfo/personalinfoBody";
+import { UserInfo } from "../../models/user";
 interface PersonalInformationProbs {
-  userInfo: {
-    nickname: string;
-    email: string;
-    departmentId: number;
-    imageURL: string;
-  };
+  userInfo: UserInfo;
 }
 const PersonalInformation: React.FC<PersonalInformationProbs> = ({ userInfo }) => {
   return (
     <div css={infoContainerStyle}>
-      <PersonalImage imageURL={userInfo.imageURL} />
+      <PersonalImage imageURL={userInfo.image.url} />
 
       <PersonalInformationBody
         nickname={userInfo.nickname}

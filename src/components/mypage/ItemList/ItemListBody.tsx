@@ -2,27 +2,33 @@
 import { css } from "@emotion/react";
 import { Col, Row } from "antd";
 import ItemButton from "./ItemListBody/ItemButton";
-import { ProductThumbnailInfo } from "../../../models/product";
+import { CurrentUserBuy, CurrentUserSell } from "../../../models/product";
+import { Typography } from "antd";
+
+const { Text } = Typography;
 
 interface ItemListBodyProps {
-  products: ProductThumbnailInfo[];
+  products: CurrentUserBuy[] | CurrentUserSell[];
+  maxItemCount: number;
+  showBidderCount?: boolean;
 }
 
-const ItemListBody: React.FC<ItemListBodyProps> = ({ products }) => {
-  return (
-    <p css={BodyStyle}>
-      <Row>
-        <Col span={8}>
-          <ItemButton product={products[0]} />
+const ItemListBody: React.FC<ItemListBodyProps> = ({ products, maxItemCount, showBidderCount }) => {
+  const itemCount = products.length < maxItemCount ? products.length : maxItemCount;
+
+  return itemCount ? (
+    <Row gutter={{ xs: 8, sm: 16, md: 16, lg: 24 }} css={BodyStyle}>
+      {products?.slice(0, itemCount).map((product, idx) => (
+        <Col xs={24} sm={12} md={8} lg={8} xl={6} key={idx}>
+          <ItemButton product={product} showBidderCount={showBidderCount} />
         </Col>
-        <Col span={8}>
-          <ItemButton product={products[1]} />
-        </Col>
-        <Col span={8}>
-          <ItemButton product={products[2]} />
-        </Col>
-      </Row>
-    </p>
+      ))}
+    </Row>
+  ) : (
+    <div css={NoItemStyle}>
+      <img src={"cat.png"} alt="Image" css={NoItemImageStyle} /> <br />
+      <Text italic>아직 올라온 상품이 없나 봐요.</Text>
+    </div>
   );
 };
 
@@ -30,5 +36,15 @@ export default ItemListBody;
 
 const BodyStyle = css`
   text-align: center;
-  margin-bottom: 50px;
+`;
+
+const NoItemStyle = css`
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+`;
+
+const NoItemImageStyle = css`
+  width: 200px;
+  margin-bottom: 10px;
 `;
