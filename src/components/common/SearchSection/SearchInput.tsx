@@ -4,7 +4,11 @@ import { Input, Button, Space } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { useState } from "react";
 
-const SearchInput = () => {
+interface SearchInputProps {
+  departmentId?: number;
+}
+
+const SearchInput: React.FC<SearchInputProps> = ({ departmentId }) => {
   const [search, setSearch] = useState<string>("");
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,7 +24,7 @@ const SearchInput = () => {
           type="primary"
           icon={<SearchOutlined css={SearchIconStyle} />}
           css={SearchButtonStyle}
-          href={`/product?search=${search}`} // TODO: 검색 페이지 url 변동 가능성 있음
+          href={`/product?search=${search}${departmentId && departmentId > 0 ? `&departmentId=${departmentId}` : ""}`} // TODO: 검색 페이지 url 변동 가능성 있음
         ></Button>
       </Space.Compact>
     </>

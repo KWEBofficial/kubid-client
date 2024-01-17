@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import MainPage from "../pages/mainpage";
 import SignUpPage from "../pages/SignUp";
 import SignInPage from "../pages/SignIn";
+import MyPage from "../pages/MyPage";
 import ProductRegister from "../pages/ProductRegister/ProductRegister";
 import PasswordChangePage from "../pages/PasswordChange";
 
@@ -16,6 +17,7 @@ const RouteComponent = () => {
       <Route path="/auth/sign-up" element={<SignUpPage />} />
       <Route path="/auth/sign-in" element={<SignInPage />} />
       <Route path="/products" element={<ProductRegister />} />
+      <Route path="/mypage" element={<MyPage />} />
       <Route path="/users/current-user" element={<PasswordChangePage />} />
     </Routes>
   );
