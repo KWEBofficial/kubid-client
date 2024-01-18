@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import { Input, Button, Space, InputRef } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface SearchInputProps {
@@ -12,7 +12,6 @@ interface SearchInputProps {
 
 const SearchInput: React.FC<SearchInputProps> = ({ departmentId, defaultValue }) => {
   const [search, setSearch] = useState<string>(defaultValue || "");
-  const defaultPageSize = 4;
 
   const params = new URLSearchParams(window.location.search);
   const pageSize = Number(params.get("pageSize")) || 4;
