@@ -33,7 +33,7 @@ const Main = () => {
   const [maxItemCount, setMaxItemCount] = useState<number>(0);
   const navigate = useNavigate();
   const handleFloatButton = () => {
-    navigate("/products");
+    navigate("/products/register");
   };
 
   const handleResize = () => {
