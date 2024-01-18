@@ -1,5 +1,5 @@
 import HigherLayoutComponent from "../../components/common/CustomLayout";
-import { SignInTag } from "./SignInLayout";
+import SignInTag from "./SignInLayout";
 import { Link } from "react-router-dom";
 import { Typography } from "antd";
 
