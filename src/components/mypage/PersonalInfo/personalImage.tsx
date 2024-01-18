@@ -32,7 +32,6 @@ const PersonalImage: React.FC<PersonalImageProps> = ({ imageURL }) => {
     setImage(image);
   };
   const imagePath = imageURL; // Adjust the file extension if necessary
-  console.log(image?.id);
   return (
     <>
       <div css={imageContainerStyle}>

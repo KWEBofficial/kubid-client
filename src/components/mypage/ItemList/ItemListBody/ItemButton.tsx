@@ -13,7 +13,6 @@ interface ItemButtonProps {
 }
 
 const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => {
-  console.log(product);
   const { id, product_name, department_id, current_highest_price, upper_bound, image, bidderCount } = product;
   const altImageUrl: string = "noimage.png";
 
