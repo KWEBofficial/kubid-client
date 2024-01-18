@@ -83,7 +83,7 @@ const Main = () => {
       {userInfo && <PersonalInformation userInfo={userInfo} />}
       {buyingProducts && (
         <ItemList
-          title="지금 구매중인"
+          title="구매 중인 상품"
           products={buyingProducts}
           maxItemCount={maxItemCount}
           moreUrl=""
@@ -93,7 +93,7 @@ const Main = () => {
       )}
       {sellingProducts && (
         <ItemList
-          title="지금 판매중인"
+          title="판매 중인 상품"
           products={sellingProducts}
           maxItemCount={maxItemCount}
           moreUrl=""

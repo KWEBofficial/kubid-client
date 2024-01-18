@@ -19,7 +19,7 @@ const RouteComponent = () => {
       <Route path="/auth/sign-in" element={<SignInPage />} />
       <Route path="/products/register" element={<ProductRegister />} />
       <Route path="/mypage" element={<MyPage />} />
-      <Route path="/users/current-user" element={<PasswordChangePage />} />
+      <Route path="/users/current-user/password" element={<PasswordChangePage />} />
       <Route path="/products" element={<SearchPage />} />
     </Routes>
   );
