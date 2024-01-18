@@ -45,7 +45,7 @@ const PersonalImage: React.FC<PersonalImageProps> = ({ imageURL }) => {
         alt={`Profile Image`}
         css={imageStyle}
         onError={(e) => {
-          e.currentTarget.src = "../../../public/cat.png";
+          e.currentTarget.src = defaultImageUrl;
         }}
       />
       <Button type="primary" ghost onClick={showModal}>

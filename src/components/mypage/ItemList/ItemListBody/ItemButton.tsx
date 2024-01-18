@@ -3,7 +3,6 @@ import { css } from "@emotion/react";
 import { Button, Flex, Progress } from "antd";
 import { colors } from "../../../../styles/colors";
 import { sm_lower_bound } from "../../../../styles/responsive";
-//import { FireTwoTone } from "@ant-design/icons";
 import { CurrentUserBuy, CurrentUserSell } from "../../../../models/product";
 import { FireTwoTone } from "@ant-design/icons";
 
@@ -13,6 +12,7 @@ interface ItemButtonProps {
 }
 
 const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => {
+  console.log(product);
   const { id, product_name, department_id, current_highest_price, upper_bound, image, bidderCount } = product;
   const altImageUrl: string = "noimage.png";
 
@@ -39,11 +39,11 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => 
               <span css={BidderCountStyle}>
                 <FireTwoTone twoToneColor="#F00" /> {bidderCount}
               </span>
-              <span>{department_id} 학과</span>
+              <span>{departmentName}</span>
             </Flex>
           ) : (
             <Flex justify="right" align="flex-end" css={DeptStyle}>
-              <span css={OnlyDeptStyle}>{department_id}</span>
+              <span css={OnlyDeptStyle}>{departmentName}</span>
             </Flex>
           )}
 
@@ -54,6 +54,7 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => 
         </Flex>
       </div>
       <Progress
+        percent={progressPercent}
         size={["", 20]}
         status="normal"
         strokeLinecap="square"

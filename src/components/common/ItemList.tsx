@@ -1,4 +1,4 @@
-import { ProductThumbnailInfo } from "../../models/product";
+import { ProductThumbnailInfo, CurrentUserBuy, CurrentUserSell } from "../../models/product";
 import ItemListBody from "./ItemList/ItemListBody";
 import ItemListHeader from "./ItemList/ItemListHeader";
 
@@ -6,7 +6,7 @@ interface ItemListProps {
   title: string;
   moreUrl?: string;
   moreText?: string;
-  products: ProductThumbnailInfo[];
+  products: ProductThumbnailInfo[] | CurrentUserBuy[] | CurrentUserSell[];
   maxItemCount: number;
   showBidderCount?: boolean;
   showMore?: boolean;
