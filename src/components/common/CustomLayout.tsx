@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
-import { Layout, Typography, Avatar } from "antd";
+import { Layout, Typography, Avatar, FloatButton } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import { colors } from "../../styles/colors";
 import { Link } from "react-router-dom";
 import styled from "@emotion/styled";
 import LinksInNav from "./LinksInNav";
+import { useNavigate } from "react-router-dom";
 
 const { Text } = Typography;
 

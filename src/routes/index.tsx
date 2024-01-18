@@ -4,6 +4,7 @@ import SignUpPage from "../pages/SignUp";
 import SignInPage from "../pages/SignIn";
 import ProductRegister from "../pages/ProductRegister/ProductRegister";
 import MyPage from "../pages/MyPage";
+import ProductRegister from "../pages/ProductRegister/ProductRegister";
 import PasswordChangePage from "../pages/PasswordChange";
 import SearchPage from "../pages/searchpage";
 
