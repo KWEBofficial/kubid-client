@@ -14,8 +14,7 @@ const ImageUploadButton: React.FC<Props> = ({ name, handleChange }) => {
     if (!file) return;
 
     const image = await uploadImage(file);
-    console.log(image);
-    console.log(1);
+
     if (!image) return;
 
     handleChange(image);
@@ -24,7 +23,7 @@ const ImageUploadButton: React.FC<Props> = ({ name, handleChange }) => {
   return (
     <StyledButton>
       <label htmlFor={name}>첨부하기</label>
-      <input type="file" id={name} name={name} onChange={handleUploadImage} hidden />
+      <input type="file" id={name} name={name} style={{ display: "none" }} onChange={handleUploadImage} hidden />
     </StyledButton>
   );
 };
