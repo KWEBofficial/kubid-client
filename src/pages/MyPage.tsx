@@ -12,7 +12,7 @@ import { DEPARTMENTS } from "../data/department";
 
 //components
 import MypageLayoutComponent from "../components/common/CustomLayout";
-import ItemList from "../components/mypage/ItemList";
+import ItemList from "../components/common/ItemList";
 import PersonalInformation from "../components/mypage/PersonalInformation";
 
 //import SearchSection from "../components/main_page/SearchSection";
@@ -64,10 +64,12 @@ const Main = () => {
       try {
         const rawProducts = await getSellingProduct(1, 5);
         const sellingProducts: CurrentUserSell[] = rawProducts.map((product: any) => {
-          const { department_id, ...rest } = product;
+          const { department_id, image, ...rest } = product;
           return {
             ...rest,
             department_id: department_id,
+            image: image,
+            imageUrl: image ? image.url : "",
             departmentName: DEPARTMENTS[department_id].label, // Add the department name
           };
         });
@@ -82,10 +84,12 @@ const Main = () => {
         const rawProducts: CurrentUserBuy[] = await getBuyingProduct(1, 5);
 
         const buyingProducts = rawProducts.map((product) => {
-          const { department_id, ...rest } = product;
+          const { department_id, image, ...rest } = product;
           return {
             ...rest,
             department_id: department_id,
+            image: image,
+            imageUrl: image ? image.url : "",
             departmentName: DEPARTMENTS[department_id].label, // Add the department name
           };
         });

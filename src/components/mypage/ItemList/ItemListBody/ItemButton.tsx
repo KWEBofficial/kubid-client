@@ -13,9 +13,7 @@ interface ItemButtonProps {
 
 const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => {
   console.log(product);
-  const { id, product_name, departmentName, current_highest_price, lower_bound, upper_bound, image, bidderCount } =
-    product;
-  const progressPercent = ((current_highest_price - lower_bound) / (upper_bound - lower_bound)) * 100;
+  const { id, product_name, department_id, current_highest_price, upper_bound, image, bidderCount } = product;
   const altImageUrl: string = "noimage.png";
 
   return (
