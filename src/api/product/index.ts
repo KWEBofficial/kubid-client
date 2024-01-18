@@ -1,4 +1,10 @@
-import ApiManager from "../index";
+import { ProductInfo } from "../../models/product";
+import ApiManager from "..";
+
+export const postProduct = async (productInfo: ProductInfo) => {
+  const response = await ApiManager.post("/products/register", productInfo);
+  return response.data;
+};
 
 export const getRecentProducts = async () => {
   const response = await ApiManager.get("/products?sort=recent&page=1&pageSize=4");
@@ -28,4 +34,19 @@ export const deleteProduct = async (productId: string) => {
 export const sellProduct = async (productId: string) => {
   const response = await ApiManager.post(`/products/sell/${productId}`);
   return response;
+
+export const getSearchResults = async (search: string, page: number, pageSize: number, departmentId?: number) => {
+  const response = await ApiManager.get(
+    `/products?search=${search}&sort=recent&page=${page}&pageSize=${pageSize}&departmentId=${
+      departmentId ? departmentId : ""
+    }`,
+  );
+  return response.data;
+};
+
+export const getSearchResultsCount = async (search: string, departmentId?: number) => {
+  const response = await ApiManager.get(
+    `/products/count?search=${search}&departmentId=${departmentId ? departmentId : ""}`,
+  );
+  return response.data;
 };

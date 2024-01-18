@@ -7,11 +7,13 @@ import HigherLayoutComponent from "../components/common/CustomLayout";
 import ItemList from "../components/common/ItemList";
 import SearchSection from "../components/common/SearchSection";
 import { ProductThumbnailInfo } from "../models/product";
-import { useEffect, useRef, useState } from "react";
-import { message, Flex } from "antd";
-import { COMMON_MESSAGE } from "../contants/message";
+import { useEffect, useRef, useState, useRef } from "react";
+import { message, Flex, FloatButton } from "antd";
 import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../styles/responsive";
 import { DEPARTMENTS } from "../data/department";
+import { useNavigate } from "react-router";
+import { PlusOutlined } from "@ant-design/icons";
+import { COMMON_MESSAGE } from "../contants/message"
 import { getCurrentUser } from "../api/user";
 import { DepartmentResDTO } from "../models/department";
 import { getDepartments } from "../api/department";
@@ -29,6 +31,12 @@ const Main = () => {
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [maxItemCount, setMaxItemCount] = useState<number>(0);
+  const navigate = useNavigate();
+  const handleFloatButton = () => {
+    navigate("/products/register");
+  };
+
+  const [messageApi] = message.useMessage();
 
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
@@ -53,7 +61,6 @@ const Main = () => {
       } catch (error) {
         SetIsSignedIn(false);
 
-        const [messageApi] = message.useMessage();
         if (error instanceof AxiosError) {
           messageApi.open({
             type: "error",
@@ -72,7 +79,7 @@ const Main = () => {
     fetchCurrentUserDepartmentId().then((departmentId) => {
       setUserDepartmentId(departmentId);
     });
-  }, []);
+  }, [messageApi]);
 
   useEffect(() => {
     handleResize();
@@ -102,7 +109,7 @@ const Main = () => {
           const product: ProductThumbnailInfo = {
             id,
             productName,
-            departmentName: DEPARTMENTS[departmentId].label,
+            departmentName: departments[departmentId - 1].departmentName,
             lowerBound,
             currentHighestPrice,
             upperBound,
@@ -114,7 +121,6 @@ const Main = () => {
           setRecentProducts(() => products);
         }
       } catch (error) {
-        const [messageApi] = message.useMessage();
         if (error instanceof AxiosError) {
           messageApi.open({
             type: "error",
@@ -139,7 +145,7 @@ const Main = () => {
           const product: ProductThumbnailInfo = {
             id,
             productName,
-            departmentName: DEPARTMENTS[departmentId].label,
+            departmentName: departments[departmentId - 1].departmentName,
             lowerBound,
             currentHighestPrice,
             upperBound,
@@ -152,7 +158,6 @@ const Main = () => {
           setPopularProducts(() => products);
         }
       } catch (error) {
-        const [messageApi] = message.useMessage();
         if (error instanceof AxiosError) {
           messageApi.open({
             type: "error",
@@ -170,51 +175,45 @@ const Main = () => {
 
     fetchRecentProducts();
     fetchPopularProducts();
-  }, []);
+  }, [departments, messageApi]);
 
-  const fetchDeptPopularProducts = async (departmentId: number, page: number = 1) => {
-    try {
-      const rawProducts = await getDeptPopularProducts(departmentId, page);
-      const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
-        const {
-          id,
-          productName,
-          departmentId,
-          currentHighestPrice,
-          upperBound,
-          lowerBound,
-          departmentBidderCount: bidderCount,
-          image,
-        } = rawProduct;
-        const product: ProductThumbnailInfo = {
-          id,
-          productName,
-          departmentName: DEPARTMENTS[departmentId].label,
-          lowerBound,
-          currentHighestPrice,
-          upperBound,
-          bidderCount,
-          imageUrl: image.url,
-        };
-        return product;
-      });
-      return products;
-    } catch (error) {
-      const [messageApi] = message.useMessage();
-      if (error instanceof AxiosError) {
-        messageApi.open({
-          type: "error",
-          content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
+  const fetchDeptPopularProducts = useCallback(
+    async (departmentId: number, page: number = 1) => {
+      try {
+        const rawProducts = await getDeptPopularProducts(departmentId, page);
+        const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
+          const { id, productName, departmentId, currentHighestPrice, upperBound, lowerBound, bidderCount, image } =
+            rawProduct;
+          const product: ProductThumbnailInfo = {
+            id,
+            productName,
+            departmentName: departments[departmentId - 1].departmentName,
+            lowerBound,
+            currentHighestPrice,
+            upperBound,
+            bidderCount,
+            imageUrl: image.url,
+          };
+          return product;
         });
-        return;
-      } else {
-        messageApi.open({
-          type: "error",
-          content: COMMON_MESSAGE.UNKNOWN_ERROR,
-        });
+        return products;
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          messageApi.open({
+            type: "error",
+            content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
+          });
+          return;
+        } else {
+          messageApi.open({
+            type: "error",
+            content: COMMON_MESSAGE.UNKNOWN_ERROR,
+          });
+        }
       }
-    }
-  };
+    },
+    [departments, messageApi],
+  );
 
   useEffect(() => {
     userDepartmentId &&
@@ -223,7 +222,7 @@ const Main = () => {
           setDeptPopularProducts(() => products);
         }
       });
-  }, [userDepartmentId]);
+  }, [fetchDeptPopularProducts, userDepartmentId]);
 
   useEffect(() => {
     const deptPopularProductsWithoutOverlap = deptPopularProducts.filter((product) => {
@@ -250,7 +249,7 @@ const Main = () => {
           );
       }
     }
-  }, [deptPopularProducts, popularProducts, userDepartmentId]);
+  }, [deptPopularProducts, fetchDeptPopularProducts, popularProducts, userDepartmentId]);
 
   return (
     <Flex vertical css={SpaceStyle}>
@@ -265,16 +264,24 @@ const Main = () => {
       />
       <ItemList title="최근에 올라온" products={recentProducts} maxItemCount={maxItemCount} moreUrl="" showMore />
       {isSignedIn ? (
-        <ItemList
-          title={`${
-            userDepartmentId && departments.length > 0 ? departments[userDepartmentId - 1].departmentName : ""
-          }에서 많이 찾는`}
-          products={deptPopularProducts}
-          maxItemCount={maxItemCount}
-          moreUrl=""
-          showMore
-          showBidderCount
-        />
+        <>
+          <ItemList
+            title={`${
+              userDepartmentId && departments.length > 0 ? departments[userDepartmentId - 1].departmentName : ""
+            }에서 많이 찾는`}
+            products={deptPopularProducts}
+            maxItemCount={maxItemCount}
+            moreUrl=""
+            showMore
+            showBidderCount
+          />
+          <FloatButton
+            icon={<PlusOutlined />}
+            type="primary"
+            tooltip={<div>상품 등록하기</div>}
+            onClick={handleFloatButton}
+          />
+        </>
       ) : (
         <></>
       )}

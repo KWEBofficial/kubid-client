@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 .placeholder-style::placeholder {
   color: #a5a5a5;
   font-weight: bold;

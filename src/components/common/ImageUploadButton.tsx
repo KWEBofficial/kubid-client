@@ -14,6 +14,8 @@ const ImageUploadButton: React.FC<Props> = ({ name, handleChange }) => {
     if (!file) return;
 
     const image = await uploadImage(file);
+    console.log(image);
+    console.log(1);
     if (!image) return;
 
     handleChange(image);

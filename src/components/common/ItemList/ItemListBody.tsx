@@ -2,13 +2,13 @@
 import { css } from "@emotion/react";
 import { Col, Row } from "antd";
 import ItemButton from "./ItemListBody/ItemButton";
-import { ProductThumbnailInfo } from "../../../models/product";
+import { ProductThumbnailInfo, CurrentUserBuy, CurrentUserSell } from "../../../models/product";
 import { Typography } from "antd";
 
 const { Text } = Typography;
 
 interface ItemListBodyProps {
-  products: ProductThumbnailInfo[];
+  products: ProductThumbnailInfo[] | CurrentUserBuy[] | CurrentUserSell[];
   maxItemCount: number;
   showBidderCount?: boolean;
 }
@@ -27,7 +27,7 @@ const ItemListBody: React.FC<ItemListBodyProps> = ({ products, maxItemCount, sho
   ) : (
     <div css={NoItemStyle}>
       <img src={"cat.png"} alt="Image" css={NoItemImageStyle} /> <br />
-      <Text italic>아직 올라온 상품이 없나 봐요.</Text>
+      <Text italic strong type="secondary">아직 올라온 상품이 없나 봐요.</Text>
     </div>
   );
 };
