@@ -74,23 +74,29 @@ const ItemButtonStyle = css`
   padding: 0;
   position: relative;
   overflow: hidden;
-  border-radius: 7.5%;
+  border-radius: 4px;
   margin-bottom: 40px;
+  transition: all 0.3s ease;
 
   @media (max-width: ${sm_lower_bound}px) {
     width: 80%;
+  }
+
+  &:hover {
+    transform: scale(1.1); /* Zoom in by 10% on hover */
   }
 `;
 
 const ImageSectionStyle = css`
   height: 50%;
-  margin: 0;
+  margin: 0px;
+  background-color: ${colors.imageBg};
 `;
 
 const ImageStyle = css`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: scale-down;
 `;
 
 const TextSectionStyle = css`
@@ -126,14 +132,14 @@ const PriceStyle = css`
 const CurrentHighestPriceStyle = css`
   color: ${colors.black};
   font-weight: 700;
-  font-size: 32px;
+  font-size: 24px;
   margin-right: 6px;
 `;
 
 const UpperBoundStyle = css`
   color: ${colors.primary};
   font-weight: 700;
-  font-size: 24px;
+  font-size: 16px;
   margin-top: 5px;
 `;
 
