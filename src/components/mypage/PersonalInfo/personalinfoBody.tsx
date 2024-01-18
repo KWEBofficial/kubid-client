@@ -63,12 +63,12 @@ const PersonalInformationBody: React.FC<PersonalInformationProbs> = ({ nickname,
         <div css={UserInfoWrapper}>
           <p css={NicknameContainer}>
             <h1 css={Nickname}>{nickname}</h1>
-            <Button type="text" onClick={showModal}>
+            <Button type="primary" ghost onClick={showModal}>
               변경
             </Button>
           </p>
 
-          <Modal title="변경할 이름을 입력하세요" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+          <Modal title="변경할 닉네임을 입력하세요" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             <Flex vertical gap={12}>
               <Input placeholder="새로운 닉네임" value={newNickname} onChange={(e) => setNewNickname(e.target.value)} />
             </Flex>
@@ -80,9 +80,8 @@ const PersonalInformationBody: React.FC<PersonalInformationProbs> = ({ nickname,
             <span css={TextLabel}>학과:</span> {departmentName}
           </p>
           <p css={InfoParagraph}>
-            <span css={TextLabel}>비밀번호</span>
-            <Button type="text" onClick={() => handlePasswordChange()}>
-              변경
+            <Button type="text" ghost onClick={() => handlePasswordChange()}>
+              비밀번호 변경하기
             </Button>
           </p>
         </div>

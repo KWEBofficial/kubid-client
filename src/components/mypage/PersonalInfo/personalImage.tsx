@@ -49,7 +49,7 @@ const PersonalImage: React.FC<PersonalImageProps> = ({ imageURL }) => {
           e.currentTarget.src = "../../../public/cat.png";
         }}
       />
-      <Button type="primary" onClick={showModal}>
+      <Button type="primary" ghost onClick={showModal}>
         사진 등록
       </Button>
       <Modal title="사진을 첨부해주세요" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
