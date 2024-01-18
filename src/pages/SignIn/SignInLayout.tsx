@@ -81,13 +81,6 @@ export const SignInTag: React.FC = () => {
     }
   };
 
-  const handleEnterPress = () => {
-    if (!signInForm.email || !signInForm.password) {
-      return;
-    }
-    handleSubmit();
-  };
-
   return (
     <>
       {contextHolder}
