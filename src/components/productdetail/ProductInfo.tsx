@@ -9,7 +9,14 @@ import ImageGet from "../../components/common/ImageGet";
 import InitialButtons from "./InitialButtons";
 import BuyerButtons from "./BuyerButtons";
 import SellerButtons from "./SellerButtons";
-import { FireTwoTone } from "@ant-design/icons";
+import {
+  CalendarTwoTone,
+  CrownTwoTone,
+  EnvironmentTwoTone,
+  FireTwoTone,
+  FlagTwoTone,
+  TagsTwoTone,
+} from "@ant-design/icons";
 import DualProgress from "./DualProgress";
 
 const { Title, Text } = Typography;
@@ -89,26 +96,26 @@ const ProductInfo: React.FC = () => {
 
   return (
     <div>
+      <CenteredCol style={{ justifyContent: "center" }}>
+        <ImageGet src={imageUrl} />
+      </CenteredCol>
       <StyledRow>
-        <CenteredCol style={{ justifyContent: "center" }}>
-          <ImageGet maxHeight={500} maxWidth="100%" src={imageUrl} />
-        </CenteredCol>
-      </StyledRow>
-      <StyledRow>
-        <CenteredCol span={17} offset={2}>
+        <CenteredCol span={21}>
           <Title level={4} style={{ margin: 0 }}>
             {productName}
           </Title>
-        </CenteredCol>
-        <CenteredCol span={3}>
           <TextDesc>
+            &nbsp;&nbsp;
             <FireTwoTone twoToneColor="#F00" /> {bidders.size}
           </TextDesc>
+        </CenteredCol>
+        <CenteredCol span={3}>
+          <Text>&nbsp;&nbsp;{department}</Text>
         </CenteredCol>
       </StyledRow>
       {bidders.size === 0 ? (
         <StyledRow>
-          <CenteredCol span={3} offset={2}>
+          <CenteredCol span={3}>
             <TextDesc>하한가 </TextDesc>
           </CenteredCol>
           <CenteredCol span={14}>
@@ -120,62 +127,57 @@ const ProductInfo: React.FC = () => {
         </StyledRow>
       ) : (
         <StyledRow>
-          <CenteredCol span={3} offset={2}>
-            <TextDesc>현재 최고가 </TextDesc>
-          </CenteredCol>
-          <CenteredCol span={14}>
+          <CenteredCol span={12}>
+            <CrownTwoTone twoToneColor={colors.gray.dark} />
+            <TextDesc>&nbsp;현재 최고가 </TextDesc>
             <Text style={{ fontSize: "36px", fontWeight: "bolder", color: colors.secondary }}>
               {currentHighestPrice}
             </Text>
           </CenteredCol>
-          <CenteredCol span={3}>
-            <TextDesc>{department}</TextDesc>
+          <CenteredCol span={12}>
+            <FlagTwoTone twoToneColor={colors.gray.dark} />
+            <TextDesc>&nbsp;상한가 </TextDesc>
+            <Text style={{ fontSize: "36px", fontWeight: "bolder", color: colors.blue }}>{upperBound}</Text>
           </CenteredCol>
         </StyledRow>
       )}
       <StyledRow>
-        <CenteredCol span={3} offset={2}>
-          <TextDesc>상한가 </TextDesc>
-        </CenteredCol>
-        <CenteredCol span={14}>
-          <Text style={{ fontSize: "36px", fontWeight: "bolder", color: colors.blue }}>{upperBound}</Text>
-        </CenteredCol>
+        <CenteredCol span={3}></CenteredCol>
       </StyledRow>
       <StyledRow>
-        <CenteredCol span={3} offset={2}>
-          <TextDesc>거래장소 </TextDesc>
+        <EnvironmentTwoTone twoToneColor={colors.gray.dark} />
+        <CenteredCol span={3}>
+          <TextDesc>&nbsp;거래장소 </TextDesc>
         </CenteredCol>
         <CenteredCol span={14}>
           <TextDesc>{tradeLocation}</TextDesc>
         </CenteredCol>
       </StyledRow>
       <StyledRow>
-        <CenteredCol span={3} offset={2}>
-          <TextDesc>거래일시 </TextDesc>
+        <CalendarTwoTone twoToneColor={colors.gray.dark} />
+        <CenteredCol span={3}>
+          <TextDesc>&nbsp;거래일시 </TextDesc>
         </CenteredCol>
         <CenteredCol span={14}>
           <TextDesc>{tradeDate}</TextDesc>
         </CenteredCol>
       </StyledRow>
       <StyledRow>
-        <CenteredCol span={3} offset={2}>
-          <TextDesc>태그 </TextDesc>
+        <TagsTwoTone twoToneColor={colors.gray.dark} />
+        <CenteredCol span={3}>
+          <TextDesc>&nbsp;태그 </TextDesc>
         </CenteredCol>
         <CenteredCol span={14}>
-          <TextDesc>
-            {tags.map((tag: string, index: number) => (
-              <Tag key={index}>
-                #{tag.trim()}
-                {index < tags.length - 1 && " "}
-              </Tag>
-            ))}
-          </TextDesc>
+          {tags.map((tag: string, index: number) => (
+            <Tag key={index}>
+              #{tag.trim()}
+              {index < tags.length - 1 && " "}
+            </Tag>
+          ))}
         </CenteredCol>
       </StyledRow>
-      <StyledRow style={{ marginTop: "30px", marginBottom: "60px" }}>
-        <CenteredCol span={20} offset={2}>
-          <Text>{description}</Text>
-        </CenteredCol>
+      <StyledRow style={{ textAlign: "left", marginTop: "16px" }}>
+        <Text>{description}</Text>
       </StyledRow>
       {isSeller ? (
         <div>
@@ -217,7 +219,7 @@ const StyledRow = styled(Row)`
 
 const CenteredCol = styled(Col)`
   display: flex;
-  align-items: center;
+  align-items: baseline;
   width: 800px;
 `;
 
