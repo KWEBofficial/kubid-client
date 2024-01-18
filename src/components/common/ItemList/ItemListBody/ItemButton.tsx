@@ -2,12 +2,13 @@
 import { css } from "@emotion/react";
 import { Button, Flex, Progress } from "antd";
 import { colors } from "../../../../styles/colors";
-import { ProductThumbnailInfo } from "../../../../models/product";
+import { CurrentUserBuy, CurrentUserSell, ProductThumbnailInfo } from "../../../../models/product";
 import { sm_lower_bound } from "../../../../styles/responsive";
 import { FireTwoTone } from "@ant-design/icons";
+import React from "react";
 
 interface ItemButtonProps {
-  product: ProductThumbnailInfo;
+  product: ProductThumbnailInfo | CurrentUserBuy | CurrentUserSell;
   showBidderCount?: boolean;
 }
 
@@ -24,9 +25,9 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => 
           src={imageUrl}
           alt={imageUrl}
           css={ImageStyle}
-          onError={(e) => {
-            // NOTE: ts error가 뜨지만 잘 됨
-            e.target.src = altImageUrl;
+          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+            const target = e.target as HTMLImageElement;
+            target.src = altImageUrl;
           }}
         />
       </div>

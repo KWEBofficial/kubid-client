@@ -8,10 +8,11 @@ import { getSellingProduct } from "../api/user";
 import { getBuyingProduct } from "../api/user";
 import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../styles/responsive";
 import { useEffect, useState } from "react";
+import { DEPARTMENTS } from "../data/department";
 
 //components
 import MypageLayoutComponent from "../components/common/CustomLayout";
-import ItemList from "../components/mypage/ItemList";
+import ItemList from "../components/common/ItemList";
 import PersonalInformation from "../components/mypage/PersonalInformation";
 
 //import SearchSection from "../components/main_page/SearchSection";
@@ -52,6 +53,7 @@ const Main = () => {
     (async () => {
       try {
         const CurrentUser: UserInfo = await getCurrentUser();
+
         setUserInfo(CurrentUser);
       } catch (error) {
         console.error(error);
@@ -60,8 +62,18 @@ const Main = () => {
 
     (async () => {
       try {
-        const products: CurrentUserSell[] = await getSellingProduct(1, 5);
-        setSellingProducts(products ?? []);
+        const rawProducts = await getSellingProduct(1, 5);
+        const sellingProducts: CurrentUserSell[] = rawProducts.map((product: any) => {
+          const { department_id, image, ...rest } = product;
+          return {
+            ...rest,
+            department_id: department_id,
+            image: image,
+            imageUrl: image ? image.url : "",
+            departmentName: DEPARTMENTS[department_id].label, // Add the department name
+          };
+        });
+        setSellingProducts(sellingProducts ?? []);
       } catch (error) {
         console.error(error);
       }
@@ -69,8 +81,20 @@ const Main = () => {
 
     (async () => {
       try {
-        const products: CurrentUserBuy[] = await getBuyingProduct(1, 5);
-        setBuyingProducts(products ?? []);
+        const rawProducts: CurrentUserBuy[] = await getBuyingProduct(1, 5);
+
+        const buyingProducts = rawProducts.map((product) => {
+          const { department_id, image, ...rest } = product;
+          return {
+            ...rest,
+            department_id: department_id,
+            image: image,
+            imageUrl: image ? image.url : "",
+            departmentName: DEPARTMENTS[department_id].label, // Add the department name
+          };
+        });
+
+        setBuyingProducts(buyingProducts ?? []);
       } catch (error) {
         console.error(error);
       }
@@ -83,7 +107,7 @@ const Main = () => {
       {userInfo && <PersonalInformation userInfo={userInfo} />}
       {buyingProducts && (
         <ItemList
-          title="지금 구매중인"
+          title="구매 중인 상품"
           products={buyingProducts}
           maxItemCount={maxItemCount}
           moreUrl=""
@@ -93,7 +117,7 @@ const Main = () => {
       )}
       {sellingProducts && (
         <ItemList
-          title="지금 판매중인"
+          title="판매 중인 상품"
           products={sellingProducts}
           maxItemCount={maxItemCount}
           moreUrl=""

@@ -40,7 +40,7 @@ const PriceInput: React.FC<Props> = ({ lowerBound, upperBound, handleFormChange 
         <CurrencyLabel>원</CurrencyLabel>
       </PriceInputContainer>
       <PriceInputContainer>
-        <label htmlFor="upperBound">얼마에 바로 낙찰하셨어요?</label>
+        <label htmlFor="upperBound">얼마에 바로 낙찰하시겠어요?</label>
         <input type="text" name="upperBound" placeholder="상한가" value={upperBound} onChange={handleFormChange} />
         <CurrencyLabel>원</CurrencyLabel>
       </PriceInputContainer>
