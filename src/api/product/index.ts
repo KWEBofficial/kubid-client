@@ -21,6 +21,21 @@ export const getDeptPopularProducts = async (departmentId: number, page: number 
   return response.data;
 };
 
+export const getProductDetail = async (productId: string) => {
+  const response = await ApiManager.get(`/products/${productId}`);
+  return response.data;
+};
+
+export const deleteProduct = async (productId: string) => {
+  const response = await ApiManager.delete(`/products/${productId}`);
+  return response;
+};
+
+export const sellProduct = async (productId: string) => {
+  const response = await ApiManager.post(`/products/sell/${productId}`);
+  return response;
+};
+
 export const getSearchResults = async (search: string, page: number, pageSize: number, departmentId?: number) => {
   const response = await ApiManager.get(
     `/products?search=${search}&sort=recent&page=${page}&pageSize=${pageSize}&departmentId=${

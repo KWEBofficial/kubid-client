@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, KeyboardEvent } from "react";
 import LargeInput from "../../components/signup/LargeInput";
 import PasswordInput from "../../components/signup/PasswordInput";
 import BlueButton from "../../components/signup/BlueButton";
@@ -16,8 +16,13 @@ export const SignInTag: React.FC = () => {
     password: "",
   });
 
-  const [messageApi] = message.useMessage();
+  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleSubmit();
+    }
+  };
 
+  const [messageApi, contextHolder] = message.useMessage();
   const handleInputChange = (fieldName: string, value: string | boolean | number) => {
     setSignInForm((prevForm) => ({
       ...prevForm,
@@ -26,6 +31,12 @@ export const SignInTag: React.FC = () => {
   };
   const signIn = useSignIn();
   const navigate = useNavigate();
+  const warning = () => {
+    messageApi.open({
+      type: "warning",
+      content: "비밀번호를 다시 입력해주세요",
+    });
+  };
 
   const handleSubmit = async () => {
     const dataToSend: SignInInfo = {
@@ -51,6 +62,12 @@ export const SignInTag: React.FC = () => {
       });
     } catch (error) {
       if (error instanceof AxiosError) {
+        // 여기서 비밀번호가 틀렸을 때의 처리를 추가합니다.
+        if (error.response?.status === 401) {
+          // 또는 서버에서 반환하는 적절한 상태 코드
+          warning(); // 비밀번호가 틀렸을 때 warning 함수 호출
+          return;
+        }
         messageApi.open({
           type: "error",
           content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
@@ -63,13 +80,6 @@ export const SignInTag: React.FC = () => {
         });
       }
     }
-  };
-
-  const handleEnterPress = () => {
-    if (!signInForm.email || !signInForm.password) {
-      return;
-    }
-    handleSubmit();
   };
 
   const [form] = Form.useForm();
@@ -107,48 +117,52 @@ export const SignInTag: React.FC = () => {
   };
 
   return (
-    <Space direction="vertical">
-      <Form form={form} onFinish={onFinish}>
-        <Form.Item
-          name="email"
-          rules={[
-            {
-              type: "email",
-              message: "올바른 이메일 형식을 입력해주세요",
-            },
-            {
-              required: true,
-              message: "이메일을 입력해주세요",
-            },
-          ]}
-        >
-          <LargeInput placeholder="이메일" value={signInForm.email} onChange={(e) => handleInputChange("email", e)} />
-        </Form.Item>
+    <>
+      {contextHolder}
 
-        <Form.Item
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: "비밀번호를 입력해주세요",
-            },
-          ]}
-        >
-          <PasswordInput
-            onPasswordChange={(value) => handleInputChange("password", value)}
-            onEnterPress={handleEnterPress}
-          />
-        </Form.Item>
+      <Space direction="vertical">
+        <Form form={form} onFinish={onFinish}>
+          <Form.Item
+            name="email"
+            rules={[
+              {
+                type: "email",
+                message: "올바른 이메일 형식을 입력해주세요",
+              },
+              {
+                required: true,
+                message: "이메일을 입력해주세요",
+              },
+            ]}
+          >
+            <LargeInput placeholder="이메일" value={signInForm.email} onChange={(e) => handleInputChange("email", e)} />
+          </Form.Item>
 
-        <Form.Item>
-          <BlueButton
-            placeholder="로그인"
-            disabled={!signInForm.email || !signInForm.password}
-            onClick={handleSubmit}
-          />
-        </Form.Item>
-      </Form>
-    </Space>
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "비밀번호를 입력해주세요",
+              },
+            ]}
+          >
+            <PasswordInput
+              onPasswordChange={(value) => handleInputChange("password", value)}
+              onKeyPress={handleKeyPress}
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <BlueButton
+              placeholder="로그인"
+              disabled={!signInForm.email || !signInForm.password}
+              onClick={handleSubmit}
+            />
+          </Form.Item>
+        </Form>
+      </Space>
+    </>
   );
 };
 

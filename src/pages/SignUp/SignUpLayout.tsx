@@ -20,7 +20,7 @@ export const SignUpTag: React.FC = () => {
     departmentId: 0,
   });
 
-  const [messageApi] = message.useMessage();
+  const [messageApi, contextholder] = message.useMessage();
 
   const handleInputChange = (fieldName: string, value: string | boolean | number) => {
     setSignUpForm((prevForm) => ({
@@ -40,7 +40,9 @@ export const SignUpTag: React.FC = () => {
       await postSignUp(dataToSend);
       navigate("/auth/sign-in");
     } catch (error) {
+      console.log("ERROR: ", error);
       if (error instanceof AxiosError) {
+        console.log("IS AXIOS ERROR");
         messageApi.open({
           type: "error",
           content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
@@ -56,25 +58,32 @@ export const SignUpTag: React.FC = () => {
   };
 
   return (
-    <Space direction="vertical">
-      <LargeInput placeholder="이메일" value={signUpForm.email} onChange={(e) => handleInputChange("email", e)} />
-      <MatchingPasswordInput
-        onPasswordChange={(value) => handleInputChange("password", value)}
-        placeholders={["비밀번호", "비밀번호 재입력"]}
-      />
-      <LargeInput placeholder="닉네임" value={signUpForm.nickname} onChange={(e) => handleInputChange("nickname", e)} />
-      <DepartmentInput value={signUpForm.departmentId} onChange={(e) => handleInputChange("departmentId", e)} />
-      <BlueButton
-        placeholder="회원가입"
-        disabled={
-          !signUpForm.email ||
-          !signUpForm.nickname ||
-          !signUpForm.password ||
-          !signUpForm.passwordsMatch ||
-          signUpForm.departmentId === 0
-        }
-        onClick={handleSubmit}
-      />
-    </Space>
+    <>
+      {contextholder}
+      <Space direction="vertical">
+        <LargeInput placeholder="이메일" value={signUpForm.email} onChange={(e) => handleInputChange("email", e)} />
+        <MatchingPasswordInput
+          onPasswordChange={(value) => handleInputChange("password", value)}
+          placeholders={["비밀번호", "비밀번호 재입력"]}
+        />
+        <LargeInput
+          placeholder="닉네임"
+          value={signUpForm.nickname}
+          onChange={(e) => handleInputChange("nickname", e)}
+        />
+        <DepartmentInput value={signUpForm.departmentId} onChange={(e) => handleInputChange("departmentId", e)} />
+        <BlueButton
+          placeholder="회원가입"
+          disabled={
+            !signUpForm.email ||
+            !signUpForm.nickname ||
+            !signUpForm.password ||
+            !signUpForm.passwordsMatch ||
+            signUpForm.departmentId === 0
+          }
+          onClick={handleSubmit}
+        />
+      </Space>
+    </>
   );
 };

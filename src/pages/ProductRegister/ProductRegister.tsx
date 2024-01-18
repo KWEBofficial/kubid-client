@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import HigherLayoutComponent from "../../components/common/CustomLayout";
-import { Button, Flex, Card } from "antd";
+import { Button, Flex, Card, Modal } from "antd";
 import Tags from "../../components/ProductRegister/Tags";
 import { FormContainer } from "../../components/ProductRegister/FormContainer";
 import PriceInput from "../../components/ProductRegister/PriceInputContainer";
@@ -8,6 +8,7 @@ import { postProduct } from "../../api/product";
 import { ProductInfo } from "../../models/product";
 import ImageUploadButton from "../../components/common/ImageUploadButton";
 import { ImageDTO } from "../../types/image/dto";
+import { useNavigate } from "react-router";
 
 const ProductRegister = () => {
   const [form, setForm] = useState({
@@ -21,6 +22,7 @@ const ProductRegister = () => {
 
   const [image, setImage] = useState<ImageDTO | null>(null);
   const [tags, setTags] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   const handleAddTag = (tag: string) => {
     if (tags.length === 3) return;
@@ -57,8 +59,20 @@ const ProductRegister = () => {
       };
 
       await postProduct(body);
+
+      Modal.success({
+        title: "성공!",
+        content: "상품이 성공적으로 등록되었어요!",
+        onOk: () => {
+          navigate("/"); // 메인 페이지로 이동
+        },
+      });
     } catch (error) {
       console.error(error);
+      Modal.error({
+        title: "오류",
+        content: "상품 등록 중 오류가 발생했어요!",
+      });
     }
   };
 
@@ -75,6 +89,7 @@ const ProductRegister = () => {
         />
 
         <ImageUploadButton name="upload-image" handleChange={(image) => setImage(image)} />
+        {image && <img src={image.url} alt="image" style={{ width: '200px' }}/>}
 
         <Card>
           <label htmlFor="price">경매 가격대</label>

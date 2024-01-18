@@ -3,7 +3,6 @@ import { css } from "@emotion/react";
 import { Button, Flex, Progress } from "antd";
 import { colors } from "../../../../styles/colors";
 import { sm_lower_bound } from "../../../../styles/responsive";
-//import { FireTwoTone } from "@ant-design/icons";
 import { CurrentUserBuy, CurrentUserSell } from "../../../../models/product";
 import { FireTwoTone } from "@ant-design/icons";
 
@@ -25,9 +24,9 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => 
             src={image.url}
             alt={image.url}
             css={ImageStyle}
-            onError={(e) => {
-              // NOTE: ts error가 뜨지만 잘 됨
-              e.target.src = altImageUrl;
+            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+              const target = e.target as HTMLImageElement;
+              target.src = altImageUrl;
             }}
           />
         )}
@@ -40,11 +39,11 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => 
               <span css={BidderCountStyle}>
                 <FireTwoTone twoToneColor="#F00" /> {bidderCount}
               </span>
-              <span>{department_id} 학과</span>
+              <span>{departmentName}</span>
             </Flex>
           ) : (
             <Flex justify="right" align="flex-end" css={DeptStyle}>
-              <span css={OnlyDeptStyle}>{department_id}</span>
+              <span css={OnlyDeptStyle}>{departmentName}</span>
             </Flex>
           )}
 
@@ -55,6 +54,7 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => 
         </Flex>
       </div>
       <Progress
+        percent={progressPercent}
         size={["", 20]}
         status="normal"
         strokeLinecap="square"

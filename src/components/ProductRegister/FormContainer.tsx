@@ -8,12 +8,12 @@ export const FormContainer = styled.div`
   .input-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: 25px; /* Adjust the space as needed */
+    margin-bottom: 25px; 
   }
 
   label {
     margin-top: 10px;
-    font-size: 20px; // 글자 크기 조정
+    font-size: 16px; // 글자 크기 조정
     font-weight: bold;
   }
 
