@@ -72,7 +72,6 @@ const SpaceStyle = css`
 `;
 
 const SearchInputStyle = css`
-  fontsize: 20px;
   height: 50px;
 `;
 
