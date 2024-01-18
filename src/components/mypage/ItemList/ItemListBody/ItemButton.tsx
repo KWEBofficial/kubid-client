@@ -24,9 +24,9 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => 
             src={image.url}
             alt={image.url}
             css={ImageStyle}
-            onError={(e) => {
-              // NOTE: ts error가 뜨지만 잘 됨
-              e.target.src = altImageUrl;
+            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+              const target = e.target as HTMLImageElement;
+              target.src = altImageUrl;
             }}
           />
         )}
