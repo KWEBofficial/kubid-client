@@ -16,8 +16,6 @@ const MoreProduct: React.FC = () => {
   const page = Number(params.get("page")) || 1;
   const pageSize = Number(params.get("pageSize")) || 12;
 
-  console.log(page, pageSize);
-
   const url = "/products";
   const query = QueryString.stringify({ sort, departmentId, page, pageSize });
   const { data, isLoading, isError } = useFecth<ProductDTO[]>(`${url}?${query}`);
