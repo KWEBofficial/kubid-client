@@ -257,20 +257,26 @@ const Main = () => {
         title="지금 핫한 🔥"
         products={popularProducts}
         maxItemCount={maxItemCount}
-        moreUrl=""
+        moreUrl="/products/more?type=popular"
         showMore
         showBidderCount
       />
-      <ItemList title="최근에 올라온 상품" products={recentProducts} maxItemCount={maxItemCount} moreUrl="" showMore />
-      {isSignedIn ? (
+      <ItemList
+        title="최근에 올라온"
+        products={recentProducts}
+        maxItemCount={maxItemCount}
+        moreUrl="/products/more?type=recent"
+        showMore
+      />
+      {isSignedIn && userDepartmentId ? (
         <>
           <ItemList
             title={`${
               userDepartmentId && departments.length > 0 ? departments[userDepartmentId - 1].departmentName : ""
-            }에서 많이 찾는 상품`}
+            }에서 많이 찾는`}
             products={deptPopularProducts}
             maxItemCount={maxItemCount}
-            moreUrl=""
+            moreUrl={`/products/more?type=popular&departmentId=${userDepartmentId}`}
             showMore
             showBidderCount
           />

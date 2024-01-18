@@ -17,7 +17,7 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => 
   const altImageUrl: string = "noimage.png";
 
   return (
-    <Button href={`products/${id}`} css={ItemButtonStyle}>
+    <Button href={`/products/${id}`} css={ItemButtonStyle}>
       <div css={ImageSectionStyle}>
         {image && (
           <img

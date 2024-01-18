@@ -15,11 +15,14 @@ interface ItemButtonProps {
 const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => {
   const { id, productName, departmentName, lowerBound, currentHighestPrice, upperBound, imageUrl, bidderCount } =
     product;
-  const progressPercent = ((currentHighestPrice - lowerBound) / (upperBound - lowerBound)) * 100;
-  const altImageUrl: string = "noimage.png";
+  const progressPercent = currentHighestPrice
+    ? ((currentHighestPrice - lowerBound) / (upperBound - lowerBound)) * 100
+    : 0;
+
+  const altImageUrl: string = "/noimage.png";
 
   return (
-    <Button href={`products/${id}`} css={ItemButtonStyle}>
+    <Button href={`/products/${id}`} css={ItemButtonStyle}>
       <div css={ImageSectionStyle}>
         <img
           src={imageUrl}

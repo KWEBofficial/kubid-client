@@ -14,7 +14,7 @@ export interface ProductThumbnailInfo {
   productName: string;
   departmentName: string;
   lowerBound: number;
-  currentHighestPrice: number;
+  currentHighestPrice: number | null;
   upperBound: number;
   imageUrl: string;
   bidderCount?: number;
