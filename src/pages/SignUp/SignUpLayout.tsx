@@ -1,21 +1,20 @@
 import React, { useState } from "react";
 import LargeInput from "../../components/signup/LargeInput";
-import MatchingPasswordInput from "../../components/signup/MatchingPasswordInput";
 import DepartmentInput from "./DepartmentInput";
-import BlueButton from "../../components/signup/BlueButton";
 import { SignUpInfo } from "../../models/auth";
 import { postSignUp } from "../../api/auth";
-import { message, Space } from "antd";
+import { message, Space, Form, Input, Button } from "antd";
 import { AxiosError } from "axios";
 import { COMMON_MESSAGE } from "../../contants/message";
 import { useNavigate } from "react-router-dom";
+import "../../styles/global.css";
+import { sizeOfInput } from "../../styles/sizes";
 
 export const SignUpTag: React.FC = () => {
   const navigate = useNavigate();
   const [signUpForm, setSignUpForm] = useState({
     email: "",
     password: "",
-    passwordsMatch: true,
     nickname: "",
     departmentId: 0,
   });
@@ -29,7 +28,17 @@ export const SignUpTag: React.FC = () => {
     }));
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const validateEmail = (_: any, value: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!value || emailRegex.test(value)) {
+      return Promise.resolve();
+    }
+    return Promise.reject(new Error("올바른 이메일 형식을 입력해주세요!"));
+  };
+
   const handleSubmit = async () => {
+    await validateEmail({}, signUpForm.email);
     const dataToSend: SignUpInfo = {
       email: signUpForm.email,
       nickname: signUpForm.nickname,
@@ -61,28 +70,95 @@ export const SignUpTag: React.FC = () => {
     <>
       {contextholder}
       <Space direction="vertical">
-        <LargeInput placeholder="이메일" value={signUpForm.email} onChange={(e) => handleInputChange("email", e)} />
-        <MatchingPasswordInput
-          onPasswordChange={(value) => handleInputChange("password", value)}
-          placeholders={["비밀번호", "비밀번호 재입력"]}
-        />
-        <LargeInput
-          placeholder="닉네임"
-          value={signUpForm.nickname}
-          onChange={(e) => handleInputChange("nickname", e)}
-        />
-        <DepartmentInput value={signUpForm.departmentId} onChange={(e) => handleInputChange("departmentId", e)} />
-        <BlueButton
-          placeholder="회원가입"
-          disabled={
-            !signUpForm.email ||
-            !signUpForm.nickname ||
-            !signUpForm.password ||
-            !signUpForm.passwordsMatch ||
-            signUpForm.departmentId === 0
-          }
-          onClick={handleSubmit}
-        />
+        <Form scrollToFirstError onFinish={handleSubmit}>
+          <Form.Item
+            name="email"
+            rules={[
+              {
+                type: "email",
+                message: "",
+              },
+              {
+                required: true,
+                message: "이메일을 입력해주세요",
+              },
+              {
+                validator: validateEmail,
+              },
+            ]}
+          >
+            <LargeInput placeholder="이메일" value={signUpForm.email} onChange={(e) => handleInputChange("email", e)} />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+            ]}
+            hasFeedback
+          >
+            <Input.Password
+              placeholder="비밀번호"
+              value={signUpForm.password}
+              onChange={(e) => handleInputChange("password", e.target.value)}
+              style={sizeOfInput}
+              className="input-style"
+            />
+          </Form.Item>
+          <Form.Item
+            name="confirm"
+            dependencies={["password"]}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: "비밀번호가 일치하지 않아요!",
+              },
+              ({ getFieldValue }) => ({
+                validator(_, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("비밀번호가 일치하지 않아요!"));
+                },
+              }),
+            ]}
+          >
+            <Input.Password placeholder="비밀번호 재입력" style={sizeOfInput} className="input-style" />
+          </Form.Item>
+          <Form.Item>
+            <LargeInput
+              placeholder="닉네임"
+              value={signUpForm.nickname}
+              onChange={(e) => handleInputChange("nickname", e)}
+            />
+          </Form.Item>
+          <Form.Item>
+            <DepartmentInput value={signUpForm.departmentId} onChange={(e) => handleInputChange("departmentId", e)} />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={
+                !signUpForm.email || !signUpForm.nickname || !signUpForm.password || signUpForm.departmentId === 0
+              }
+              style={{
+                width: "328px",
+                height: "50px",
+                marginBottom: "10px",
+                color:
+                  !signUpForm.email || !signUpForm.nickname || !signUpForm.password || signUpForm.departmentId === 0
+                    ? "black"
+                    : "white",
+              }}
+            >
+              회원가입
+            </Button>
+          </Form.Item>
+        </Form>
       </Space>
     </>
   );
