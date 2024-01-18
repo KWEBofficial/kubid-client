@@ -75,7 +75,3 @@ const TextLabel = css`
 const UserIconStyle = css`
   font-size: 40px;
 `;
-
-const ItemListSection = css`
-  // Add your styles for the item list section
-`;

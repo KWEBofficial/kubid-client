@@ -2,13 +2,13 @@
 import { css } from "@emotion/react";
 import { Col, Row } from "antd";
 import ItemButton from "./ItemListBody/ItemButton";
-import { ProductThumbnailInfo } from "../../../models/product";
+import { ProductThumbnailInfo, CurrentUserBuy, CurrentUserSell } from "../../../models/product";
 import { Typography } from "antd";
 
 const { Text } = Typography;
 
 interface ItemListBodyProps {
-  products: ProductThumbnailInfo[];
+  products: ProductThumbnailInfo[] | CurrentUserBuy[] | CurrentUserSell[];
   maxItemCount: number;
   showBidderCount?: boolean;
 }

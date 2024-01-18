@@ -23,3 +23,9 @@ export interface UserInfo {
 export interface PasswordChangeInfo {
   password: string;
 }
+export interface NicknameChangeInfo {
+  nickname: string;
+}
+export interface ProfileImageChangeInfo {
+  image: ImageDTO;
+}
