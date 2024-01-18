@@ -7,18 +7,27 @@ import HigherLayoutComponent from "../components/common/CustomLayout";
 import ItemList from "../components/common/ItemList";
 import SearchSection from "../components/common/SearchSection";
 import { ProductThumbnailInfo } from "../models/product";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { message, Flex, FloatButton } from "antd";
 import { COMMON_MESSAGE } from "../contants/message";
 import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../styles/responsive";
 import { DEPARTMENTS } from "../data/department";
 import { useNavigate } from "react-router";
 import { PlusOutlined } from "@ant-design/icons";
+import { getCurrentUser } from "../api/user";
+import { DepartmentResDTO } from "../models/department";
+import { getDepartments } from "../api/department";
 
 const Main = () => {
+  const [departments, setDepartments] = useState<DepartmentResDTO[]>(dummyDepartments);
+
   const [recentProducts, setRecentProducts] = useState<ProductThumbnailInfo[]>(dummyProducts);
   const [popularProducts, setPopularProducts] = useState<ProductThumbnailInfo[]>(dummyProducts);
   const [deptPopularProducts, setDeptPopularProducts] = useState<ProductThumbnailInfo[]>(dummyProducts);
+  const [userDepartmentId, setUserDepartmentId] = useState<number>();
+  const [isSignedIn, SetIsSignedIn] = useState<boolean>(false);
+  const isWorthFetchingNextPageDeptPopularProducts = useRef<boolean>(true);
+  const fetchNextPageDeptPopularProductsCount = useRef<number>(0);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [maxItemCount, setMaxItemCount] = useState<number>(0);
@@ -30,6 +39,46 @@ const Main = () => {
   const handleResize = () => {
     setWindowWidth(window.innerWidth);
   };
+
+  useEffect(() => {
+    const fetchDepartments = async (): Promise<DepartmentResDTO[]> => {
+      return await getDepartments();
+    };
+
+    fetchDepartments().then((depts) => {
+      setDepartments(() => depts);
+    });
+  }, []);
+
+  useEffect(() => {
+    const fetchCurrentUserDepartmentId = async () => {
+      try {
+        const { departmentId } = await getCurrentUser();
+        SetIsSignedIn(true);
+        return departmentId;
+      } catch (error) {
+        SetIsSignedIn(false);
+
+        const [messageApi] = message.useMessage();
+        if (error instanceof AxiosError) {
+          messageApi.open({
+            type: "error",
+            content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
+          });
+          return;
+        } else {
+          messageApi.open({
+            type: "error",
+            content: COMMON_MESSAGE.UNKNOWN_ERROR,
+          });
+        }
+      }
+    };
+
+    fetchCurrentUserDepartmentId().then((departmentId) => {
+      setUserDepartmentId(departmentId);
+    });
+  }, []);
 
   useEffect(() => {
     handleResize();
@@ -125,56 +174,62 @@ const Main = () => {
       }
     };
 
-    const fetchDeptPopularProducts = async (departmentId: number) => {
-      try {
-        const rawProducts = await getDeptPopularProducts(departmentId);
-        const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
-          const {
-            id,
-            productName,
-            departmentId,
-            currentHighestPrice,
-            upperBound,
-            lowerBound,
-            departmentBidderCount: bidderCount,
-            image,
-          } = rawProduct;
-          const product: ProductThumbnailInfo = {
-            id,
-            productName,
-            departmentName: DEPARTMENTS[departmentId].label,
-            lowerBound,
-            currentHighestPrice,
-            upperBound,
-            bidderCount,
-            imageUrl: image.url,
-          };
-          return product;
+    fetchRecentProducts();
+    fetchPopularProducts();
+  }, []);
+
+  const fetchDeptPopularProducts = async (departmentId: number, page: number = 1) => {
+    try {
+      const rawProducts = await getDeptPopularProducts(departmentId, page);
+      const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
+        const {
+          id,
+          productName,
+          departmentId,
+          currentHighestPrice,
+          upperBound,
+          lowerBound,
+          departmentBidderCount: bidderCount,
+          image,
+        } = rawProduct;
+        const product: ProductThumbnailInfo = {
+          id,
+          productName,
+          departmentName: DEPARTMENTS[departmentId].label,
+          lowerBound,
+          currentHighestPrice,
+          upperBound,
+          bidderCount,
+          imageUrl: image.url,
+        };
+        return product;
+      });
+      return products;
+    } catch (error) {
+      const [messageApi] = message.useMessage();
+      if (error instanceof AxiosError) {
+        messageApi.open({
+          type: "error",
+          content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
         });
+        return;
+      } else {
+        messageApi.open({
+          type: "error",
+          content: COMMON_MESSAGE.UNKNOWN_ERROR,
+        });
+      }
+    }
+  };
+
+  useEffect(() => {
+    userDepartmentId &&
+      fetchDeptPopularProducts(userDepartmentId).then((products) => {
         if (products) {
           setDeptPopularProducts(() => products);
         }
-      } catch (error) {
-        const [messageApi] = message.useMessage();
-        if (error instanceof AxiosError) {
-          messageApi.open({
-            type: "error",
-            content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
-          });
-          return;
-        } else {
-          messageApi.open({
-            type: "error",
-            content: COMMON_MESSAGE.UNKNOWN_ERROR,
-          });
-        }
-      }
-    };
-
-    fetchRecentProducts();
-    fetchPopularProducts();
-    fetchDeptPopularProducts(2); // TODO: 로그인 유저 학과 id로 대체
-  }, []);
+      });
+  }, [userDepartmentId]);
 
   useEffect(() => {
     const deptPopularProductsWithoutOverlap = deptPopularProducts.filter((product) => {
@@ -187,8 +242,21 @@ const Main = () => {
     });
     if (JSON.stringify(deptPopularProducts) !== JSON.stringify(deptPopularProductsWithoutOverlap)) {
       setDeptPopularProducts(() => deptPopularProductsWithoutOverlap);
+      if (deptPopularProductsWithoutOverlap.length < 4) {
+        userDepartmentId &&
+          fetchDeptPopularProducts(userDepartmentId, fetchNextPageDeptPopularProductsCount.current + 2).then(
+            (products) => {
+              fetchNextPageDeptPopularProductsCount.current += 1;
+              if (isWorthFetchingNextPageDeptPopularProducts.current && products && products.length > 0) {
+                setDeptPopularProducts((prev) => [...prev, ...products]);
+              } else {
+                isWorthFetchingNextPageDeptPopularProducts.current = false;
+              }
+            },
+          );
+      }
     }
-  }, [deptPopularProducts, popularProducts]);
+  }, [deptPopularProducts, popularProducts, userDepartmentId]);
 
   return (
     <Flex vertical css={SpaceStyle}>
@@ -198,23 +266,32 @@ const Main = () => {
         products={popularProducts}
         maxItemCount={maxItemCount}
         moreUrl=""
-        showBidderCount
-      />
-      <ItemList title="최근에 올라온" products={recentProducts} maxItemCount={maxItemCount} moreUrl="" showMore />
-      <ItemList
-        title="경영학과에서 많이 찾는" // TODO: 로그인 유저 학과로 대체
-        products={deptPopularProducts}
-        maxItemCount={maxItemCount}
-        moreUrl=""
         showMore
         showBidderCount
       />
-      <FloatButton
-        icon={<PlusOutlined />}
-        type="primary"
-        tooltip={<div>상품 등록하기</div>}
-        onClick={handleFloatButton}
-      />
+      <ItemList title="최근에 올라온" products={recentProducts} maxItemCount={maxItemCount} moreUrl="" showMore />
+      {isSignedIn ? (
+        <>
+          <ItemList
+            title={`${
+              userDepartmentId && departments.length > 0 ? departments[userDepartmentId - 1].departmentName : ""
+            }에서 많이 찾는`}
+            products={deptPopularProducts}
+            maxItemCount={maxItemCount}
+            moreUrl=""
+            showMore
+            showBidderCount
+          />
+          <FloatButton
+            icon={<PlusOutlined />}
+            type="primary"
+            tooltip={<div>상품 등록하기</div>}
+            onClick={handleFloatButton}
+          />
+        </>
+      ) : (
+        <></>
+      )}
     </Flex>
   );
 };
@@ -237,3 +314,4 @@ const SpaceStyle = css`
 `;
 
 const dummyProducts: ProductThumbnailInfo[] = [];
+const dummyDepartments: DepartmentResDTO[] = [];

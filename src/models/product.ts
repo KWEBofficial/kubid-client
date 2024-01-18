@@ -20,3 +20,37 @@ export interface ProductThumbnailInfo {
   imageUrl: string;
   bidderCount?: number;
 }
+
+export interface CurrentUserBuy {
+  id: number;
+  product_name: string;
+  user_id: number;
+  status: string;
+  user_highest_price: number;
+  upper_bound: number;
+  department_id: number;
+  created_at: Date;
+  updated_at: Date;
+  current_highest_price: number;
+  image: {
+    id: number;
+    url: string;
+  };
+  bidderCount: number;
+}
+export interface CurrentUserSell {
+  id: number;
+  product_name: string;
+  user_id: number;
+  status: string;
+  upper_bound: number;
+  department_id: number;
+  created_at: Date;
+  updated_at: Date;
+  current_highest_price: number;
+  image: {
+    id: number;
+    url: string;
+  };
+  bidderCount: number;
+}
