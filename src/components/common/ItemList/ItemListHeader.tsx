@@ -19,14 +19,12 @@ const ItemListHeader: React.FC<ItemListHeaderProps> = ({ title, moreUrl, moreTex
       <Title level={4} css={HeaderStyle}>
         {title}
       </Title>
-      {showMore ? (
+      {showMore && (
         <Text css={moreTextStyle}>
           <Link to={moreUrl || ""} css={moreLinkStyle}>
             {moreText ? `${moreText}` : "더보기"}
           </Link>
         </Text>
-      ) : (
-        <></>
       )}
     </Flex>
   );

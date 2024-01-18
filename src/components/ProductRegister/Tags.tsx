@@ -14,8 +14,8 @@ const Tags: React.FC<Props> = ({ tags, addTag, deleteTag }) => {
   const _addTag = () => {
     if (inputValue && !tags.includes(inputValue)) {
       addTag(inputValue);
-      setInputValue("");
-      //해시태그 입력 시, 입력을 하고 setInputValue("") 가 UI에 반영되지 않음. 
+      setInputValue(() => "");
+      //해시태그 입력 시, 입력을 하고 setInputValue("") 가 UI에 반영되지 않음.
       //다른 방법을 시도해봐도 짜잘한 버그 발생.(해결필요)
     }
   };

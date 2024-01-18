@@ -26,7 +26,7 @@ const ItemListBody: React.FC<ItemListBodyProps> = ({ products, maxItemCount, sho
     </Row>
   ) : (
     <div css={NoItemStyle}>
-      <img src={"cat.png"} alt="Image" css={NoItemImageStyle} /> <br />
+      <img src="/cat.png" alt="Image" css={NoItemImageStyle} /> <br />
       <Text italic>아직 올라온 상품이 없나 봐요.</Text>
     </div>
   );

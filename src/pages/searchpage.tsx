@@ -114,7 +114,7 @@ const Search = () => {
 
   return (
     <Flex vertical css={SpaceStyle}>
-      <SearchSection defaultValue={search} defaultDepartmentId={departmentId} />
+      <SearchSection />
       <ItemList
         title={`${searchResultsCount}개의 상품을 찾았어요${searchResultsCount === 0 ? " 🥲" : ""}`}
         products={searchResults}
