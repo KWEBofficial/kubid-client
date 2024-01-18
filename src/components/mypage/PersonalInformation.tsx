@@ -7,9 +7,11 @@ interface PersonalInformationProbs {
   userInfo: UserInfo;
 }
 const PersonalInformation: React.FC<PersonalInformationProbs> = ({ userInfo }) => {
+  const noImageUrl = "noimage.png";
+
   return (
     <div css={infoContainerStyle}>
-      <PersonalImage imageURL={userInfo.image.url} />
+      <PersonalImage imageURL={(userInfo.image && userInfo.image.url) ?? noImageUrl} />
 
       <PersonalInformationBody
         nickname={userInfo.nickname}
