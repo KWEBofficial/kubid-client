@@ -22,7 +22,7 @@ const LinksInNav = () => {
         <Button type="text" onClick={() => handleSignOut()}>
           로그아웃
         </Button>
-        <Link to="/mypage">My Page</Link>
+        <Link to="/mypage">내 정보</Link>
       </nav>
     );
   } else {
@@ -30,7 +30,6 @@ const LinksInNav = () => {
       <nav>
         <Link to="/auth/sign-in">로그인</Link>
         <Link to="/auth/sign-up">회원가입</Link>
-        <Link to="/mypage">My Page</Link>
       </nav>
     );
   }
