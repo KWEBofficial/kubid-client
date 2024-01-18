@@ -257,7 +257,7 @@ const Main = () => {
         title="지금 핫한 🔥"
         products={popularProducts}
         maxItemCount={maxItemCount}
-        moreUrl="/products/more?type=popular"
+        moreUrl="/products/more?sort=popular"
         showMore
         showBidderCount
       />
