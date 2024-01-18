@@ -113,6 +113,7 @@ const Main = () => {
           moreUrl=""
           moreText="구매 중인 상품 더보기"
           showBidderCount
+          showMore
         />
       )}
       {sellingProducts && (
@@ -121,8 +122,9 @@ const Main = () => {
           products={sellingProducts}
           maxItemCount={maxItemCount}
           moreUrl=""
-          moreText="구매 중인 상품 더보기"
+          moreText="판매 중인 상품 더보기"
           showBidderCount
+          showMore
         />
       )}
     </Flex>

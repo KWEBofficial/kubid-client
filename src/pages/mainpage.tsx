@@ -265,7 +265,7 @@ const Main = () => {
         title="최근에 올라온"
         products={recentProducts}
         maxItemCount={maxItemCount}
-        moreUrl="/products/more?type=recent"
+        moreUrl="/products/more?sort=recent"
         showMore
       />
       {isSignedIn && userDepartmentId ? (
@@ -276,7 +276,7 @@ const Main = () => {
             }에서 많이 찾는`}
             products={deptPopularProducts}
             maxItemCount={maxItemCount}
-            moreUrl={`/products/more?type=popular&departmentId=${userDepartmentId}`}
+            moreUrl={`/products/more?sort=popular&departmentId=${userDepartmentId}`}
             showMore
             showBidderCount
           />
