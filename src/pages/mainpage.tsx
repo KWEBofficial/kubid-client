@@ -261,13 +261,13 @@ const Main = () => {
         showMore
         showBidderCount
       />
-      <ItemList title="최근에 올라온" products={recentProducts} maxItemCount={maxItemCount} moreUrl="" showMore />
+      <ItemList title="최근에 올라온 상품" products={recentProducts} maxItemCount={maxItemCount} moreUrl="" showMore />
       {isSignedIn ? (
         <>
           <ItemList
             title={`${
               userDepartmentId && departments.length > 0 ? departments[userDepartmentId - 1].departmentName : ""
-            }에서 많이 찾는`}
+            }에서 많이 찾는 상품`}
             products={deptPopularProducts}
             maxItemCount={maxItemCount}
             moreUrl=""
