@@ -4,9 +4,10 @@ import { Input, Space } from "antd";
 
 interface PasswordInputProps {
   onPasswordChange: (value: string) => void;
+  onEnterPress: () => void;
 }
 
-const PasswordInput: React.FC<PasswordInputProps> = ({ onPasswordChange }) => {
+const PasswordInput: React.FC<PasswordInputProps> = ({ onPasswordChange, onEnterPress }) => {
   const [password, setPassword] = useState<string>("");
 
   const handlePasswordChange = (value: string, field: "password") => {
@@ -25,6 +26,7 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ onPasswordChange }) => {
         iconRender={(visible) => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
         value={password}
         onChange={(e) => handlePasswordChange(e.target.value, "password")}
+        onPressEnter={onEnterPress}
         style={{
           width: "328px",
           height: "50px",
