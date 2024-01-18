@@ -27,19 +27,16 @@ const SearchInput: React.FC<SearchInputProps> = ({ departmentId, defaultValue })
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handlePressEnter = (e: any) => {
+  const handleSearchStart = (search: string) => {
     navigate(
-      `/products?search=${e.target.value}&sort=recent&page=1&pageSize=${pageSize}${
+      `/products?search=${search}&sort=recent&page=1&pageSize=${pageSize}${
         departmentId && departmentId > 0 ? `&departmentId=${departmentId}` : ""
       }`,
     );
-  };
-
-  useEffect(() => {
     inputRef.current!.focus({
       cursor: "end",
     });
-  }, []);
+  };
 
   return (
     <>
@@ -50,16 +47,18 @@ const SearchInput: React.FC<SearchInputProps> = ({ departmentId, defaultValue })
           allowClear
           css={SearchInputStyle}
           onChange={handleInputChange}
-          onPressEnter={handlePressEnter}
+          onPressEnter={() => {
+            handleSearchStart(search);
+          }}
           ref={inputRef}
         />
         <Button
           type="primary"
           icon={<SearchOutlined css={SearchIconStyle} />}
           css={SearchButtonStyle}
-          href={`/products?search=${search}&sort=recent${
-            departmentId && departmentId > 0 ? `&departmentId=${departmentId}` : ""
-          }&page=1&pageSize=${defaultPageSize}`}
+          onClick={() => {
+            handleSearchStart(search);
+          }}
         ></Button>
       </Space.Compact>
     </>
