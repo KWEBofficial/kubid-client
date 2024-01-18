@@ -38,7 +38,6 @@ const PersonalImage: React.FC<PersonalImageProps> = ({ imageURL }) => {
   const shouldShowDefaultImage = imageURL === ""; // Check if imageURL is empty
   const imagePath = shouldShowDefaultImage ? defaultImageUrl : imageURL;
   console.log(newimage?.id);
-
   return (
     <div css={containerStyle}>
       <img

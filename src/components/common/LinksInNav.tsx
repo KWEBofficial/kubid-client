@@ -13,6 +13,7 @@ const LinksInNav = () => {
   const handleSignOut = () => {
     signOut();
     navigate("/");
+    window.location.reload();
   };
 
   if (isAuthenticated()) {
