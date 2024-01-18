@@ -34,6 +34,7 @@ export const deleteProduct = async (productId: string) => {
 export const sellProduct = async (productId: string) => {
   const response = await ApiManager.post(`/products/sell/${productId}`);
   return response;
+};
 
 export const getSearchResults = async (search: string, page: number, pageSize: number, departmentId?: number) => {
   const response = await ApiManager.get(

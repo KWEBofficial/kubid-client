@@ -7,13 +7,12 @@ import HigherLayoutComponent from "../components/common/CustomLayout";
 import ItemList from "../components/common/ItemList";
 import SearchSection from "../components/common/SearchSection";
 import { ProductThumbnailInfo } from "../models/product";
-import { useEffect, useRef, useState, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { message, Flex, FloatButton } from "antd";
 import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../styles/responsive";
-import { DEPARTMENTS } from "../data/department";
 import { useNavigate } from "react-router";
 import { PlusOutlined } from "@ant-design/icons";
-import { COMMON_MESSAGE } from "../contants/message"
+import { COMMON_MESSAGE } from "../contants/message";
 import { getCurrentUser } from "../api/user";
 import { DepartmentResDTO } from "../models/department";
 import { getDepartments } from "../api/department";
