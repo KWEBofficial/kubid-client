@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 import PersonalImage from "./PersonalInfo/personalImage";
 import PersonalInformationBody from "./PersonalInfo/personalinfoBody";
 import { UserInfo } from "../../models/user";
+import { Divider } from "antd";
 interface PersonalInformationProbs {
   userInfo: UserInfo;
 }
@@ -12,6 +13,7 @@ const PersonalInformation: React.FC<PersonalInformationProbs> = ({ userInfo }) =
   return (
     <div css={infoContainerStyle}>
       <PersonalImage imageURL={(userInfo.image && userInfo.image.url) ?? noImageUrl} />
+      <Divider type="vertical" style={{ height: "200px" }} />
       <PersonalInformationBody
         nickname={userInfo.nickname}
         email={userInfo.email}

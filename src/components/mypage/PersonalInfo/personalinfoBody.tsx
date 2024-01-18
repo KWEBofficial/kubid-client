@@ -80,7 +80,7 @@ const PersonalInformationBody: React.FC<PersonalInformationProbs> = ({ nickname,
             <span css={TextLabel}>학과:</span> {departmentName}
           </p>
           <p css={InfoParagraph}>
-            <Button type="text" ghost onClick={() => handlePasswordChange()}>
+            <Button type="text" onClick={handlePasswordChange} style={{ padding: 0 }}>
               비밀번호 변경하기
             </Button>
           </p>
