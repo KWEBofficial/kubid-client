@@ -7,6 +7,7 @@ import ProductRegister from "../pages/ProductRegister/ProductRegister";
 import PasswordChangePage from "../pages/PasswordChange";
 import ProductDetailPage from "../pages/ProductDetail";
 import SearchPage from "../pages/searchpage";
+import MoreProductPage from "../pages/Products/More";
 
 /**
  * 어느 url에 어떤 페이지를 보여줄지 정해주는 컴포넌트입니다.
@@ -24,6 +25,7 @@ const RouteComponent = () => {
       <Route path="/products/:productId" element={<ProductDetailPage />} />
       <Route path="/users/current-user/password" element={<PasswordChangePage />} />
       <Route path="/products" element={<SearchPage />} />
+      <Route path="/products/more" element={<MoreProductPage />} />
     </Routes>
   );
 };
