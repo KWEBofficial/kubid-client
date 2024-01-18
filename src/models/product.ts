@@ -26,8 +26,10 @@ export interface CurrentUserBuy {
   user_id: number;
   status: string;
   user_highest_price: number;
+  lower_bound: number;
   upper_bound: number;
   department_id: number;
+  departmentName: string;
   created_at: Date;
   updated_at: Date;
   current_highest_price: number;
@@ -42,8 +44,10 @@ export interface CurrentUserSell {
   product_name: string;
   user_id: number;
   status: string;
+  lower_bound: number;
   upper_bound: number;
   department_id: number;
+  departmentName: string;
   created_at: Date;
   updated_at: Date;
   current_highest_price: number;
