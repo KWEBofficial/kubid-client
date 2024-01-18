@@ -1,15 +1,15 @@
-import { Select, ConfigProvider, Tooltip } from "antd";
+import { Select, Tooltip } from "antd";
 import { getDepartments } from "../../../api/department";
 import { useEffect, useState } from "react";
 import { DepartmentDropdownInfo, DepartmentResDTO } from "../../../models/department";
 
-const DepartmentDropdown: React.FC = () => {
-  const [departments, setDepartments] = useState<DepartmentDropdownInfo[]>(dummyDepartments);
-  const [selectedValue, setSelectedValue] = useState<number>(0);
+interface DepartmentDropdownProps {
+  selectedValue?: number | null;
+  changeSelectedValue: (value: number | null) => void;
+}
 
-  const handleChange = (value: number) => {
-    setSelectedValue(value);
-  };
+const DepartmentDropdown: React.FC<DepartmentDropdownProps> = ({ selectedValue, changeSelectedValue }) => {
+  const [departments, setDepartments] = useState<DepartmentDropdownInfo[]>([]);
 
   useEffect(() => {
     const fetchDepartments = async () => {
@@ -26,56 +26,30 @@ const DepartmentDropdown: React.FC = () => {
     fetchDepartments().then((departments: DepartmentDropdownInfo[]) => {
       const noDepartment: DepartmentDropdownInfo = {
         value: 0,
-        label: "학과 상관 없이",
+        label: "학과무관",
       };
 
       setDepartments(() => [noDepartment, ...departments]);
     });
   }, []);
 
-  useEffect(() => {
-    if (selectedValue === undefined) setSelectedValue(0);
-    console.log(selectedValue);
-  }, [selectedValue]);
-
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          fontSize: 18,
-          fontSizeIcon: 12,
-        },
-        components: {
-          Select: {
-            optionHeight: 40,
-            optionPadding: 10,
-          },
-        },
-      }}
+    <Tooltip
+      title="원하는 학과의 상품만 찾아 보세요!"
+      trigger="hover"
+      overlayInnerStyle={{ fontSize: "14px" }}
+      placement="top"
     >
-      <Tooltip
-        title="원하는 학과의 상품만 찾아 보세요!"
-        trigger="hover"
-        overlayInnerStyle={{ fontSize: "14px" }}
-        placement="top"
-      >
-        <Select
-          value={selectedValue}
-          dropdownStyle={{ padding: 10 }}
-          style={{
-            width: "100%",
-            height: "60px",
-            textAlign: "center",
-          }}
-          onChange={handleChange}
-          options={departments}
-          allowClear
-        />
-      </Tooltip>
-    </ConfigProvider>
+      <Select
+        value={selectedValue}
+        onChange={changeSelectedValue}
+        options={departments}
+        placeholder={"학과를 선택해주세요"}
+        allowClear
+        style={{ width: "100%", height: "50px", fontSize: "20px" }}
+      />
+    </Tooltip>
   );
 };
 
 export default DepartmentDropdown;
-
-const dummyDepartments: DepartmentDropdownInfo[] = [];

@@ -3,6 +3,7 @@ import { ConfigProvider } from "antd";
 import RouteComponent from "./routes";
 import AuthProvider from "react-auth-kit";
 import createStore from "react-auth-kit/createStore";
+import customTheme from "./styles/theme";
 
 interface UserDataInterface {
   email: string;
@@ -19,7 +20,7 @@ const store = createStore<UserDataInterface>({
 function App() {
   return (
     <AuthProvider store={store}>
-      <ConfigProvider>
+      <ConfigProvider theme={customTheme}>
         <BrowserRouter>
           <RouteComponent />
         </BrowserRouter>

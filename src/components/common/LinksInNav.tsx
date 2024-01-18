@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "antd";
 import useIsAuthenticated from "react-auth-kit/hooks/useIsAuthenticated";
 import useSignOut from "react-auth-kit/hooks/useSignOut";
@@ -9,6 +9,7 @@ const LinksInNav = () => {
   const isAuthenticated = useIsAuthenticated();
   const signOut = useSignOut();
   const navigate = useNavigate();
+  const isAuthPage = useLocation().pathname.includes("auth");
 
   const handleSignOut = () => {
     signOut();
@@ -16,10 +17,12 @@ const LinksInNav = () => {
     window.location.reload();
   };
 
+  if (isAuthPage) return <></>;
+
   if (isAuthenticated()) {
     return (
       <nav>
-        <Button type="text" onClick={() => handleSignOut()}>
+        <Button type="text" onClick={handleSignOut}>
           로그아웃
         </Button>
         <Link to="/mypage">내 정보</Link>
@@ -28,8 +31,12 @@ const LinksInNav = () => {
   } else {
     return (
       <nav>
-        <Link to="/auth/sign-in">로그인</Link>
-        <Link to="/auth/sign-up">회원가입</Link>
+        <Link to="/auth/sign-in">
+          <Button type="primary">로그인</Button>
+        </Link>
+        <Link to="/auth/sign-up">
+          <Button>회원가입</Button>
+        </Link>
       </nav>
     );
   }
