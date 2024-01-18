@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Input, Tag } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { Input, Tag, theme } from "antd";
 
 interface Props {
   tags: string[];

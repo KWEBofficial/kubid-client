@@ -15,7 +15,7 @@ interface ItemListHeaderProps {
 
 const ItemListHeader: React.FC<ItemListHeaderProps> = ({ title, moreUrl, moreText, showMore }) => {
   return (
-    <Flex justify="space-between" align="flex-end">
+    <Flex justify="space-between" align="flex-end" style={{ marginBottom: "12px" }}>
       <Title level={4} css={HeaderStyle}>
         {title}
       </Title>

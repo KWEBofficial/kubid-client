@@ -7,10 +7,13 @@ import HigherLayoutComponent from "../components/common/CustomLayout";
 import ItemList from "../components/common/ItemList";
 import SearchSection from "../components/common/SearchSection";
 import { ProductThumbnailInfo } from "../models/product";
-import { useCallback, useEffect, useRef, useState } from "react";
-import { message, Flex } from "antd";
-import { COMMON_MESSAGE } from "../contants/message";
+import { useEffect, useRef, useState, useRef } from "react";
+import { message, Flex, FloatButton } from "antd";
 import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../styles/responsive";
+import { DEPARTMENTS } from "../data/department";
+import { useNavigate } from "react-router";
+import { PlusOutlined } from "@ant-design/icons";
+import { COMMON_MESSAGE } from "../contants/message"
 import { getCurrentUser } from "../api/user";
 import { DepartmentResDTO } from "../models/department";
 import { getDepartments } from "../api/department";
@@ -28,6 +31,10 @@ const Main = () => {
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [maxItemCount, setMaxItemCount] = useState<number>(0);
+  const navigate = useNavigate();
+  const handleFloatButton = () => {
+    navigate("/products/register");
+  };
 
   const [messageApi] = message.useMessage();
 
@@ -257,16 +264,24 @@ const Main = () => {
       />
       <ItemList title="최근에 올라온" products={recentProducts} maxItemCount={maxItemCount} moreUrl="" showMore />
       {isSignedIn ? (
-        <ItemList
-          title={`${
-            userDepartmentId && departments.length > 0 ? departments[userDepartmentId - 1].departmentName : ""
-          }에서 많이 찾는`}
-          products={deptPopularProducts}
-          maxItemCount={maxItemCount}
-          moreUrl=""
-          showMore
-          showBidderCount
-        />
+        <>
+          <ItemList
+            title={`${
+              userDepartmentId && departments.length > 0 ? departments[userDepartmentId - 1].departmentName : ""
+            }에서 많이 찾는`}
+            products={deptPopularProducts}
+            maxItemCount={maxItemCount}
+            moreUrl=""
+            showMore
+            showBidderCount
+          />
+          <FloatButton
+            icon={<PlusOutlined />}
+            type="primary"
+            tooltip={<div>상품 등록하기</div>}
+            onClick={handleFloatButton}
+          />
+        </>
       ) : (
         <></>
       )}
