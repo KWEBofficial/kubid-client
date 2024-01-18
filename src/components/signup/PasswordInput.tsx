@@ -19,12 +19,6 @@ const PasswordInput: React.FC<PasswordInputProps> = ({ onPasswordChange, onKeyPr
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && onEnterPress) {
-      onEnterPress();
-    }
-  };
-
   return (
     <Space direction="vertical">
       <Input.Password
