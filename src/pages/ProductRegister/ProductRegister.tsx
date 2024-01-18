@@ -89,6 +89,7 @@ const ProductRegister = () => {
         />
 
         <ImageUploadButton name="upload-image" handleChange={(image) => setImage(image)} />
+        {image && <img src={image.url} alt="image" style={{ width: '200px' }}/>}
 
         <Card>
           <label htmlFor="price">경매 가격대</label>
