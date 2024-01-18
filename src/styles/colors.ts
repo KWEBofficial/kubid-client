@@ -8,4 +8,5 @@ export const colors = {
     light: "#eee",
     dark: "#888",
   },
+  imageBg: "#E1EAF1"
 };
