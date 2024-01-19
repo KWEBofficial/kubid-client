@@ -8,6 +8,7 @@ import PasswordChangePage from "../pages/PasswordChange";
 import ProductDetailPage from "../pages/ProductDetail";
 import SearchPage from "../pages/searchpage";
 import MoreProductPage from "../pages/Products/More";
+import MyPageProductsPage from "../pages/Products/mypage";
 
 /**
  * 어느 url에 어떤 페이지를 보여줄지 정해주는 컴포넌트입니다.
@@ -21,6 +22,8 @@ const RouteComponent = () => {
       <Route path="/auth/sign-in" element={<SignInPage />} />
       <Route path="/products/register" element={<ProductRegister />} />
       <Route path="/mypage" element={<MyPage />} />
+      <Route path="/mypage/buying" element={<MyPageProductsPage type="buy" />} />
+      <Route path="/mypage/selling" element={<MyPageProductsPage type="sell" />} />
       <Route path="/users/current-user" element={<PasswordChangePage />} />
       <Route path="/products/:productId" element={<ProductDetailPage />} />
       <Route path="/users/current-user/password" element={<PasswordChangePage />} />

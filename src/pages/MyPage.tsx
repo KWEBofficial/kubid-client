@@ -110,7 +110,7 @@ const Main = () => {
           title="구매 중인 상품"
           products={buyingProducts}
           maxItemCount={maxItemCount}
-          moreUrl=""
+          moreUrl="/mypage/buying"
           moreText="구매 중인 상품 더보기"
           showBidderCount
           showMore
@@ -121,7 +121,7 @@ const Main = () => {
           title="판매 중인 상품"
           products={sellingProducts}
           maxItemCount={maxItemCount}
-          moreUrl=""
+          moreUrl="/mypage/selling"
           moreText="판매 중인 상품 더보기"
           showBidderCount
           showMore
