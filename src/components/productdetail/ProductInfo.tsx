@@ -115,14 +115,14 @@ const ProductInfo: React.FC = () => {
       </StyledRow>
       {bidders.size === 0 ? (
         <StyledRow>
-          <CenteredCol span={3}>
+          <CenteredCol span={12}>
             <TextDesc>하한가 </TextDesc>
-          </CenteredCol>
-          <CenteredCol span={14}>
             <Text style={{ fontSize: "36px", fontWeight: "bolder", color: colors.secondary }}>{lowerBound}</Text>
           </CenteredCol>
-          <CenteredCol span={3}>
-            <TextDesc>{department}</TextDesc>
+          <CenteredCol span={12}>
+            <FlagTwoTone twoToneColor={colors.gray.dark} />
+            <TextDesc>&nbsp;상한가 </TextDesc>
+            <Text style={{ fontSize: "36px", fontWeight: "bolder", color: colors.blue }}>{upperBound}</Text>
           </CenteredCol>
         </StyledRow>
       ) : (
