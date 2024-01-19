@@ -1,8 +1,13 @@
-import { ProductInfo } from "../../models/product";
+import { ProductInfo, UpdateProductDTO } from "../../models/product";
 import ApiManager from "..";
 
 export const postProduct = async (productInfo: ProductInfo) => {
-  const response = await ApiManager.post("/products/register", productInfo);
+  const response = await ApiManager.post(`/products/register`, productInfo);
+  return response.data;
+};
+
+export const updateProduct = async (productId: number, productInfo: UpdateProductDTO) => {
+  const response = await ApiManager.patch(`/products/modify/${productId}`, productInfo);
   return response.data;
 };
 

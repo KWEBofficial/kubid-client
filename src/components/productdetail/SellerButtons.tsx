@@ -49,7 +49,8 @@ const SellerButtons: React.FC = () => {
       await deleteProduct(productId);
       window.location.reload();
     } catch (error) {
-      if (error.response.data.name === "UnauthorizedError") {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      if ((error as any).response.data.name === "UnauthorizedError") {
         showLoginAlert();
       } else {
         console.error(error);
@@ -86,7 +87,7 @@ const SellerButtons: React.FC = () => {
           정말 제품 글을 삭제하시겠어요? <br />
         </Text>
       </Modal>
-      <BiddingButton onClick={() => navigate("/products")}>글 수정하기</BiddingButton>
+      <BiddingButton onClick={() => navigate(`/products/modify/${productId}`)}>글 수정하기</BiddingButton>
       <BiddingButton type="primary" onClick={handleSellNow}>
         바로낙찰
       </BiddingButton>

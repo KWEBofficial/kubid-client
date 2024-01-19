@@ -1,18 +1,24 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate, useParams } from "react-router";
 import HigherLayoutComponent from "../../components/common/CustomLayout";
-import { Button, Flex, Card, Modal } from "antd";
-import Tags from "../../components/ProductRegister/Tags";
-import { FormContainer } from "../../components/ProductRegister/FormContainer";
-import PriceInput from "../../components/ProductRegister/PriceInputContainer";
-import { postProduct } from "../../api/product";
-import { ProductInfo } from "../../models/product";
-import ImageUploadButton from "../../components/common/ImageUploadButton";
+import { updateProduct } from "../../api/product";
 import { ImageDTO } from "../../types/image/dto";
-import { useNavigate } from "react-router";
+import { Modal, Card, Flex, Button } from "antd";
+import { UpdateProductDTO } from "../../models/product";
+import { FormContainer } from "../../components/ProductRegister/FormContainer";
+import ImageUploadButton from "../../components/common/ImageUploadButton";
+import PriceInput from "../../components/ProductRegister/PriceInputContainer";
+import Tags from "../../components/ProductRegister/Tags";
+import { useFecth } from "../../hooks/useFetch";
 import { TagDTO } from "../../types/tag/dto";
+import { deleteTag, createTag } from "../../api/tag";
 
-const ProductRegister = () => {
-  const [form, setForm] = useState({
+const ProductModify = () => {
+  const { productId } = useParams();
+  const navigate = useNavigate();
+
+  // Initial state setup
+  const [form, setForm] = useState<any>({
     productName: "",
     description: "",
     lowerBound: "",
@@ -21,14 +27,29 @@ const ProductRegister = () => {
     tradeDate: "",
   });
 
+  const { data, isLoading } = useFecth<any>(`/products/${productId}`);
   const [image, setImage] = useState<ImageDTO | null>(null);
   const [tags, setTags] = useState<TagDTO[]>([]);
-  const tagRef = useRef(-1);
-  const navigate = useNavigate();
+  const tagIdRef = useRef(-1);
+
+  // Fetch product data
+  useEffect(() => {
+    data && setForm(data);
+    data && setTags(data.tags);
+    data && setImage(data.image);
+  }, [data]);
+
+  if (!data || isLoading) return <div>로딩 중...</div>;
+
+  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
   const handleAddTag = (tag: string) => {
     if (tags.length === 3) return;
-    setTags(tags.concat({ id: tagRef.current--, tag }));
+
+    setTags(tags.concat({ id: tagIdRef.current--, tag }));
   };
 
   const handleDeleteTag = (tagId: number) => {
@@ -38,33 +59,37 @@ const ProductRegister = () => {
     setTags(tags.filter((t) => t.id !== tagId));
   };
 
-  const handleFormChange = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setForm({ ...form, [name]: value });
-  };
-
-  const handleSubmit = async (event: React.FormEvent) => {
+  // Modify existing product
+  const handleModify = async (event: React.FormEvent) => {
     event.preventDefault();
-
     try {
       if (!image) throw new Error("이미지가 없습니다.");
 
-      const body: ProductInfo = {
+      const updatedProduct: UpdateProductDTO = {
         productName: form.productName,
         desc: form.description,
         imageId: image.id,
         upperBound: Number(form.upperBound),
         lowerBound: Number(form.lowerBound),
-        tradeLocation: form.tradeLocation,
-        tradeDate: form.tradeDate,
-        tags: tags.map((tag) => tag.tag),
+        tradingPlace: form.tradeLocation,
+        tradingTime: form.tradeDate,
       };
 
-      await postProduct(body);
+      await updateProduct(Number(productId), updatedProduct);
+
+      data.tags.forEach(async (tag: TagDTO) => {
+        const found = tags.find((formTag) => formTag.id === tag.id);
+        if (!found) {
+          await deleteTag(tag.id);
+        }
+      });
+
+      const createTags = tags.filter((tag) => tag.id < 0).map((tag) => tag.tag);
+      await createTag({ productId: Number(productId), tag: createTags });
 
       Modal.success({
         title: "성공!",
-        content: "상품이 성공적으로 등록되었어요!",
+        content: "상품이 성공적으로 수정되었어요!",
         onOk: () => {
           navigate("/"); // 메인 페이지로 이동
         },
@@ -73,14 +98,14 @@ const ProductRegister = () => {
       console.error(error);
       Modal.error({
         title: "오류",
-        content: "상품 등록 중 오류가 발생했어요!",
+        content: "상품 수정 중 오류가 발생했어요!",
       });
     }
   };
 
   return (
     <FormContainer>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleModify}>
         <input
           type="text"
           name="productName"
@@ -125,7 +150,7 @@ const ProductRegister = () => {
         </Card>
 
         <Flex gap="large" wrap="wrap" justify="center">
-          <Button type="primary" onClick={handleSubmit}>
+          <Button type="primary" onClick={handleModify}>
             상품 등록
           </Button>
         </Flex>
@@ -134,5 +159,6 @@ const ProductRegister = () => {
   );
 };
 
-const ProductRegisterPage = HigherLayoutComponent(ProductRegister);
-export default ProductRegisterPage;
+const ProductModifyPage = HigherLayoutComponent(ProductModify);
+
+export default ProductModifyPage;
