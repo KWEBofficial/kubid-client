@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import { Input, Button, Space, InputRef } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface SearchInputProps {
@@ -12,6 +12,7 @@ interface SearchInputProps {
 
 const SearchInput: React.FC<SearchInputProps> = ({ departmentId, defaultValue }) => {
   const [search, setSearch] = useState<string>(defaultValue || "");
+  const [selectedDepartmentId, setSelectedDepartmentId] = useState<number | undefined>(departmentId);
 
   const params = new URLSearchParams(window.location.search);
   const pageSize = Number(params.get("pageSize")) || 4;
@@ -24,17 +25,25 @@ const SearchInput: React.FC<SearchInputProps> = ({ departmentId, defaultValue })
     setSearch(e.target.value);
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleSearchStart = (search: string) => {
-    navigate(
-      `/products?search=${search}&sort=recent&page=1&pageSize=${pageSize}${
-        departmentId && departmentId > 0 ? `&departmentId=${departmentId}` : ""
-      }`,
-    );
-    inputRef.current!.focus({
-      cursor: "end",
-    });
-  };
+  const handleSearchStart = useCallback(() => {
+    if (search) {
+      navigate(
+        `/products?search=${search}&sort=recent&page=1&pageSize=${pageSize}${
+          departmentId && departmentId > 0 ? `&departmentId=${departmentId}` : ""
+        }`,
+      );
+      inputRef.current!.focus({
+        cursor: "end",
+      });
+    }
+  }, [navigate, pageSize, departmentId, search]);
+
+  useEffect(() => {
+    if (selectedDepartmentId !== departmentId) {
+      setSelectedDepartmentId(departmentId);
+      handleSearchStart();
+    }
+  }, [departmentId, selectedDepartmentId, handleSearchStart]);
 
   return (
     <>
@@ -46,7 +55,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ departmentId, defaultValue })
           css={SearchInputStyle}
           onChange={handleInputChange}
           onPressEnter={() => {
-            handleSearchStart(search);
+            handleSearchStart();
           }}
           ref={inputRef}
         />
@@ -55,7 +64,7 @@ const SearchInput: React.FC<SearchInputProps> = ({ departmentId, defaultValue })
           icon={<SearchOutlined css={SearchIconStyle} />}
           css={SearchButtonStyle}
           onClick={() => {
-            handleSearchStart(search);
+            handleSearchStart();
           }}
         ></Button>
       </Space.Compact>

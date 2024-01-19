@@ -15,6 +15,9 @@ import { getDepartments } from "../api/department";
 import { useNavigate } from "react-router-dom";
 
 const Search = () => {
+  const [messageApi] = message.useMessage();
+  const navigate = useNavigate();
+
   const [departments, setDepartments] = useState<DepartmentResDTO[]>(dummyDepartments);
   const [searchResults, setSearchResults] = useState<ProductThumbnailInfo[]>(dummyProducts);
   const [searchResultsCount, setSearchResultsCount] = useState<number>(0);
@@ -25,9 +28,10 @@ const Search = () => {
   const pageSize = Number(params.get("pageSize")) > 0 ? Number(params.get("pageSize")) : 4;
   const departmentId = Number(params.get("departmentId")) > 0 ? Number(params.get("departmentId")) : undefined;
 
-  const [messageApi] = message.useMessage();
-
-  const navigate = useNavigate();
+  const [pageDisplayed, setPageDisplayed] = useState<number>(page);
+  useEffect(() => {
+    setPageDisplayed(page);
+  }, [page]);
 
   const handlePageChange = (page: number, pageSize: number) => {
     navigate(
@@ -122,7 +126,7 @@ const Search = () => {
       />
       {searchResultsCount > 0 ? (
         <Pagination
-          defaultCurrent={page}
+          current={pageDisplayed}
           pageSize={pageSize}
           total={searchResultsCount}
           css={PaginationStyle}
