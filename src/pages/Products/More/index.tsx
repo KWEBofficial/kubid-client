@@ -45,11 +45,21 @@ const MoreProduct: React.FC = () => {
     recent: "최근에 올라온",
     popular: "지금 핫한 🔥",
   };
+
   return (
     <div>
       <ItemList title={`${title[sort]} 글들을 모아봤어요!`} maxItemCount={pageSize} products={products} />
       <div css={PaginationWrapper}>
-        <Pagination css={PaginationStyle} total={count.count} current={page} pageSize={pageSize} />
+        <Pagination
+          css={PaginationStyle}
+          total={count.count}
+          current={page}
+          pageSize={pageSize}
+          onChange={(page, pageSize) => {
+            const query = QueryString.stringify({ sort, departmentId, page, pageSize });
+            window.location.href = `/products/more?${query}`;
+          }}
+        />
       </div>
     </div>
   );
