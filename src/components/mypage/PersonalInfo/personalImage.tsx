@@ -53,7 +53,7 @@ const PersonalImage: React.FC<PersonalImageProps> = ({ imageURL }) => {
       </Button>
       <Modal title="사진을 첨부해주세요" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <ImageUploadButton name="image" handleChange={handleImageChange} />
-        {newimage && <img src={newimage.url} alt="image" />}
+        {newimage && <img src={newimage.url} alt="image" css={previewImageStyle} />}
       </Modal>
     </div>
   );
@@ -81,4 +81,12 @@ const containerStyle = css`
   flex-direction: column;
   align-items: center;
   padding-right: 100px;
+`;
+const previewImageStyle = css`
+  max-width: 100%; /* Ensures image width does not exceed the modal's width */
+  height: auto; /* Maintains the aspect ratio of the image */
+  display: block; /* Removes any extra space around the image */
+  margin-top: 10px; /* Adds a top margin of 10px */
+  margin-left: auto; /* Centers the image horizontally */
+  margin-right: auto;
 `;
