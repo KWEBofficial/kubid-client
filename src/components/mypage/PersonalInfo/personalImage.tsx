@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
 import { Button, Modal } from "antd";
-import { patchUserDetails } from "../../../api/users";
+import { patchUserDetails } from "../../../api/user";
 import { ImageDTO } from "../../..//types/image/dto";
 import ImageUploadButton from "../../../components/common/ImageUploadButton";
 import { ProfileImageChangeInfo } from "../../../models/user";

@@ -4,7 +4,7 @@ import MatchingPasswordInput from "../../components/signup/MatchingPasswordInput
 import BlueButton from "../../components/signup/BlueButton";
 import GrayButton from "../../components/passwordchange/GrayButton";
 import { PasswordChangeInfo } from "../../models/user";
-import { patchUserDetails } from "../../api/users";
+import { patchUserDetails } from "../../api/user";
 import { message, Space } from "antd";
 import { AxiosError } from "axios";
 import { COMMON_MESSAGE } from "../../contants/message";

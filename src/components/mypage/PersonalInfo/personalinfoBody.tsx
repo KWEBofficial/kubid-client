@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import { Button, Modal } from "antd";
 import { getDepartments } from "../../../api/department/index";
-import { patchUserDetails } from "../../../api/users/index";
+import { patchUserDetails } from "../../../api/user/index";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Flex, Input } from "antd";
