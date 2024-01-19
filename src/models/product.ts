@@ -28,6 +28,7 @@ export interface ProductThumbnailInfo {
   upperBound: number;
   imageUrl: string;
   bidderCount?: number;
+  status?: string; // `status` 속성을 옵셔널로 추가합니다.
 }
 
 export interface ProductDetailInfo {
