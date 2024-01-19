@@ -40,8 +40,7 @@ export const PasswordChangeTag: React.FC = () => {
   }
   const decodedToken = parseJwt(token);
   const decodedEmail = decodedToken.email;
-
-  const [messageApi] = message.useMessage();
+  const [messageApi, contextholder] = message.useMessage();
 
   const handleInputChange = (fieldName: string, value: string | boolean | number) => {
     setChangePasswordForm((prevForm) => ({
@@ -69,6 +68,7 @@ export const PasswordChangeTag: React.FC = () => {
       });
     } catch (error) {
       if (error instanceof AxiosError) {
+        // 여기서 비밀번호가 틀렸을 때의 처리를 추가합니다.
         messageApi.open({
           type: "error",
           content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
@@ -84,18 +84,21 @@ export const PasswordChangeTag: React.FC = () => {
   };
 
   return (
-    <Space direction="vertical">
-      <PasswordInput onPasswordChange={(value) => handleInputChange("curPassword", value)} />
-      <MatchingPasswordInput
-        onPasswordChange={(value) => handleInputChange("newPassword", value)}
-        placeholders={["새로운 비밀번호", "새로운 비밀번호 재입력"]}
-      />
-      <BlueButton
-        placeholder="수정하기"
-        disabled={!changePasswordForm.curPassword || !changePasswordForm.newPassword}
-        onClick={handlePasswordChange}
-      />
-      <GrayButton placeholder="취소하기" onClick={() => navigate("/")} />
-    </Space>
+    <>
+      {contextholder}
+      <Space direction="vertical">
+        <PasswordInput onPasswordChange={(value) => handleInputChange("curPassword", value)} />
+        <MatchingPasswordInput
+          onPasswordChange={(value) => handleInputChange("newPassword", value)}
+          placeholders={["새로운 비밀번호", "새로운 비밀번호 재입력"]}
+        />
+        <BlueButton
+          placeholder="수정하기"
+          disabled={!changePasswordForm.curPassword || !changePasswordForm.newPassword}
+          onClick={handlePasswordChange}
+        />
+        <GrayButton placeholder="취소하기" onClick={() => navigate("/")} />
+      </Space>
+    </>
   );
 };

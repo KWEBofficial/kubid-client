@@ -31,12 +31,6 @@ export const SignInTag: React.FC = () => {
   };
   const signIn = useSignIn();
   const navigate = useNavigate();
-  const warning = () => {
-    messageApi.open({
-      type: "warning",
-      content: "비밀번호를 다시 입력해주세요",
-    });
-  };
 
   const handleSubmit = async () => {
     const dataToSend: SignInInfo = {
@@ -63,11 +57,6 @@ export const SignInTag: React.FC = () => {
     } catch (error) {
       if (error instanceof AxiosError) {
         // 여기서 비밀번호가 틀렸을 때의 처리를 추가합니다.
-        if (error.response?.status === 401) {
-          // 또는 서버에서 반환하는 적절한 상태 코드
-          warning(); // 비밀번호가 틀렸을 때 warning 함수 호출
-          return;
-        }
         messageApi.open({
           type: "error",
           content: error?.response?.data.message || COMMON_MESSAGE.SERVER_ERROR,
