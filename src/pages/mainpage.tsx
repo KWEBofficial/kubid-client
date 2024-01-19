@@ -7,7 +7,7 @@ import HigherLayoutComponent from "../components/common/CustomLayout";
 import ItemList from "../components/common/ItemList";
 import SearchSection from "../components/common/SearchSection";
 import { ProductThumbnailInfo } from "../models/product";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { message, Flex, FloatButton } from "antd";
 import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../styles/responsive";
 import { useNavigate } from "react-router";
@@ -25,8 +25,6 @@ const Main = () => {
   const [deptPopularProducts, setDeptPopularProducts] = useState<ProductThumbnailInfo[]>(dummyProducts);
   const [userDepartmentId, setUserDepartmentId] = useState<number>();
   const [isSignedIn, SetIsSignedIn] = useState<boolean>(false);
-  const isWorthFetchingNextPageDeptPopularProducts = useRef<boolean>(true);
-  const fetchNextPageDeptPopularProductsCount = useRef<number>(0);
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [maxItemCount, setMaxItemCount] = useState<number>(0);
@@ -222,33 +220,6 @@ const Main = () => {
         }
       });
   }, [fetchDeptPopularProducts, userDepartmentId]);
-
-  useEffect(() => {
-    const deptPopularProductsWithoutOverlap = deptPopularProducts.filter((product) => {
-      for (let i = 0; i < popularProducts.length; i++) {
-        if (popularProducts[i].id === product.id) {
-          return false;
-        }
-      }
-      return true;
-    });
-    if (JSON.stringify(deptPopularProducts) !== JSON.stringify(deptPopularProductsWithoutOverlap)) {
-      setDeptPopularProducts(() => deptPopularProductsWithoutOverlap);
-      if (deptPopularProductsWithoutOverlap.length < 4) {
-        userDepartmentId &&
-          fetchDeptPopularProducts(userDepartmentId, fetchNextPageDeptPopularProductsCount.current + 2).then(
-            (products) => {
-              fetchNextPageDeptPopularProductsCount.current += 1;
-              if (isWorthFetchingNextPageDeptPopularProducts.current && products && products.length > 0) {
-                setDeptPopularProducts((prev) => [...prev, ...products]);
-              } else {
-                isWorthFetchingNextPageDeptPopularProducts.current = false;
-              }
-            },
-          );
-      }
-    }
-  }, [deptPopularProducts, fetchDeptPopularProducts, popularProducts, userDepartmentId]);
 
   return (
     <Flex vertical css={SpaceStyle}>
