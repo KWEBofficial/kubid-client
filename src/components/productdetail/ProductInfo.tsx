@@ -78,6 +78,7 @@ const ProductInfo: React.FC = () => {
     department,
     biddings,
     seller,
+    status,
   } = productDetail;
 
   const bidders = new Set(biddings.map((bidding: { user_id: number }) => bidding.user_id));
@@ -102,7 +103,7 @@ const ProductInfo: React.FC = () => {
       <StyledRow>
         <CenteredCol span={21}>
           <Title level={4} style={{ margin: 0 }}>
-            {productName}
+            {status === "complete" ? `[판매완료] ${productName}` : `${productName}`}
           </Title>
           <TextDesc>
             &nbsp;&nbsp;
@@ -179,33 +180,42 @@ const ProductInfo: React.FC = () => {
       <StyledRow style={{ textAlign: "left", marginTop: "16px" }}>
         <Text>{description}</Text>
       </StyledRow>
-      {isSeller ? (
+      {status === "complete" ? (
         <div>
-          <div style={{ marginLeft: `${progressPercentTotal - 3}%`, textAlign: "left" }}>
-            <TextDesc>최고입찰자</TextDesc>
-          </div>
-          <div style={{ height: "50px", position: "relative" }}>
-            <DualProgress percent1={0} percent2={progressPercentTotal} />
-          </div>
-          <SellerButtons />
-        </div>
-      ) : isBuyer ? (
-        <div>
-          <div style={{ marginLeft: `${progressPercentBuyer - 1}%`, textAlign: "left" }}>
-            <TextDesc>나</TextDesc>
-          </div>
-          <div style={{ height: "50px", position: "relative" }}>
-            <DualProgress percent1={progressPercentBuyer} percent2={progressPercentTotal} />
-          </div>
-          <BuyerButtons values={{ lowerBound, currentHighestPrice, upperBound }} />
+          <TextDesc style={{ fontSize: "20px" }}>경매가 종료되었습니다.</TextDesc>
+          {/* Render additional information or components for the "complete" status */}
         </div>
       ) : (
-        <div>
-          <div style={{ height: "50px", position: "relative" }}>
-            <DualProgress percent1={0} percent2={progressPercentTotal} />
-          </div>
-          <InitialButtons values={{ lowerBound, currentHighestPrice, upperBound }} />
-        </div>
+        <>
+          {isSeller ? (
+            <div>
+              <div style={{ marginLeft: `${progressPercentTotal - 3}%`, textAlign: "left" }}>
+                <TextDesc>최고입찰자</TextDesc>
+              </div>
+              <div style={{ height: "50px", position: "relative" }}>
+                <DualProgress percent1={0} percent2={progressPercentTotal} />
+              </div>
+              <SellerButtons />
+            </div>
+          ) : isBuyer ? (
+            <div>
+              <div style={{ marginLeft: `${progressPercentBuyer - 1}%`, textAlign: "left" }}>
+                <TextDesc>나</TextDesc>
+              </div>
+              <div style={{ height: "50px", position: "relative" }}>
+                <DualProgress percent1={progressPercentBuyer} percent2={progressPercentTotal} />
+              </div>
+              <BuyerButtons values={{ lowerBound, currentHighestPrice, upperBound }} />
+            </div>
+          ) : (
+            <div>
+              <div style={{ height: "50px", position: "relative" }}>
+                <DualProgress percent1={0} percent2={progressPercentTotal} />
+              </div>
+              <InitialButtons values={{ lowerBound, currentHighestPrice, upperBound }} />
+            </div>
+          )}
+        </>
       )}
     </div>
   );
