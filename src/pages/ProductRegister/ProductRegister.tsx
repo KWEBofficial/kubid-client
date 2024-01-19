@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import HigherLayoutComponent from "../../components/common/CustomLayout";
-import { Button, Flex, Card, Modal } from "antd";
+import { Button, Flex, Card, Modal, DatePicker, Input, Form } from "antd";
 import Tags from "../../components/ProductRegister/Tags";
 import { FormContainer } from "../../components/ProductRegister/FormContainer";
 import PriceInput from "../../components/ProductRegister/PriceInputContainer";
@@ -10,6 +10,7 @@ import ImageUploadButton from "../../components/common/ImageUploadButton";
 import { ImageDTO } from "../../types/image/dto";
 import { useNavigate } from "react-router";
 import { TagDTO } from "../../types/tag/dto";
+import dayjs from "dayjs";
 
 const ProductRegister = () => {
   const [form, setForm] = useState({
@@ -18,7 +19,7 @@ const ProductRegister = () => {
     lowerBound: "",
     upperBound: "",
     tradeLocation: "",
-    tradeDate: "",
+    tradeDate: dayjs(),
   });
 
   const [image, setImage] = useState<ImageDTO | null>(null);
@@ -56,7 +57,7 @@ const ProductRegister = () => {
         upperBound: Number(form.upperBound),
         lowerBound: Number(form.lowerBound),
         tradeLocation: form.tradeLocation,
-        tradeDate: form.tradeDate,
+        tradeDate: form.tradeDate.format("YYYY-MM-DD HH:mm"),
         tags: tags.map((tag) => tag.tag),
       };
 
@@ -73,22 +74,30 @@ const ProductRegister = () => {
       console.error(error);
       Modal.error({
         title: "오류",
-        content: "상품 등록 중 오류가 발생했어요!",
+        content: "이미지를 등록해 주세요!",
       });
     }
   };
 
   return (
     <FormContainer>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="productName"
-          placeholder="상품 이름을 입력해 주세요."
-          value={form.productName}
-          onChange={handleFormChange}
-          style={{ height: "50px", fontSize: "16px", width: "700px" }}
-        />
+      <Form onFinish={handleSubmit}>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: "상품 이름을 입력해주세요!",
+            },
+          ]}
+        >
+          <Input
+            name="productName"
+            placeholder="상품 이름을 입력해 주세요."
+            value={form.productName}
+            onChange={handleFormChange}
+            style={{ height: "50px", fontSize: "16px", width: "700px" }}
+          />
+        </Form.Item>
 
         <ImageUploadButton name="upload-image" handleChange={(image) => setImage(image)} />
         {image && <img src={image.url} alt="image" style={{ width: "200px" }} />}
@@ -102,22 +111,36 @@ const ProductRegister = () => {
 
           <div className="input-group">
             <label>거래 장소</label>
-            <input type="text" name="tradeLocation" value={form.tradeLocation} onChange={handleFormChange} />
+            <Input type="text" name="tradeLocation" value={form.tradeLocation} onChange={handleFormChange} />
           </div>
           <div></div>
           <div className="input-group">
             <label>거래 일시</label>
-            <input type="date" name="tradeDate" value={form.tradeDate} onChange={handleFormChange} />
+            <DatePicker
+              name="tradeDate"
+              value={form.tradeDate}
+              format={"YYYY-MM-DD HH:mm"}
+              onChange={(value) => {
+                if (!value) return;
+
+                setForm({ ...form, tradeDate: value });
+              }}
+              allowClear={false}
+              showTime={{
+                showSecond: false,
+              }}
+            />
           </div>
         </Card>
         <Card>
           <div className="desc">
-            <textarea
-              name="description"
-              style={{ width: "100%", height: "130px", padding: "10px", resize: "none", fontSize: "15px" }}
+            <Input.TextArea
               placeholder="상품 설명을 입력해 주세요."
+              name="description"
               value={form.description}
               onChange={handleFormChange}
+              rows={6}
+              style={{ resize: "none" }}
             />
           </div>
 
@@ -129,7 +152,7 @@ const ProductRegister = () => {
             상품 등록
           </Button>
         </Flex>
-      </form>
+      </Form>
     </FormContainer>
   );
 };

@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router";
 import HigherLayoutComponent from "../../components/common/CustomLayout";
 import { updateProduct } from "../../api/product";
 import { ImageDTO } from "../../types/image/dto";
-import { Modal, Card, Flex, Button } from "antd";
+import { Modal, Card, Flex, Button, Input, Form, DatePicker } from "antd";
 import { UpdateProductDTO } from "../../models/product";
 import { FormContainer } from "../../components/ProductRegister/FormContainer";
 import ImageUploadButton from "../../components/common/ImageUploadButton";
@@ -12,6 +12,7 @@ import Tags from "../../components/ProductRegister/Tags";
 import { useFecth } from "../../hooks/useFetch";
 import { TagDTO } from "../../types/tag/dto";
 import { deleteTag, createTag } from "../../api/tag";
+import dayjs from "dayjs";
 
 const ProductModify = () => {
   const { productId } = useParams();
@@ -24,7 +25,7 @@ const ProductModify = () => {
     lowerBound: "",
     upperBound: "",
     tradeLocation: "",
-    tradeDate: "",
+    tradeDate: dayjs(),
   });
 
   const { data, isLoading } = useFecth<any>(`/products/${productId}`);
@@ -34,7 +35,7 @@ const ProductModify = () => {
 
   // Fetch product data
   useEffect(() => {
-    data && setForm(data);
+    data && setForm({ ...data, tradeDate: dayjs(data.tradeDate) });
     data && setTags(data.tags);
     data && setImage(data.image);
   }, [data]);
@@ -105,15 +106,24 @@ const ProductModify = () => {
 
   return (
     <FormContainer>
-      <form onSubmit={handleModify}>
-        <input
-          type="text"
-          name="productName"
-          placeholder="상품 이름을 입력해 주세요."
-          value={form.productName}
-          onChange={handleFormChange}
-          style={{ height: "50px", fontSize: "16px", width: "700px" }}
-        />
+      <Form onFinish={handleModify}>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: "상품 이름을 입력해주세요!",
+            },
+          ]}
+        >
+          <Input
+            type="text"
+            name="productName"
+            placeholder="상품 이름을 입력해 주세요."
+            value={form.productName}
+            onChange={handleFormChange}
+            style={{ height: "50px", fontSize: "16px", width: "700px" }}
+          />
+        </Form.Item>
 
         <ImageUploadButton name="upload-image" handleChange={(image) => setImage(image)} />
         {image && <img src={image.url} alt="image" style={{ width: "200px" }} />}
@@ -127,22 +137,36 @@ const ProductModify = () => {
 
           <div className="input-group">
             <label>거래 장소</label>
-            <input type="text" name="tradeLocation" value={form.tradeLocation} onChange={handleFormChange} />
+            <Input type="text" name="tradeLocation" value={form.tradeLocation} onChange={handleFormChange} />
           </div>
           <div></div>
           <div className="input-group">
             <label>거래 일시</label>
-            <input type="date" name="tradeDate" value={form.tradeDate} onChange={handleFormChange} />
+            <DatePicker
+              name="tradeDate"
+              value={form.tradeDate}
+              format={"YYYY-MM-DD HH:mm"}
+              onChange={(value) => {
+                if (!value) return;
+
+                setForm({ ...form, tradeDate: value });
+              }}
+              allowClear={false}
+              showTime={{
+                showSecond: false,
+              }}
+            />
           </div>
         </Card>
         <Card>
           <div className="desc">
-            <textarea
-              name="description"
-              style={{ width: "100%", height: "130px", padding: "10px", resize: "none", fontSize: "15px" }}
+            <Input.TextArea
               placeholder="상품 설명을 입력해 주세요."
+              name="description"
               value={form.description}
               onChange={handleFormChange}
+              rows={6}
+              style={{ resize: "none" }}
             />
           </div>
 
@@ -151,10 +175,10 @@ const ProductModify = () => {
 
         <Flex gap="large" wrap="wrap" justify="center">
           <Button type="primary" onClick={handleModify}>
-            상품 등록
+            글 수정하기
           </Button>
         </Flex>
-      </form>
+      </Form>
     </FormContainer>
   );
 };

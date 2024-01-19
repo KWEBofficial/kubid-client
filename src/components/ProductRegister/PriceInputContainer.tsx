@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { Input } from "antd";
 
 const PriceInputContainer = styled.div`
   display: flex;
@@ -36,12 +37,12 @@ const PriceInput: React.FC<Props> = ({ lowerBound, upperBound, handleFormChange 
     <div>
       <PriceInputContainer>
         <label htmlFor="lowerBound">얼마에 시작하시겠어요?</label>
-        <input type="text" name="lowerBound" placeholder="하한가" value={lowerBound} onChange={handleFormChange} />
+        <Input type="text" name="lowerBound" placeholder="하한가" value={lowerBound} onChange={handleFormChange} />
         <CurrencyLabel>원</CurrencyLabel>
       </PriceInputContainer>
       <PriceInputContainer>
         <label htmlFor="upperBound">얼마에 바로 낙찰하시겠어요?</label>
-        <input type="text" name="upperBound" placeholder="상한가" value={upperBound} onChange={handleFormChange} />
+        <Input type="text" name="upperBound" placeholder="상한가" value={upperBound} onChange={handleFormChange} />
         <CurrencyLabel>원</CurrencyLabel>
       </PriceInputContainer>
     </div>
