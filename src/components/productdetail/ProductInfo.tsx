@@ -168,9 +168,9 @@ const ProductInfo: React.FC = () => {
           <TextDesc>&nbsp;태그 </TextDesc>
         </CenteredCol>
         <CenteredCol span={14}>
-          {tags.map((tag: string, index: number) => (
+          {tags.map((tag: any, index: number) => (
             <Tag key={index}>
-              #{tag.trim()}
+              #{tag.tag.trim()}
               {index < tags.length - 1 && " "}
             </Tag>
           ))}

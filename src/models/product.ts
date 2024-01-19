@@ -9,6 +9,16 @@ export interface ProductInfo {
   tradeDate: string;
 }
 
+export interface UpdateProductDTO {
+  productName: string;
+  desc: string;
+  upperBound: number;
+  lowerBound: number;
+  imageId: number;
+  tradingPlace: string;
+  tradingTime: string;
+}
+
 export interface ProductThumbnailInfo {
   id: number;
   productName: string;
