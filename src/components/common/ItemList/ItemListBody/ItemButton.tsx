@@ -13,8 +13,17 @@ interface ItemButtonProps {
 }
 
 const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => {
-  const { id, productName, departmentName, lowerBound, currentHighestPrice, upperBound, imageUrl, bidderCount } =
-    product;
+  const {
+    id,
+    status,
+    productName,
+    departmentName,
+    lowerBound,
+    currentHighestPrice,
+    upperBound,
+    imageUrl,
+    bidderCount,
+  } = product;
   const progressPercent = currentHighestPrice
     ? ((currentHighestPrice - lowerBound) / (upperBound - lowerBound)) * 100
     : 0;
@@ -23,16 +32,19 @@ const ItemButton: React.FC<ItemButtonProps> = ({ product, showBidderCount }) => 
 
   return (
     <Button href={`/products/${id}`} css={ItemButtonStyle}>
-      <div css={ImageSectionStyle}>
-        <img
-          src={imageUrl}
-          alt={imageUrl}
-          css={ImageStyle}
-          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-            const target = e.target as HTMLImageElement;
-            target.src = altImageUrl;
-          }}
-        />
+      <div css={ImageWrapperStyle}>
+        <div css={ImageSectionStyle}>
+          <img
+            src={imageUrl}
+            alt={imageUrl}
+            css={ImageStyle}
+            onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+              const target = e.target as HTMLImageElement;
+              target.src = altImageUrl;
+            }}
+          />
+        </div>
+        {status === "complete" && <div className="overlay">경매 완료</div>}
       </div>
       <div css={TextSectionStyle}>
         <h3 css={TitleStyle}>{productName}</h3>
@@ -91,9 +103,33 @@ const ItemButtonStyle = css`
 `;
 
 const ImageSectionStyle = css`
-  height: 50%;
+  position: absolute;
+  height: 100%;
+  width: 100%;
   margin: 0px;
   background-color: ${colors.imageBg};
+`;
+
+const ImageWrapperStyle = css`
+  position: relative;
+  width: 100%;
+  height: 50%;
+
+  .overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 `;
 
 const ImageStyle = css`
