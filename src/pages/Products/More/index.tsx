@@ -8,6 +8,7 @@ import ItemList from "../../../components/common/ItemList";
 import { ProductThumbnailInfo } from "../../../models/product";
 import { Pagination } from "antd";
 import { css } from "@emotion/react";
+import { DepartmentResDTO } from "../../../models/department";
 
 const MoreProduct: React.FC = () => {
   const [params] = useSearchParams();
@@ -28,13 +29,16 @@ const MoreProduct: React.FC = () => {
     isError: countError,
   } = useFecth<{ count: number }>(`${countUrl}?${countQuery}`);
 
-  if (!data || !count || isLoading || countLoading) return <div>로딩 중...</div>;
+  const departmentUrl = "/department/departments";
+  const { data: departments, isLoading: departmentLoading } = useFecth<DepartmentResDTO[]>(departmentUrl);
+
+  if (!data || !count || isLoading || countLoading || !departments || departmentLoading) return <div>로딩 중...</div>;
   if (isError || countError) return <div>에러 발생!</div>;
 
   const products: ProductThumbnailInfo[] = data.map((item) => ({
     id: item.id,
     productName: item.productName,
-    departmentName: "" + item.departmentId,
+    departmentName: departments.find((department) => department.id === item.departmentId)?.departmentName || "",
     currentHighestPrice: item.currentHighestPrice,
     lowerBound: item.lowerBound,
     upperBound: item.upperBound,
@@ -46,9 +50,15 @@ const MoreProduct: React.FC = () => {
     popular: "지금 핫한 🔥",
   };
 
+  const userDepartment = departments.find((department) => department.id === Number(departmentId))?.departmentName;
+
   return (
     <div>
-      <ItemList title={`${title[sort]} 글들을 모아봤어요!`} maxItemCount={pageSize} products={products} />
+      <ItemList
+        title={`${userDepartment ? userDepartment + "에서 " : ""}${title[sort]} 글들을 모아봤어요!`}
+        maxItemCount={pageSize}
+        products={products}
+      />
       <div css={PaginationWrapper}>
         <Pagination
           css={PaginationStyle}
