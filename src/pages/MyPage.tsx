@@ -4,7 +4,7 @@
 import { css } from "@emotion/react";
 import { Flex } from "antd";
 import { getCurrentUser } from "../api/user";
-import { getSellingProduct } from "../api/user";
+import { getSellingProduct, getSoldProduct } from "../api/user";
 import { getBuyingProduct } from "../api/user";
 import { getResponsiveValueByWindowWidth, sm_lower_bound, xl_lower_bound } from "../styles/responsive";
 import { useEffect, useState } from "react";
@@ -23,6 +23,7 @@ const Main = () => {
   const [userInfo, setUserInfo] = useState<UserInfo>();
   const [buyingProducts, setBuyingProducts] = useState<CurrentUserBuy[]>();
   const [sellingProducts, setSellingProducts] = useState<CurrentUserSell[]>();
+  const [soldProducts, setSoldProducts] = useState<CurrentUserSell[]>();
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [maxItemCount, setMaxItemCount] = useState<number>(0);
 
@@ -81,6 +82,25 @@ const Main = () => {
 
     (async () => {
       try {
+        const rawProducts = await getSoldProduct(1, 5);
+        const soldProducts: CurrentUserSell[] = rawProducts.map((product: any) => {
+          const { department_id, image, ...rest } = product;
+          return {
+            ...rest,
+            department_id: department_id,
+            image: image,
+            imageUrl: image ? image.url : "",
+            departmentName: DEPARTMENTS[department_id].label, // Add the department name
+          };
+        });
+        setSoldProducts(soldProducts ?? []);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+
+    (async () => {
+      try {
         const rawProducts: CurrentUserBuy[] = await getBuyingProduct(1, 5);
 
         const buyingProducts = rawProducts.map((product) => {
@@ -125,6 +145,16 @@ const Main = () => {
           moreText="판매 중인 상품 더보기"
           showBidderCount
           showMore
+        />
+      )}
+      {soldProducts && (
+        <ItemList
+          title="판매 완료 상품"
+          products={soldProducts}
+          maxItemCount={maxItemCount}
+          moreUrl="/mypage/sold"
+          moreText="판매 완료 상품 더보기"
+          showBidderCount
         />
       )}
     </Flex>
