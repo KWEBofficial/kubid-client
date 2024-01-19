@@ -47,7 +47,7 @@ const SellerButtons: React.FC = () => {
     setIsDeleteProductModalOpen(false);
     try {
       await deleteProduct(productId);
-      window.location.reload();
+      navigate("/");
     } catch (error) {
       if (error.response.data.name === "UnauthorizedError") {
         showLoginAlert();
