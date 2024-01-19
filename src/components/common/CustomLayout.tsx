@@ -1,19 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Layout } from "antd";
+import React from "react";
+import { Layout, Typography, Avatar } from "antd";
 import { Content, Header } from "antd/es/layout/layout";
 import { colors } from "../../styles/colors";
-import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import styled from "@emotion/styled";
+import LinksInNav from "./LinksInNav";
+
+const { Text } = Typography;
 
 const HigherLayoutComponent = (WrappedComponent: React.ComponentType<any>) => {
   return (props: any) => (
     <Layout>
       <StyledHeader>
-        <div>Logo Position</div>
-        <nav>
-          <Link to="/sign-in">로그인</Link>
-          <Link to="/sign-up">회원가입</Link>
-        </nav>
+        <LogoSection to="/">
+          <Avatar src="/logo.svg" alt="logo" />
+          <Text strong> KUBID</Text>
+        </LogoSection>
+        <LinksInNav />
       </StyledHeader>
       <StyledContent>
         <WrappedComponent {...props} />
@@ -24,11 +28,18 @@ const HigherLayoutComponent = (WrappedComponent: React.ComponentType<any>) => {
 
 export default HigherLayoutComponent;
 
+const LogoSection = styled(Link)`
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+`;
+
 const StyledHeader = styled(Header)`
   display: flex;
   justify-content: space-between;
 
-  background-color: ${colors.primary};
+  background-color: ${colors.white};
 
   nav {
     display: flex;
@@ -41,6 +52,8 @@ const StyledHeader = styled(Header)`
       color: ${colors.black};
     }
   }
+
+  border-bottom: 1px solid ${colors.gray.default};
 `;
 
 const StyledContent = styled(Content)`

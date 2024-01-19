@@ -1,3 +1,5 @@
+import { ImageDTO } from "../types/image/dto";
+
 /**
  * User model
  * User 객체의 타입을 정의해 놓은 인터페이스입니다.
@@ -9,9 +11,21 @@
  * @property {string} lastName - 유저의 성
  * @property {number} age - 유저의 나이
  */
-export interface User {
+export interface UserInfo {
   id: number;
-  firstName: string;
-  lastName: string;
-  age: number;
+  email: string;
+  nickname: string;
+  departmentId: number;
+  createdAt: string;
+  image: ImageDTO;
+}
+
+export interface PasswordChangeInfo {
+  password: string;
+}
+export interface NicknameChangeInfo {
+  nickname: string;
+}
+export interface ProfileImageChangeInfo {
+  image: ImageDTO;
 }
