@@ -36,6 +36,7 @@ const ProductModify = () => {
   useEffect(() => {
     data && setForm(data);
     data && setTags(data.tags);
+    data && setImage(data.image);
   }, [data]);
 
   if (!data || isLoading) return <div>로딩 중...</div>;
