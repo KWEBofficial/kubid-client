@@ -7,7 +7,11 @@ import { postGiveUpBidding, postBidProduct } from "../../api/biddings";
 const { Text } = Typography;
 
 const BiddingButton = styled(Button)`
-  border-radius: 8px;
+  width: 200px;
+  height: 50px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
 `;
 
 interface BuyerButtonsProps {
