@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import { useState } from "react";
 import { Button, Modal } from "antd";
-import { patchImageChange } from "../../../api/users";
+import { patchUserDetails } from "../../../api/users";
 import { ImageDTO } from "../../..//types/image/dto";
 import ImageUploadButton from "../../../components/common/ImageUploadButton";
 import { ProfileImageChangeInfo } from "../../../models/user";
@@ -24,7 +24,7 @@ const PersonalImage: React.FC<PersonalImageProps> = ({ imageURL }) => {
       const profileImageChangeInfo: ProfileImageChangeInfo = {
         image: newimage,
       };
-      await patchImageChange(profileImageChangeInfo);
+      await patchUserDetails(profileImageChangeInfo);
       window.location.reload();
     }
   };
