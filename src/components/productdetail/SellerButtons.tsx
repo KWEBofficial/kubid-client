@@ -47,7 +47,7 @@ const SellerButtons: React.FC = () => {
     setIsDeleteProductModalOpen(false);
     try {
       await deleteProduct(productId);
-      window.location.reload();
+      navigate("/");
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       if ((error as any).response.data.name === "UnauthorizedError") {
