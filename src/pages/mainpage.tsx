@@ -101,7 +101,8 @@ const Main = () => {
     const fetchRecentProducts = async () => {
       try {
         const rawProducts = await getRecentProducts();
-        const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
+        const filteredProducts = rawProducts.filter((product: any) => product.status === "progress");
+        const products: ProductThumbnailInfo[] = filteredProducts.map((rawProduct: any) => {
           const { id, productName, departmentId, currentHighestPrice, upperBound, lowerBound, image } = rawProduct;
           const product: ProductThumbnailInfo = {
             id,
@@ -136,7 +137,8 @@ const Main = () => {
     const fetchPopularProducts = async () => {
       try {
         const rawProducts = await getPopularProducts();
-        const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
+        const filteredProducts = rawProducts.filter((product: any) => product.status === "progress");
+        const products: ProductThumbnailInfo[] = filteredProducts.map((rawProduct: any) => {
           const { id, productName, departmentId, currentHighestPrice, upperBound, lowerBound, bidderCount, image } =
             rawProduct;
           const product: ProductThumbnailInfo = {
@@ -178,7 +180,8 @@ const Main = () => {
     async (departmentId: number, page: number = 1) => {
       try {
         const rawProducts = await getDeptPopularProducts(departmentId, page);
-        const products: ProductThumbnailInfo[] = rawProducts.map((rawProduct: any) => {
+        const filteredProducts = rawProducts.filter((product: any) => product.status === "progress");
+        const products: ProductThumbnailInfo[] = filteredProducts.map((rawProduct: any) => {
           const { id, productName, departmentId, currentHighestPrice, upperBound, lowerBound, bidderCount, image } =
             rawProduct;
           const product: ProductThumbnailInfo = {
