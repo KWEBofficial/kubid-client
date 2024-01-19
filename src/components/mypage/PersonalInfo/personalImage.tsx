@@ -86,5 +86,7 @@ const previewImageStyle = css`
   max-width: 100%; /* Ensures image width does not exceed the modal's width */
   height: auto; /* Maintains the aspect ratio of the image */
   display: block; /* Removes any extra space around the image */
-  margin: 0 auto; /* Centers the image horizontally */
+  margin-top: 10px; /* Adds a top margin of 10px */
+  margin-left: auto; /* Centers the image horizontally */
+  margin-right: auto;
 `;
